@@ -57,7 +57,7 @@
                 </select>
                 <br>
                 <strong>Organization:</strong>
-                <select placeholder ="select your organization" class = "form-control" name ="accounts_id">
+                <select placeholder ="select your organization" class = "form-control" name ="organizations_id">
 
                        @foreach($organization as $org)
 

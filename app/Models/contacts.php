@@ -13,13 +13,13 @@ class contacts extends Model
         'last_name',
         'email'  ,
         'city' ,
-        'phone'  ,
+        'phone',
         'country' ,
         'region' ,
         'address' ,
         'postal_code' ,
         'accounts_id',
-        'organizations_id'
+        'organizations_id',
    
     ];
 }

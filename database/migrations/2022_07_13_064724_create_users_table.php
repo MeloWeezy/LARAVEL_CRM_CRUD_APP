@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique()->index();
             $table->string('password');
+            $table->integer('photo_path');
+            $table->bigInteger('owner');
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('verified_at')->nullable();

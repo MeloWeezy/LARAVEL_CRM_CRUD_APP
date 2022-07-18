@@ -55,6 +55,13 @@
                        <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
                        @endforeach
                 </select>
+                <select placeholder ="select your organization" class = "form-control" name ="accounts_id">
+
+                       @foreach($organization as $org)
+
+                       <option name ="organizations_id" placeholder ="SELECT "value = "{{$org->id}}">{{$org->name}}</option>
+                       @endforeach
+                </select>
                 </div>
             </div>
            

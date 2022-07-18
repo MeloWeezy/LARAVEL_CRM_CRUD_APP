@@ -18,8 +18,10 @@ class SuperUserSeeder extends Seeder
         'first_name'=>'admin',
         'last_name'=>'admin',
         'email'=>'admin@gmail.com',
+        'photo_path'=>'1',
+        'owner'=>'2020',
         'password'=> bcrypt('1234567890'),
-         'accounts_id'=>'1',
+        'accounts_id'=>'0',
 
         ]);
     }

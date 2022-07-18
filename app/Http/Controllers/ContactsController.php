@@ -53,6 +53,7 @@ class ContactsController extends Controller
             'address'=> 'required',
             'postal_code'=> 'required',
             'accounts_id'=> 'required',
+            'organizations_id'=> 'required',
            
             
            
@@ -111,6 +112,8 @@ class ContactsController extends Controller
             'address'=> 'required',
             'postal_code'=> 'required',
             'accounts_id'=> 'required',
+            'organizations_id'=>'required',
+
            
             
            

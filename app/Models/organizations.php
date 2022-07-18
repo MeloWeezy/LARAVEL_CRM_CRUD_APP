@@ -19,7 +19,7 @@ class organizations extends Model
         'address' ,
         'postal_code' ,
         'accounts_id',
-        'organizations_id'
+        
    
     ];
 }
