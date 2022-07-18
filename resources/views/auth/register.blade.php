@@ -31,7 +31,18 @@
 
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
             </div>
-            
+            <!-- phone-->
+            <div class="mt-4">
+                <x-label for="phone" :value="__('Phone')" />
+
+                <x-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required />
+            </div>
+            <!--photo path -->
+            <div class="mt-4">
+                <x-label for="photo_path" :value="__('Photo Path')" />
+
+                <x-input id="photo_path" class="block mt-1 w-full" type="number" name="photo_path" :value="old('photo_path')" required />
+            </div>
             <div class="mt-4">
                 <x-label for="accountid" :value="__('Account')" />
                 <select placeholder ="select your organization" class = "form-control" name ="accounts_id">
