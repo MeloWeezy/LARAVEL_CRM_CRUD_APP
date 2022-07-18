@@ -61,7 +61,7 @@
 
                        @foreach($organization as $org)
 
-                       <option name ="organizations_id" placeholder ="SELECT "value = "{{$org->accounts_id}}">{{$org->name}}</option>
+                       <option name ="organizations_id" placeholder ="SELECT "value = "{{$org->id}}">{{$org->name}}</option>
                        @endforeach
                 </select>
                 <br
