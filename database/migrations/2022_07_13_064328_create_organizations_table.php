@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('postal_code');
             $table->timestamps();
-            $table->foreignId('accounts_id');
+            $table->foreignId('accounts_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

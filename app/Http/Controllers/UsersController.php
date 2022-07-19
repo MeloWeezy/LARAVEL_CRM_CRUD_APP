@@ -84,6 +84,7 @@ class UsersController extends Controller
         //
         $id = Auth::User()->id;
         $user=User::find($id);
+          
        // $user = User::all();
         return view('users.show')->with('user',$user);
     }
