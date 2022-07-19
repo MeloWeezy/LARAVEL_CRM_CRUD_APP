@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Accounts;
+use App\Models\Account;
 
 
 
@@ -35,7 +35,7 @@ class UsersController extends Controller
     public function create(array $data)
     {
         //
-        $account = Accounts::all();
+        $account = Account::all();
 
         return User::create([
             'name' => $data['name'],
@@ -97,7 +97,7 @@ class UsersController extends Controller
     public function edit(User $users)
     {
         //
-        $account = Accounts::all();
+        $account = Account::all();
         $id = Auth::User()->id;
         $user=User::find($id);
 
@@ -186,7 +186,7 @@ class UsersController extends Controller
 
     public function registration()
     {
-        $account = Accounts::all();
+        $account = Account::all();
         return view('authen.register')->with('account',$account);
     }
 

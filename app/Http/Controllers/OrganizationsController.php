@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Organizations;
-use App\Models\Accounts;
+use App\Models\organization;
+use App\Models\Account;
 use Illuminate\Http\Request;
 
 class OrganizationsController extends Controller
@@ -15,8 +15,8 @@ class OrganizationsController extends Controller
      */
     public function index()
     {
-        $organization = Organizations::paginate();
-    
+        $organization = organization::paginate();
+
         return view('organizations.index', compact('organization'));
     }
 
@@ -27,7 +27,7 @@ class OrganizationsController extends Controller
      */
     public function create()
     {
-        $account = Accounts::all();
+        $account = Account::all();
         return view('organizations.create')->with('account',$account);
     }
 
@@ -51,13 +51,13 @@ class OrganizationsController extends Controller
             'address'=> 'required',
             'postal_code'=> 'required',
             'accounts_id'=> 'required',
-           
-            
-           
-            
+
+
+
+
         ]);
 
-        Organizations::create($request->all());
+        organization::create($request->all());
         return redirect()->route('organizations.index')
                         ->with('success','Contact created successfully.');
     }
@@ -65,10 +65,10 @@ class OrganizationsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\organizations  $organizations
+     * @param  \App\Models\organization  $organizations
      * @return \Illuminate\Http\Response
      */
-    public function show(organizations $organization)
+    public function show(organization $organization)
     {
         //
         return view('organizations.show',compact('organization'));
@@ -77,14 +77,14 @@ class OrganizationsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\organizations  $organizations
+     * @param  \App\Models\organization  $organizations
      * @return \Illuminate\Http\Response
      */
-    public function edit(organizations $organization)
+    public function edit(organization $organization)
     {
         //
-        $account = Accounts::all();
-       
+        $account = Account::all();
+
         return view('organizations.edit',compact('organization'))->with('account',$account);
     }
 
@@ -92,10 +92,10 @@ class OrganizationsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\organizations  $organizations
+     * @param  \App\Models\organization  $organizations
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, organizations $organization)
+    public function update(Request $request, organization $organization)
     {
         //
          //
@@ -109,14 +109,14 @@ class OrganizationsController extends Controller
             'address'=> 'required',
             'postal_code'=> 'required',
             'accounts_id'=> 'required',
-           
-            
-           
-            
+
+
+
+
         ]);
 
         $organization->update($request->all());
-      
+
         return redirect()->route('organizations.index')
                         ->with('success','account name updated successfully');
     }
@@ -124,14 +124,14 @@ class OrganizationsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\organizations  $organizations
+     * @param  \App\Models\organization  $organizations
      * @return \Illuminate\Http\Response
      */
-    public function destroy(organizations $organization)
+    public function destroy(organization $organization)
     {
         //
         $organization->delete();
-    
+
 
         return redirect()->route('organizations.index')
                          ->with('success','Organization deleted successfully');

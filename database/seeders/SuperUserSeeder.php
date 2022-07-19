@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-use App\Models\Accounts;
+use App\Models\Account;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,10 +14,10 @@ class SuperUserSeeder extends Seeder
      */
     public function run()
     {
-        Accounts::create([
+        Account::create([
         'id'=>'1',
         'name'=>'super_account',
-       
+
 
         ]);
     }

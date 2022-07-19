@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Accounts;
-use App\Models\Contacts;
-use App\Models\organizations;
+use App\Models\Account;
+use App\Models\Contact;
+use App\Models\organization;
 use Illuminate\Http\Request;
 
 class ContactsController extends Controller
@@ -16,8 +16,8 @@ class ContactsController extends Controller
     public function index()
     {
         //
-        $contact = Contacts::paginate();
-    
+        $contact = Contact::paginate();
+
         return view('contacts.index', compact('contact'));
     }
 
@@ -28,8 +28,8 @@ class ContactsController extends Controller
      */
     public function create()
     {
-        $account = Accounts::all();
-        $organization = Organizations::all();
+        $account = Account::all();
+        $organization = organization::all();
         return view('contacts.create')->with('account',$account)->with('organization',$organization);
     }
 
@@ -54,13 +54,13 @@ class ContactsController extends Controller
             'postal_code'=> 'required',
             'accounts_id'=> 'required',
             'organizations_id'=> 'required',
-           
-            
-           
-            
+
+
+
+
         ]);
 
-        Contacts::create($request->all());
+        contact::create($request->all());
         return redirect()->route('contacts.index')
                         ->with('success','Contact created successfully.');
     }
@@ -68,10 +68,10 @@ class ContactsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\contacts  $contacts
+     * @param  \App\Models\contact  $contacts
      * @return \Illuminate\Http\Response
      */
-    public function show(contacts $contact)
+    public function show(contact $contact)
     {
         return view('contacts.show',compact('contact'));
     }
@@ -79,15 +79,15 @@ class ContactsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\contacts  $contacts
+     * @param  \App\Models\contact  $contacts
      * @return \Illuminate\Http\Response
      */
-    public function edit(contacts $contact)
+    public function edit(contact $contact)
     {
         //
-      
-        $account = Accounts::all();
-        $organization= Organizations::all();
+
+        $account = Account::all();
+        $organization= organization::all();
         return view('contacts.edit',compact('contact'))->with('account',$account)->with('organization',$organization);
     }
 
@@ -95,10 +95,10 @@ class ContactsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\contacts  $contacts
+     * @param  \App\Models\contact  $contacts
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contacts $contact)
+    public function update(Request $request, contact $contact)
     {
         //
         $request->validate([
@@ -114,14 +114,14 @@ class ContactsController extends Controller
             'accounts_id'=> 'required',
             'organizations_id'=> 'required',
 
-           
-            
-           
-            
+
+
+
+
         ]);
 
         $contact->update($request->all());
-      
+
         return redirect()->route('contacts.index')
                         ->with('success','account name updated successfully');
     }
@@ -129,13 +129,13 @@ class ContactsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\contacts  $contacts
+     * @param  \App\Models\contact  $contacts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(contacts $contact)
+    public function destroy(contact $contact)
     {
          $contact->delete();
-    
+
 
         return redirect()->route('contacts.index')
         ->with('success','Product deleted successfully');

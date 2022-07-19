@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Accounts;
+use App\Models\Account;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        $account = Accounts::all();
+        $account = Account::all();
         return view('auth.register',compact('account'));
     }
 

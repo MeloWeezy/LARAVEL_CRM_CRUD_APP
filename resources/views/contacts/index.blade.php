@@ -1,5 +1,5 @@
 @extends('layout')
- 
+
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -11,13 +11,13 @@
             </div>
         </div>
     </div>
-   
+
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
     @endif
-   
+
     <table class="table table-bordered">
         <tr>
             <th>No</th>
@@ -38,24 +38,24 @@
             <td>{{ $contact->first_name }}</td>
             <td>{{ $contact->last_name }}</td>
             <td>
-                <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST">
-   
-                    <a class="btn btn-info" href="{{ route('contacts.show',$contact->id) }}">Show</a>
-    
-                    <a class="btn btn-primary" href="{{ route('contacts.edit',$contact->id) }}">Edit</a>
-   
+                <form action="{{ route('contact.destroy', $contact->id) }}" method="POST">
+
+                    <a class="btn btn-info" href="{{ route('contact.show',$contact->id) }}">Show</a>
+
+                    <a class="btn btn-primary" href="{{ route('contact.edit',$contact->id) }}">Edit</a>
+
                     @csrf
                     @method('DELETE')
-      
+
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
         </tr>
         @endforeach
     </table>
-  
+
     <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('dashboard') }}"> BACK</a>
             </div>
-      
+
 @endsection

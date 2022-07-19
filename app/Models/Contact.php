@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class contacts extends Model
+class Contact extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -20,6 +20,6 @@ class contacts extends Model
         'postal_code' ,
         'accounts_id',
         'organizations_id',
-   
+
     ];
 }
