@@ -25,7 +25,8 @@
                 {{ $contact->email}}
                 <br/>
                 <strong>City:</strong>
-                {{ $contact->City}}
+                {{ $contact->city}}
+                <br/>
                 <strong>Phone:</strong>
                 {{ $contact->phone}}
                 <br/>

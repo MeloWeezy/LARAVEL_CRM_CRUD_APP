@@ -22,7 +22,8 @@
                 {{ $organization->email}}
                 <br/>
                 <strong>City:</strong>
-                {{ $organization->City}}
+                {{ $organization->city}}
+                <br/>
                 <strong>Phone:</strong>
                 {{ $organization->phone}}
                 <br/>
