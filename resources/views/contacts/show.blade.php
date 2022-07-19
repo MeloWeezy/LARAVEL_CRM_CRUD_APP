@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2> AVAILABLE USERS</h2>
+                <h2> Contact Details</h2>
             </div>
             <div class="pull-right">
                 <a class="btn btn-primary" href="{{ route('users.index') }}">Back</a>
@@ -42,7 +42,7 @@
                 <strong>Postal Code:</strong>
                 {{ $contact->postal_code}}
                 <br/>
-                <strong>Organization:</strong>
+                <strong>Organizations_id:</strong>
                 {{ $contact->organizations_id}}
                 <br/>
                 <strong>Accounts_id:</strong>
