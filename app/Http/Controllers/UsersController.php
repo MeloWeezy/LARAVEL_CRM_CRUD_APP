@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\users;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -22,9 +22,9 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::all();
         
-        return view('authen.login');
+        return view('users.index')->with('user',$user);
     }
  
     /**
@@ -35,7 +35,9 @@ class UsersController extends Controller
     public function create(array $data)
     {
         //
-        return Users::create([
+        $account = Accounts::all();
+      
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
@@ -77,9 +79,13 @@ class UsersController extends Controller
      * @param  \App\Models\users  $users
      * @return \Illuminate\Http\Response
      */
-    public function show(users $users)
+    public function show(User $users)
     {
         //
+        $id = Auth::User()->id;
+        $user=User::find($id);
+       // $user = User::all();
+        return view('users.show')->with('user',$user);
     }
 
     /**
@@ -88,9 +94,15 @@ class UsersController extends Controller
      * @param  \App\Models\users  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit(users $users)
+    public function edit(User $users)
     {
         //
+        $account = Accounts::all();
+        $id = Auth::User()->id;
+        $user=User::find($id);
+       
+       // $user = User::all();
+        return view('users.edit')->with('user',$user)->with('account',$account);
     }
 
     /**
@@ -100,9 +112,28 @@ class UsersController extends Controller
      * @param  \App\Models\users  $users
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, users $users)
+    public function update(Request $request, User $user)
     {
         //
+        $request->validate([
+            'first_name'=> 'required',
+            'last_name'=> 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'photo_path'=>'required',
+            'accounts_id'=> 'required',
+         
+
+           
+            
+           
+            
+        ]);
+
+        $user->update($request->all());
+      
+        return redirect()->route('users.index')
+                        ->with('success','account name updated successfully');
     }
 
     /**
@@ -111,9 +142,14 @@ class UsersController extends Controller
      * @param  \App\Models\users  $users
      * @return \Illuminate\Http\Response
      */
-    public function destroy(users $users)
+    public function destroy(User $user)
     {
         //
+        $user->delete();
+    
+
+        return redirect()->route('users.index')
+        ->with('success','Product deleted successfully');
     }
 
     public function login(Request $request)

@@ -87,8 +87,8 @@ class ContactsController extends Controller
         //
       
         $account = Accounts::all();
-       
-        return view('contacts.edit',compact('contact'))->with('account',$account);
+        $organization= Organizations::all();
+        return view('contacts.edit',compact('contact'))->with('account',$account)->with('organization',$organization);
     }
 
     /**
@@ -112,7 +112,7 @@ class ContactsController extends Controller
             'address'=> 'required',
             'postal_code'=> 'required',
             'accounts_id'=> 'required',
-            'organizations_id'=>'required',
+            'organizations_id'=> 'required',
 
            
             

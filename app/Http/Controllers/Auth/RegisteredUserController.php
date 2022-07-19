@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
     public function create()
     {
         $account = Accounts::all();
-        return view('auth.register')->with('account',$account);
+        return view('auth.register',compact('account'));
     }
 
     /**

@@ -46,6 +46,7 @@
                 <input type="text" name="address" value="{{ $organization->phone }}" class="form-control" placeholder="country">
                 <strong>Postal Code:</strong>
                 <input type="text" name="postal_code" value="{{ $organization->postal_code}}" class="form-control" placeholder="Address">
+                <strong>Account:</strong>
                 <select placeholder ="select your organization" class = "form-control" name ="accounts_id">
 
                        @foreach($account as $acc)

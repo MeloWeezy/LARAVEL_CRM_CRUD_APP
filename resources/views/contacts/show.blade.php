@@ -4,10 +4,10 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2> AVAILABLE CONTACTS</h2>
+                <h2> AVAILABLE USERS</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('contacts.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('users.index') }}">Back</a>
             </div>
         </div>
     </div>

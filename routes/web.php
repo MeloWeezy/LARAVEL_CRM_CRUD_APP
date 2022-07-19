@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\OrganizationsController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,6 @@ Route::get('/dashboard', function () {
 Route::resource('accounts', AccountsController::class);
 Route::resource('contacts', ContactsController::class);
 Route::resource('organizations', OrganizationsController::class);
+Route::resource('users', UsersController::class);
 
 require __DIR__.'/auth.php';
