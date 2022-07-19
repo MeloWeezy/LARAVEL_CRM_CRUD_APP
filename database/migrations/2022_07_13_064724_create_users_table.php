@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique()->index();
             $table->string('password');
-            $table->integer('photo_path');
+            $table->string('photo_path')->nullable();
             $table->text('phone');
             $table->rememberToken();
             $table->timestamps();

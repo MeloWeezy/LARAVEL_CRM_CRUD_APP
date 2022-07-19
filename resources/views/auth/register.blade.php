@@ -38,10 +38,10 @@
                 <x-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required />
             </div>
             <!--photo path -->
-            <div class="mt-4">
+            <div class="mt-4 hidden">
                 <x-label for="photo_path" :value="__('Photo Path')" />
 
-                <x-input id="photo_path" class="block mt-1 w-full" type="number" name="photo_path" :value="old('photo_path')" required />
+                <x-input id="photo_path" class="block mt-1 w-full" type="text" name="photo_path" :value="old('photo_path')" />
             </div>
             <div class="mt-4">
                 <x-label for="accountid" :value="__('Account')" />
@@ -52,7 +52,7 @@
                   <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
                      @endforeach
 </select>
-               
+
             </div>
             <!-- Password -->
             <div class="mt-4">
@@ -89,7 +89,7 @@
                 </x-button>
             </div>
 
-            
+
         </form>
     </x-auth-card>
 </x-guest-layout>
