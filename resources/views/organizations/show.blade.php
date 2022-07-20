@@ -1,5 +1,5 @@
 @extends('layout')
-  
+
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -7,11 +7,11 @@
                 <h2>Organization Details</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('organizations.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('organization.index') }}"> Back</a>
             </div>
         </div>
     </div>
-   
+
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
@@ -30,7 +30,7 @@
                 <strong>Country:</strong>
                 {{ $organization->country}}
                 <br/>
-               
+
                 <strong>Region:</strong>
                 {{ $organization->region}}
                 <br/>

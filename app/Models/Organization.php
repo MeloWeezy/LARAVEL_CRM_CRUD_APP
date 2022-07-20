@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class organizations extends Model
+class Organization extends Model
 {
     use HasFactory;
 
@@ -19,7 +19,7 @@ class organizations extends Model
         'address' ,
         'postal_code' ,
         'accounts_id',
-        
-   
+
+
     ];
 }

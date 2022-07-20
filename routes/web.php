@@ -17,6 +17,8 @@ use App\Http\Controllers\UsersController;
 |
 */
 
+require __DIR__.'/auth.php';
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -29,5 +31,3 @@ Route::resource('accounts', AccountsController::class);
 Route::resource('contacts', ContactsController::class);
 Route::resource('organizations', OrganizationsController::class);
 Route::resource('users', UsersController::class);
-
-require __DIR__.'/auth.php';

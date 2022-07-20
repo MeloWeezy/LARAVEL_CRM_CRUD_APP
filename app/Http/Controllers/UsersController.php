@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Accounts;
+use App\Models\Account;
 
 
 
@@ -23,10 +23,10 @@ class UsersController extends Controller
     public function index()
     {
         $user = User::all();
-        
+
         return view('users.index')->with('user',$user);
     }
- 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -35,8 +35,8 @@ class UsersController extends Controller
     public function create(array $data)
     {
         //
-        $account = Accounts::all();
-      
+        $account = Account::all();
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -57,7 +57,6 @@ class UsersController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required',
             'city'=> 'required',
-            'photo_path'=>'required',
             'phone' => 'required',
             'country'=> 'required',
             'region'=> 'required',
@@ -65,10 +64,10 @@ class UsersController extends Controller
             'postal_code'=> 'required',
             'accounts_id'=> 'required',
         ]);
-           
+
         $data = $request->all();
         $check = $this->create($data);
-         
+
         return view('authen.dashboard')->with('success','You have signed-in');
         //
     }
@@ -84,7 +83,7 @@ class UsersController extends Controller
         //
         $id = Auth::User()->id;
         $user=User::find($id);
-          
+
        // $user = User::all();
         return view('users.show')->with('user',$user);
     }
@@ -98,10 +97,10 @@ class UsersController extends Controller
     public function edit(User $users)
     {
         //
-        $account = Accounts::all();
+        $account = Account::all();
         $id = Auth::User()->id;
         $user=User::find($id);
-       
+
        // $user = User::all();
         return view('users.edit')->with('user',$user)->with('account',$account);
     }
@@ -123,16 +122,10 @@ class UsersController extends Controller
             'phone' => 'required',
             'photo_path'=>'required',
             'accounts_id'=> 'required',
-         
-
-           
-            
-           
-            
         ]);
 
         $user->update($request->all());
-      
+
         return redirect()->route('users.index')
                         ->with('success','account name updated successfully');
     }
@@ -147,7 +140,6 @@ class UsersController extends Controller
     {
         //
         $user->delete();
-    
 
         return redirect()->route('users.index')
         ->with('success','Product deleted successfully');
@@ -159,18 +151,18 @@ class UsersController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-   
+
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             return redirect()->intended('dashboard')
                         ->withSuccess('Signed in');
         }
-  
+
         return redirect("login")->withSuccess('Login details are not valid');
     }
-     
+
     public function customRegistration(Request $request)
-    {  
+    {
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
@@ -184,17 +176,17 @@ class UsersController extends Controller
             'postal_code'=> 'required',
             'accounts_id'=> 'required',
         ]);
-           
+
         $data = $request->all();
         $check = $this->create($data);
-         
+
         return view('authen.dashboard')->with('success','You have signed-in');
     }
 
 
     public function registration()
     {
-        $account = Accounts::all();
+        $account = Account::all();
         return view('authen.register')->with('account',$account);
     }
 
@@ -203,15 +195,15 @@ class UsersController extends Controller
         if(Auth::check()){
             return view('authen.dashboard');
         }
-  
+
         return redirect("login")->withSuccess('You are not allowed to access');
     }
 
     public function signOut() {
         Session::flush();
         Auth::logout();
-  
+
         return Redirect('login');
     }
-    
+
 }

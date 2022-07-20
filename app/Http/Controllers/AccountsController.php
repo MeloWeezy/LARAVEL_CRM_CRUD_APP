@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Accounts;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,12 +15,12 @@ class AccountsController extends Controller
      */
     public function index()
     {
-        
-        $accounts = Accounts::paginate();
-    
+
+        $accounts = Account::paginate();
+
         return view('accounts.index', compact('accounts'));
-            
-      
+
+
     }
 
     /**
@@ -45,7 +45,7 @@ class AccountsController extends Controller
             'name'=> 'required',
         ]);
 
-        accounts::create($request->all());
+        Account::create($request->all());
         return redirect()->route('accounts.index')
                         ->with('success','Product created successfully.');
     }
@@ -53,26 +53,26 @@ class AccountsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\accounts  $accounts
+     * @param  \App\Models\Account  $accounts
      * @return \Illuminate\Http\Response
      */
-    public function show(Accounts $account)
+    public function show(Account $account)
     {
         //$id =  DB::table('accounts')->where($accounts->id);
         //$id = accounts::get
        // $accounts = DB::table('accounts')->find(1);
-        //$accounts = Accounts::paginate(10);
+        //$accounts = Account::paginate(10);
         return view('accounts.show',compact('account'));
 
-        
+
     }
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\accounts  $accounts
+     * @param  \App\Models\Account  $accounts
      * @return \Illuminate\Http\Response
      */
-    public function edit(Accounts $account)
+    public function edit(Account $account)
     {
 
         return view('accounts.edit',compact('account'));
@@ -82,21 +82,21 @@ class AccountsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\accounts  $accounts
+     * @param  \App\Models\Account  $accounts
      * @return \Illuminate\Http\Response
      */
 
-   
-     
-    public function update(Request $request, Accounts $account)
+
+
+    public function update(Request $request, Account $account)
     {
         $request->validate([
             'name' => 'required',
-          
+
         ]);
-      
+
         $account->update($request->all());
-      
+
         return redirect()->route('accounts.index')
                         ->with('success','account name updated successfully');
     }
@@ -104,13 +104,13 @@ class AccountsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\accounts  $accounts
+     * @param  \App\Models\Account  $accounts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Accounts $account)
+    public function destroy(Account $account)
     {
        $account->delete();
-    
+
 
         return redirect()->route('accounts.index')
                          ->with('success','Account deleted successfully');

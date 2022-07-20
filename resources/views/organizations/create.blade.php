@@ -1,5 +1,5 @@
 @extends('layout')
-  
+
 @section('content')
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -11,7 +11,7 @@
         </div>
     </div>
 </div>
-   
+
 @if ($errors->any())
     <div class="alert alert-danger">
         <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -22,10 +22,10 @@
         </ul>
     </div>
 @endif
-   
+
 <form action="{{ route('organizations.store') }}" method="POST">
     @csrf
-  
+
      <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
@@ -53,15 +53,15 @@
                        <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
                        @endforeach
                 </select>
-                
-               
+
+
             </div>
         </div>
-       
+
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
-   
+
 </form>
 @endsection
