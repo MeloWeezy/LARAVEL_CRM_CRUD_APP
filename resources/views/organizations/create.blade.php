@@ -11,7 +11,7 @@
         </div>
     </div>
 </div>
-
+  
 @if ($errors->any())
     <div class="alert alert-danger">
         <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -49,9 +49,11 @@
                 <select placeholder ="select your Accont" class = "form-control" name ="accounts_id">
 
                        @foreach($account as $acc)
-
+                       @can('show-accounts',$acc)
                        <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
+                       @endcan
                        @endforeach
+
                 </select>
 
 

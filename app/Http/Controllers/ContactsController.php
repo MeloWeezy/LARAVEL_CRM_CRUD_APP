@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Contact;
-use App\Models\organization;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 
 class ContactsController extends Controller
@@ -17,8 +17,9 @@ class ContactsController extends Controller
     {
         //
         $contact = Contact::paginate();
+        $account =Account::paginate();
 
-        return view('contacts.index', compact('contact'));
+        return view('contacts.index', compact('contact','account'));
     }
 
     /**
@@ -26,10 +27,11 @@ class ContactsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Contact $contact)
     {
+        $this->authorize('create-organizations', $contact);
         $account = Account::all();
-        $organization = organization::all();
+        $organization = Organization::all();
         return view('contacts.create')->with('account',$account)->with('organization',$organization);
     }
 
@@ -85,6 +87,7 @@ class ContactsController extends Controller
     public function edit(contact $contact)
     {
         //
+        $this->authorize('update-contacts', $contact);
 
         $account = Account::all();
         $organization= organization::all();
@@ -101,6 +104,7 @@ class ContactsController extends Controller
     public function update(Request $request, contact $contact)
     {
         //
+        $this->authorize('update-contacts', $contact);
         $request->validate([
             'first_name'=> 'required',
             'last_name'=> 'required',
@@ -134,6 +138,7 @@ class ContactsController extends Controller
      */
     public function destroy(contact $contact)
     {
+        $this->authorize('delete-contacts', $contact);
          $contact->delete();
 
 

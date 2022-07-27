@@ -6,12 +6,16 @@
             <div class="pull-left">
                 <h2>Available Organizations</h2>
             </div>
+         
             <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('organizations.create') }}"> Add New organization</a>
             </div>
+           
         </div>
     </div>
-
+    
+        
+  
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
@@ -25,23 +29,28 @@
             <th width="280px">Action</th>
         </tr>
         @foreach ($organization as $organization)
+        @can('show-organizations',$organization)
         <tr>
             <td>{{ ($loop->index)+1 }}</td>
             <td>{{ $organization->name }}</td>
             <td>
                 <form action="{{ route('organizations.destroy', $organization->id) }}" method="POST">
-
+                     
                     <a class="btn btn-info" href="{{ route('organizations.show',$organization->id) }}">Show</a>
-
+                      
+                       @can('update-organizations',$organization)
                     <a class="btn btn-primary" href="{{ route('organizations.edit',$organization->id) }}">Edit</a>
-
+                    @endcan
                     @csrf
                     @method('DELETE')
 
+                    @can('delete-organizations',$organization)
                     <button type="submit" class="btn btn-danger">Delete</button>
+                    @endcan
                 </form>
             </td>
         </tr>
+        @endcan
         @endforeach
     </table>
     <div class="pull-right">

@@ -54,7 +54,7 @@ class RegisteredUserController extends Controller
             'photo_path'=>$request->photo_path,
             'phone' => $request->phone,
         ]);
-
+        $user->assignRole('user');
         event(new Registered($user));
 
         Auth::login($user);

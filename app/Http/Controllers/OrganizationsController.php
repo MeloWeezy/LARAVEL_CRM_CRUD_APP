@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\organization;
+use App\Models\Organization;
 use App\Models\Account;
 use Illuminate\Http\Request;
 
@@ -25,8 +25,10 @@ class OrganizationsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Organization $organization)
     {
+        
+        $this->authorize('create-organizations', $organization);
         $account = Account::all();
         return view('organizations.create')->with('account',$account);
     }
@@ -71,6 +73,7 @@ class OrganizationsController extends Controller
     public function show(organization $organization)
     {
         //
+        
         return view('organizations.show',compact('organization'));
     }
 
@@ -82,7 +85,8 @@ class OrganizationsController extends Controller
      */
     public function edit(organization $organization)
     {
-        //
+        
+        $this->authorize('update-organizations', $organization);
         $account = Account::all();
 
         return view('organizations.edit',compact('organization'))->with('account',$account);
@@ -98,6 +102,7 @@ class OrganizationsController extends Controller
     public function update(Request $request, organization $organization)
     {
         //
+        
          //
          $request->validate([
             'name'=> 'required',
@@ -130,6 +135,7 @@ class OrganizationsController extends Controller
     public function destroy(organization $organization)
     {
         //
+        $this->authorize('delete-organizations', $organization);
         $organization->delete();
 
 

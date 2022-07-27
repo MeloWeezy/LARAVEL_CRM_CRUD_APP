@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('photo_path')->nullable();
             $table->text('phone');
+            $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('verified_at')->nullable();

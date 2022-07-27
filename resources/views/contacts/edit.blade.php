@@ -7,7 +7,7 @@
                 <h2>Edit Contact</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('contact.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('contacts.index') }}"> Back</a>
             </div>
         </div>
     </div>
@@ -23,7 +23,7 @@
         </div>
     @endif
 
-    <form action="{{ route('contact.update',$contact) }}" method="POST">
+    <form action="{{ route('contacts.update',$contact) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -52,16 +52,19 @@
                 <select placeholder ="select your organization" class = "form-control" name ="accounts_id">
 
                        @foreach($account as $acc)
-
+                       @can('show-accounts',$acc)
+                       
                        <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
+                       @endcan
                        @endforeach
                 </select>
                 <strong>Organization:</strong>
                 <select placeholder ="select your organization" class = "form-control" name ="organizations_id">
 
                        @foreach($organization as $org)
-
+                       @can('show-organizations',$org)
                        <option name ="organizations_id" placeholder ="SELECT "value = "{{$org->id}}">{{$org->name}}</option>
+                       @endcan
                        @endforeach
                 </select>
                 </div>

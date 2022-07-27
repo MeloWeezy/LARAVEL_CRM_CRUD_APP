@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Account;
 
 
-
-
-
 class UsersController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +23,25 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $user = User::all();
+        $user = Auth::user();
+        
+        if(($user->hasRole('user')))
+        {
+             $users = User::where('id',auth()->id())->get();
 
-        return view('users.index')->with('user',$user);
+        }
+         else if((Auth::user()->hasRole('admin')))
+         {
+            $users = User::where('id','>',1)->where('accounts_id','=',Auth::user()->accounts_id)->get();
+         }
+         else if(Auth::user()->hasRole('super_admin'))
+         {
+             $users = User::all();
+         }
+        
+        # $users = auth->user()->hasRole('admin') ? User::where('users.account.id', auth()->user->account_id)->get() : auth()->user()
+
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -35,6 +52,7 @@ class UsersController extends Controller
     public function create(array $data)
     {
         //
+        
         $account = Account::all();
 
         return User::create([
@@ -78,14 +96,13 @@ class UsersController extends Controller
      * @param  \App\Models\users  $users
      * @return \Illuminate\Http\Response
      */
-    public function show(User $users)
+    public function show(User $user,Account $account)
     {
         //
-        $id = Auth::User()->id;
-        $user=User::find($id);
-
+        
+        $this->authorize('can-view-own',$user);
        // $user = User::all();
-        return view('users.show')->with('user',$user);
+        return view('users.show',compact('user','account'));
     }
 
     /**

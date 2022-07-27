@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contact', function (Blueprint $table) {
+        Schema::create('organizations', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email');
+            $table->string('name');
+            $table->string('email')->unique();
             $table->string('city');
             $table->string('phone');
             $table->string('country');
@@ -25,10 +24,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('postal_code');
             $table->timestamps();
-            $table->softDeletes();
             $table->foreignId('accounts_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->bigInteger('organizations_id')->index()->cascadeOnDelete()->cascadeOnUpdate();
-
         });
     }
 
@@ -39,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contact');
+        Schema::dropIfExists('organizations');
     }
 };

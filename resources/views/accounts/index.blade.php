@@ -25,6 +25,7 @@
             <th width="280px">Action</th>
         </tr>
         @foreach ($accounts as $account)
+        @can('show-accounts',$account)
         <tr>
             <td>{{ ($loop->index)+1 }}</td>
             <td>{{ $account->name }}</td>
@@ -32,16 +33,18 @@
                 <form action="{{ route('accounts.destroy', $account->id) }}" method="POST">
    
                     <a class="btn btn-info" href="{{ route('accounts.show',$account->id) }}">Show</a>
-    
+                     @can('edit-accounts')
                     <a class="btn btn-primary" href="{{ route('accounts.edit',$account->id) }}">Edit</a>
-   
+                     @endcan
                     @csrf
                     @method('DELETE')
-      
+                     @can('delete-accounts')
                     <button type="submit" class="btn btn-danger">Delete</button>
+                    @endcan('delete-accounts')
                 </form>
             </td>
         </tr>
+        @endcan
         @endforeach
     </table>
 
