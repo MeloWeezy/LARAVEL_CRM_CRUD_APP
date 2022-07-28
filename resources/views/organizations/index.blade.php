@@ -30,7 +30,7 @@
             <th width="280px">Action</th>
         </tr>
         @foreach ($organization as $organization)
-        @can('show-organizations',$organization)
+        @can('read-organizations',$organization)
         <tr>
             <td>{{ ($loop->index)+1 }}</td>
             <td>{{ $organization->name }}</td>

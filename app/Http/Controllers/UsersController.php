@@ -58,7 +58,8 @@ class UsersController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password'])
+            'password' => Hash::make($data['password']),
+            'role'=> $data['role']
           ]);
     }
 
@@ -77,6 +78,7 @@ class UsersController extends Controller
             'city'=> 'required',
             'phone' => 'required',
             'country'=> 'required',
+            'role'=> 'required',
             'region'=> 'required',
             'address'=> 'required',
             'postal_code'=> 'required',

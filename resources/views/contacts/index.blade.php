@@ -35,7 +35,7 @@
             <th width="280px">Action</th>
         </tr>
         @foreach ($contact as $contact)
-        
+        @can('read-contacts')
         <tr>
             <td>{{ ($loop->index)+1 }}</td>
             <td>{{ $contact->first_name }}</td>
@@ -55,7 +55,7 @@
                 </form>
             </td>
         </tr>
-       
+       @endcan
         @endforeach
     </table>
 

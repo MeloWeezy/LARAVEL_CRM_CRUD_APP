@@ -31,7 +31,7 @@
         </tr>
         @foreach ($users as $user)
     
-        @can('show-users',$user)
+        @can('read-users',$user)
         <tr>
     
             <td>{{ ($loop->index)+1 }}</td>

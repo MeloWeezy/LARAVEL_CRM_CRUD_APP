@@ -15,8 +15,8 @@ class OrganizationsController extends Controller
      */
     public function index()
     {
-        $organization = organization::paginate();
-
+       
+        $organization = organization::where('accounts_id','=',auth()->user()->accounts_id)->get();
         return view('organizations.index', compact('organization'));
     }
 

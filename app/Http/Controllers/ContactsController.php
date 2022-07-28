@@ -17,6 +17,13 @@ class ContactsController extends Controller
     public function index()
     {
         //
+        if(auth()->user()->hasRole('super_admin'))
+        {
+            $contact = Contact::all();
+            return view('contacts.index', compact('contact'));
+        }
+       
+        
         $contact = Contact::where('accounts_id','=',auth()->user()->accounts_id)->get();
         $account =Account::paginate();
 
@@ -80,6 +87,7 @@ class ContactsController extends Controller
         {
             return view('contacts.show',compact('contact'));
         }
+       
         $this->authorize('can-view-own-cont',$contact);
        // $user = User::all();
    

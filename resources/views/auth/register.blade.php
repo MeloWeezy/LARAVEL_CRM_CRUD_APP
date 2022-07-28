@@ -54,6 +54,20 @@
 </select>
 
             </div>
+
+            <div class="mt-4">
+                <x-label for="roles" :value="__('Roles')" />
+                <select placeholder ="select your organization" class = "form-control" name ="role">
+
+                     
+
+                  <option name ="admin" placeholder ="SELECT "value = 'admin'>Admin</option>
+                  <option name ="user" placeholder ="SELECT "value = 'user'>User</option>
+                  
+                    
+</select>
+
+            </div>
             <!-- Password -->
             <div class="mt-4">
                 <x-label for="password" :value="__('Password')" />

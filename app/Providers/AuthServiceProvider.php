@@ -30,7 +30,13 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
-        Gate::define('show-accounts',function(User $user,Account $account)
+        Gate::define('delete-accounts', function (User $user) {
+            return ($user->hasRole('super_admin'))
+                        ? Response::allow()
+                        : Response::denyWithStatus(403);
+        });
+       
+        Gate::define('read-accounts',function(User $user,Account $account)
         {
             if($user->hasRole('user')&&($account->id === $user->accounts_id))
             {
@@ -49,12 +55,20 @@ class AuthServiceProvider extends ServiceProvider
                         : Response::denyWithStatus(403);
         });
 
-        Gate::define('show-organizations',function(User $user, Organization $organization)
+        Gate::define('read-organizations',function(User $user, Organization $organization)
         {
+            if($user->hasRole('user')&&($organization->accounts_id === $user->accounts_id))
+            {
+                return Response::allow();
+            }
+
+            return ($user->hasRole('admin')&&($organization->accounts_id->id === $user->accounts_id))
+            ? Response::allow()
+            : Response::denyWithStatus(403);
             return $user->accounts_id===$organization->accounts_id;
         });
         
-        Gate::define('show-users',function(User $user)
+        Gate::define('read-users',function(User $user)
         {
 
            
@@ -63,7 +77,7 @@ class AuthServiceProvider extends ServiceProvider
           
         });
 
-        Gate::define('show-contacts',function(User $user,Account $account)
+        Gate::define('read-contacts',function(User $user,Account $account)
         {
             if($user->hasRole('user')&&($account->id === $user->accounts_id))
             {

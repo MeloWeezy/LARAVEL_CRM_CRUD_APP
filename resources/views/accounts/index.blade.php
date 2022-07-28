@@ -27,20 +27,21 @@
             <th width="280px">Action</th>
         </tr>
         @foreach ($accounts as $account)
-        @can('show-accounts',$account)
+        @can('read-accounts',$account)
         <tr>
             <td>{{ ($loop->index)+1 }}</td>
             <td>{{ $account->name }}</td>
             <td>
                 <form action="{{ route('accounts.destroy', $account->id) }}" method="POST">
-   
+                     @can('read-accounts',$account)
                     <a class="btn btn-info" href="{{ route('accounts.show',$account->id) }}">Show</a>
-                     @can('edit-accounts')
+                    @endcan
+                     @can('update-accounts',$account)
                     <a class="btn btn-primary" href="{{ route('accounts.edit',$account->id) }}">Edit</a>
                      @endcan
                     @csrf
                     @method('DELETE')
-                     @can('delete-accounts')
+                     @can('delete-accounts',$account)
                     <button type="submit" class="btn btn-danger">Delete</button>
                     @endcan('delete-accounts')
                 </form>
@@ -54,6 +55,6 @@
                 <a class="btn btn-success" href="{{ route('dashboard') }}"> BACK</a>
     </div>
   
-    <!-- {!! $accounts->links() !!} -->
+
       
 @endsection

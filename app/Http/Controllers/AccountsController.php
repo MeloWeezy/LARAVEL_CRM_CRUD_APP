@@ -17,7 +17,7 @@ class AccountsController extends Controller
     public function index()
     {
 
-        $accounts = Account::paginate();
+        $accounts = Account::where('id','=',auth()->user()->accounts_id)->get();
 
         return view('accounts.index', compact('accounts'));
 
@@ -52,7 +52,7 @@ class AccountsController extends Controller
 
         Account::create($request->all());
         return redirect()->route('accounts.index')
-                        ->with('success','Product created successfully.');
+                        ->with('success','Account created successfully.');
     }
 
     /**
@@ -68,7 +68,7 @@ class AccountsController extends Controller
        // $accounts = DB::table('accounts')->find(1);
         //$accounts = Account::paginate(10);
     
-        $this->authorize('show-accounts', $account);
+        $this->authorize('read-accounts', $account);
         return view('accounts.show',compact('account'));
 
 
