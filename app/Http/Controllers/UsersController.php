@@ -99,7 +99,8 @@ class UsersController extends Controller
     public function show(User $user,Account $account)
     {
         //
-        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$user->accounts_id))
+       
+        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$user->accounts_id)&&($user->id!==1))
         {
             return view('users.show',compact('user','account'));
         }

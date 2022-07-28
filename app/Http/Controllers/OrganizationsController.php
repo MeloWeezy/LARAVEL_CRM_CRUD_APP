@@ -73,7 +73,7 @@ class OrganizationsController extends Controller
     public function show(organization $organization)
     {
         //
-        
+        $this->authorize('can-view-own', $organization);
         return view('organizations.show',compact('organization'));
     }
 
