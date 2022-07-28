@@ -42,9 +42,11 @@
                 <input type="text" name="phone" value="{{ $user->phone }}" class="form-control" placeholder="City">
                 <strong>Account:</strong>
                 <select placeholder ="select your organization" class = "form-control" name ="accounts_id">
-
+              
                         @foreach($account as $acc)
+                        @can('show-accounts',$acc)
                     <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
+                        @endcan
                     @endforeach
 </select>
                 </div>

@@ -49,7 +49,7 @@
                 <select placeholder ="select your Accont" class = "form-control" name ="accounts_id">
 
                        @foreach($account as $acc)
-                       @can('read-accounts',$acc)
+                       @can('show-accounts',$acc)
                        <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
                        @endcan
                        @endforeach

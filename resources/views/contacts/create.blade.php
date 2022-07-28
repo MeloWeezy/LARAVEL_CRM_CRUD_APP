@@ -51,7 +51,7 @@
                 <select placeholder ="select your organization" class = "form-control" name ="accounts_id">
 
                        @foreach($account as $acc)
-                       @can('read-accounts',$acc)
+                       @can('show-accounts',$acc)
                        <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
                        @endcan
                        @endforeach
@@ -63,7 +63,7 @@
                 <select placeholder ="select your organization" class = "form-control" name ="organizations_id">
 
                        @foreach($organization as $org)
-                       @can('read-organizations',$org)
+                       @can('show-organizations',$org)
 
                  
                        <option name ="organizations_id" placeholder ="SELECT "value = "{{$org->id}}">{{$org->name}}</option>

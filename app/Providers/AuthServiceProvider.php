@@ -65,7 +65,7 @@ class AuthServiceProvider extends ServiceProvider
             return ($user->hasRole('admin')&&($organization->accounts_id->id === $user->accounts_id))
             ? Response::allow()
             : Response::denyWithStatus(403);
-            return $user->accounts_id===$organization->accounts_id;
+            
         });
         
         Gate::define('read-users',function(User $user)
@@ -162,6 +162,18 @@ class AuthServiceProvider extends ServiceProvider
        {
           return ($user->accounts_id===$account->id);
        });
+
+       Gate::define('show-accounts',function(User $user, Account $account)
+       {
+          return ($user->accounts_id===$account->id);
+       });
+
+       Gate::define('show-organizations',function(User $user, Organization $organization)
+       {
+          return ($user->accounts_id===$organization->id);
+       });
+
+
        
         
         
