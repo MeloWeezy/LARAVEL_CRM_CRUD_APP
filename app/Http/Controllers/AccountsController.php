@@ -16,7 +16,14 @@ class AccountsController extends Controller
      */
     public function index()
     {
-
+        if(auth()->user()->hasRole('super_admin'))
+        {
+            $accounts = Account::paginate();
+            return view('accounts.index', compact('accounts'));
+        }
+       
+        
+       
         $accounts = Account::where('id','=',auth()->user()->accounts_id)->get();
 
         return view('accounts.index', compact('accounts'));

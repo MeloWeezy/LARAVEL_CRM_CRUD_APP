@@ -15,8 +15,15 @@ class OrganizationsController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        
+        if(auth()->user()->hasRole('super_admin'))
+        {
+            $organization = Organization::paginate();
+            return view('organizations.index', compact('organization'));
+        }
+        $organization = Organization::where('accounts_id','=',auth()->user()->accounts_id)->get();
        
-        $organization = organization::where('accounts_id','=',auth()->user()->accounts_id)->get();
         return view('organizations.index', compact('organization'));
     }
 
