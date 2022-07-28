@@ -134,6 +134,20 @@ class AuthServiceProvider extends ServiceProvider
           return ($user->id===$current_user->id);
        });
 
+       Gate::define('can-view-own-cont',function(User $user, Contact $contact)
+       {
+          return ($user->accounts_id===$contact->accounts_id);
+       });
+
+       Gate::define('can-view-own-org',function(User $user, Organization $organization)
+       {
+          return ($user->accounts_id===$organization->accounts_id);
+       });
+       
+       Gate::define('can-view-own-acc',function(User $user, Organization $organization)
+       {
+          return ($user->accounts_id===$organization->accounts_id);
+       });
        
         
         

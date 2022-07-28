@@ -5,6 +5,7 @@ use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ContactsController extends Controller
 {
@@ -75,6 +76,13 @@ class ContactsController extends Controller
      */
     public function show(contact $contact)
     {
+        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$contact->accounts_id))
+        {
+            return view('contacts.show',compact('contact'));
+        }
+        $this->authorize('can-view-own-cont',$contact);
+       // $user = User::all();
+   
         return view('contacts.show',compact('contact'));
     }
 

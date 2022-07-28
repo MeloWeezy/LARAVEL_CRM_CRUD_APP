@@ -67,7 +67,7 @@ class AccountsController extends Controller
         //$id = accounts::get
        // $accounts = DB::table('accounts')->find(1);
         //$accounts = Account::paginate(10);
-        $this->authorize('can-view-own', $account);
+    
         $this->authorize('show-accounts', $account);
         return view('accounts.show',compact('account'));
 

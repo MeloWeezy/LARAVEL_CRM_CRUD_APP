@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Organization;
 use App\Models\Account;
 use Illuminate\Http\Request;
@@ -73,7 +73,12 @@ class OrganizationsController extends Controller
     public function show(organization $organization)
     {
         //
-        $this->authorize('can-view-own', $organization);
+        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$organization->accounts_id))
+        {
+            return view('organizations.show',compact('organization'));
+        }
+        $this->authorize('can-view-own-org',$organization);
+       
         return view('organizations.show',compact('organization'));
     }
 
