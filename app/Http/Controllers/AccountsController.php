@@ -69,6 +69,7 @@ class AccountsController extends Controller
         //$accounts = Account::paginate(10);
     
         $this->authorize('read-accounts', $account);
+        $this->authorize('can-view-own-acc',$account);
         return view('accounts.show',compact('account'));
 
 
