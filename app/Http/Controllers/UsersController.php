@@ -99,7 +99,10 @@ class UsersController extends Controller
     public function show(User $user,Account $account)
     {
         //
-        
+        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$user->accounts_id))
+        {
+            return view('users.show',compact('user','account'));
+        }
         $this->authorize('can-view-own',$user);
        // $user = User::all();
         return view('users.show',compact('user','account'));
