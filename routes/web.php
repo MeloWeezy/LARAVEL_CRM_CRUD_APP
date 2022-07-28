@@ -66,11 +66,5 @@ Route::middleware(['auth','role:super_admin'])
     
 });
 
-Route::middleware(['auth'])->group(function(){
-    Route::get('/users', [UsersController::class, 'index'])->name('users.index');
-    Route::get('/users/{user}', [UsersController::class, 'show'])->name('users.show');
-    Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
-    
-    
-});
+
 

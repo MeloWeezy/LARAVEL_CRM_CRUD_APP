@@ -6,9 +6,11 @@
             <div class="pull-left">
                 <h2>Simple CRM APP</h2>
             </div>
+            @can('create-accounts')
             <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('accounts.create') }}"> Create New Account</a>
             </div>
+            @endcan
         </div>
     </div>
    

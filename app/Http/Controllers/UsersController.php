@@ -114,12 +114,12 @@ class UsersController extends Controller
      * @param  \App\Models\users  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $users)
+    public function edit(User $user)
     {
         //
         $account = Account::all();
-        $id = Auth::User()->id;
-        $user=User::find($id);
+        //$id = Auth::User()->id;
+        //$user=User::find($id);
 
        // $user = User::all();
         return view('users.edit')->with('user',$user)->with('account',$account);

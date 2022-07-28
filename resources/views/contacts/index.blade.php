@@ -6,11 +6,11 @@
             <div class="pull-left">
                 <h2>CONTACTS OF THE SYSTEM</h2>
             </div>
-         
+          @can('create-contacts')
             <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('contacts.create') }}"> Create New Contact</a>
             </div>
-            
+            @endcan
         </div>
     </div>
 

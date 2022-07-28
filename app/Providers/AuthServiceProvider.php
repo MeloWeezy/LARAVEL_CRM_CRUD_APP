@@ -43,6 +43,12 @@ class AuthServiceProvider extends ServiceProvider
             
         });
 
+        Gate::define('create-accounts', function (User $user) {
+            return ($user->hasRole('super_admin'))
+                        ? Response::allow()
+                        : Response::denyWithStatus(403);
+        });
+
         Gate::define('show-organizations',function(User $user, Organization $organization)
         {
             return $user->accounts_id===$organization->accounts_id;
@@ -80,6 +86,12 @@ class AuthServiceProvider extends ServiceProvider
 
 
         Gate::define('create-organizations', function (User $user) {
+            return ($user->hasRole('admin'))
+                        ? Response::allow()
+                        : Response::denyWithStatus(403);
+        });
+
+        Gate::define('create-contacts', function (User $user) {
             return ($user->hasRole('admin'))
                         ? Response::allow()
                         : Response::denyWithStatus(403);

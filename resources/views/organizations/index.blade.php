@@ -6,10 +6,11 @@
             <div class="pull-left">
                 <h2>Available Organizations</h2>
             </div>
-         
+           @can('create-organizations')
             <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('organizations.create') }}"> Add New organization</a>
             </div>
+            @endcan
            
         </div>
     </div>
