@@ -84,6 +84,7 @@ class OrganizationsController extends Controller
         {
             return view('organizations.show',compact('organization'));
         }
+        $this->authorize('can-read-organizations',$organization);
         $this->authorize('can-view-own-org',$organization);
        
         return view('organizations.show',compact('organization'));
@@ -97,7 +98,7 @@ class OrganizationsController extends Controller
      */
     public function edit(organization $organization)
     {
-        
+        $this->authorize('can-view-own-org',$organization);
         $this->authorize('update-organizations', $organization);
         $account = Account::all();
 
@@ -114,7 +115,7 @@ class OrganizationsController extends Controller
     public function update(Request $request, organization $organization)
     {
         //
-        
+        $this->authorize('update-organizations', $organization);
          //
          $request->validate([
             'name'=> 'required',

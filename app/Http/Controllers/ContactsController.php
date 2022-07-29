@@ -104,7 +104,7 @@ class ContactsController extends Controller
     {
         //
         $this->authorize('update-contacts', $contact);
-
+        $this->authorize('can-view-own-cont',$contact);
         $account = Account::all();
         $organization= organization::all();
         return view('contacts.edit',compact('contact','account','organization'));

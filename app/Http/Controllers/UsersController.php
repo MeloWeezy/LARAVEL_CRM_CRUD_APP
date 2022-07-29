@@ -121,6 +121,7 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         //
+        $this->authorize('can-view-own',$user);
         $account = Account::all();
         $organization = Organization::all();
         //$id = Auth::User()->id;
