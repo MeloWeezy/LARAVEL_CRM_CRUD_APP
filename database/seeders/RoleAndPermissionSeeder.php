@@ -41,17 +41,23 @@ class RoleAndPermissionSeeder extends Seeder
              
           ];
 
-          foreach ($permissions as $permission) {
+          foreach ($permissions as $permission) 
+          {
             Permission::create(['name' => $permission,'guard_name'=>'web']);
-        }
-        foreach ($permissions as $permission) {
+          };
+        foreach ($permissions as $permission) 
+        {
             Permission::create(['name' => $permission,'guard_name'=>'api']);
-        }
+        };
 
         $role1 = Role::create(['name'=>'admin','guard_name'=>'api']);
         foreach ($permissions as $permission) {
-            $role1->givePermissionTo($permission);
-        }
+            if(($permission !=='create-accoounts')&& ($permission !=='update-accounts')&&($permission !=='delete-accounts'))
+            {
+                $role1->givePermissionTo($permission);
+            };
+   
+        };
         
         
         $role3 = Role::create(['name' => 'user','guard_name'=>'api']);
