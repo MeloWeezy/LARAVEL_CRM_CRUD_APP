@@ -103,7 +103,7 @@ class UsersController extends Controller
     {
         //
        
-        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$user->accounts_id)&&($user->id!==1))
+        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$user->accounts_id)&&!($user->hasRole('super_admin')))
         {
             return view('users.show',compact('user','account'));
         }

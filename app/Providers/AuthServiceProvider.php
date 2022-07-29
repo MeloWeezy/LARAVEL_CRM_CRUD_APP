@@ -135,7 +135,7 @@ class AuthServiceProvider extends ServiceProvider
         
        Gate::define('can-view-own',function(User $user,User $current_user)
        {
-          return ($user->id===$current_user->id)||($user->hasRole('admin')&&($user->accounts_id===$current_user->accounts_id));
+          return ($user->id===$current_user->id)||($user->hasRole('admin')&&($user->accounts_id===$current_user->accounts_id)&&(!$current_user->hasRole('Super_admin')));
        });
 
        Gate::define('can-view-own-cont',function(User $user, Contact $contact)
