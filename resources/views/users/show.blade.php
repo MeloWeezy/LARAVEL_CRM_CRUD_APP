@@ -33,6 +33,9 @@
                 <strong>Accounts_id:</strong>
                 {{ $user->accounts_id}}
                 <br/>
+                <strong>Organizations_id:</strong>
+                {{ $user->organizations_id}}
+                <br/>
                 <strong>created_at:</strong>
                 {{ $user->created_at}}
                 <br/>

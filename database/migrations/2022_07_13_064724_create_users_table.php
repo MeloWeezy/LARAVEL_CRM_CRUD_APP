@@ -26,7 +26,9 @@ return new class extends Migration
             $table->timestamps();
             $table->timestamp('verified_at')->nullable();
             $table->softDeletes();
+            $table->foreignId('organizations_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('accounts_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+           
         });
     }
 

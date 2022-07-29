@@ -24,7 +24,7 @@ class ContactsController extends Controller
         }
        
         
-        $contact = Contact::where('accounts_id','=',auth()->user()->accounts_id)->get();
+        $contact = Contact::where('accounts_id','=',auth()->user()->accounts_id)->where('organizations_id','=',auth()->user()->organizations_id)->get();
         $account =Account::paginate();
 
         return view('contacts.index', compact('contact','account'));
@@ -83,7 +83,7 @@ class ContactsController extends Controller
      */
     public function show(contact $contact)
     {
-        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$contact->accounts_id))
+        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$contact->accounts_id)&&(Auth::user()->organizations_id===$contact->organizations_id))
         {
             return view('contacts.show',compact('contact'));
         }
@@ -107,7 +107,7 @@ class ContactsController extends Controller
 
         $account = Account::all();
         $organization= organization::all();
-        return view('contacts.edit',compact('contact'))->with('account',$account)->with('organization',$organization);
+        return view('contacts.edit',compact('contact','account','organization'));
     }
 
     /**

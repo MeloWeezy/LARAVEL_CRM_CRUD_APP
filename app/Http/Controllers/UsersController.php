@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Account;
-
+use App\Models\Organization;
 
 class UsersController extends Controller
 {
@@ -32,7 +32,7 @@ class UsersController extends Controller
         }
          else if((Auth::user()->hasRole('admin')))
          {
-            $users = User::where('id','>',1)->where('accounts_id','=',Auth::user()->accounts_id)->get();
+            $users = User::where('id','>',1)->where('accounts_id','=',Auth::user()->accounts_id)->where('organizations_id','=',auth()->user()->organizations_id)->get();
          }
          else if(Auth::user()->hasRole('super_admin'))
          {
@@ -82,6 +82,7 @@ class UsersController extends Controller
             'region'=> 'required',
             'address'=> 'required',
             'postal_code'=> 'required',
+            'organizations_id'=>'required',
             'accounts_id'=> 'required',
         ]);
 
@@ -121,11 +122,12 @@ class UsersController extends Controller
     {
         //
         $account = Account::all();
+        $organization = Organization::all();
         //$id = Auth::User()->id;
         //$user=User::find($id);
 
        // $user = User::all();
-        return view('users.edit')->with('user',$user)->with('account',$account);
+        return view('users.edit',compact('account','user','organization'));
     }
 
     /**
@@ -145,6 +147,9 @@ class UsersController extends Controller
             'phone' => 'required',
             'photo_path'=>'required',
             'accounts_id'=> 'required',
+            'role'=>'required',
+            'organizations_id'=>'required',
+           
         ]);
 
         $user->update($request->all());

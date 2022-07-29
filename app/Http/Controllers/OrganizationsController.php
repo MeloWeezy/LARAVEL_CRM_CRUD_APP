@@ -22,7 +22,7 @@ class OrganizationsController extends Controller
             $organization = Organization::paginate();
             return view('organizations.index', compact('organization'));
         }
-        $organization = Organization::where('accounts_id','=',auth()->user()->accounts_id)->get();
+        $organization = Organization::where('accounts_id','=',auth()->user()->accounts_id)->where('id','=',auth()->user()->organizations_id)->get();
        
         return view('organizations.index', compact('organization'));
     }

@@ -26,6 +26,7 @@ class AdminSeeder extends Seeder
             'password'=> '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'photo_path' => '1',
             'accounts_id'=>'1',
+            'organizations_id' => '1'
 
 
         ]);
@@ -38,11 +39,12 @@ class AdminSeeder extends Seeder
             'email'=> 'melusi@gmail.com',
             'remember_token'=>'12345566oo',
             'phone'=> '084567890',
-            'role'=>'user',
+            'role'=>'admin',
             'verified_at'=> now(),
             'password'=> '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'photo_path' => '1',
             'accounts_id'=>'1',
+            'organizations_id'=>'1',
 
 
         ]);

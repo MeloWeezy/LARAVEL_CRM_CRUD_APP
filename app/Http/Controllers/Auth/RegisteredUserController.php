@@ -5,6 +5,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Account;
+use App\Models\Organization;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -22,7 +23,8 @@ class RegisteredUserController extends Controller
     public function create()
     {
         $account = Account::all();
-        return view('auth.register',compact('account'));
+        $organization = Organization::all();
+        return view('auth.register',compact('account','organization'));
     }
 
     /**
@@ -41,6 +43,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'accounts_id'=> 'required',
+            'organizations_id'=> 'required',
             'phone'=> 'required',
 
         ]);
@@ -50,11 +53,13 @@ class RegisteredUserController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'accounts_id'=> $request->accounts_id,
+            'organizations_id'=> $request->organizations_id,
             'password' => Hash::make($request->password),
             'photo_path'=>$request->photo_path,
             'phone' => $request->phone,
             'role'=> $request->role
         ]);
+
          if($user->role ==='admin')
          {
             $user->assignRole('admin');

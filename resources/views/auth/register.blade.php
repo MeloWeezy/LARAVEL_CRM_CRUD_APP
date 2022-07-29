@@ -54,6 +54,17 @@
 </select>
 
             </div>
+            <div class="mt-4">
+                <x-label for="organizationid" :value="__('Organization')" />
+                <select placeholder ="select your organization" class = "form-control" name ="organizations_id">
+
+                      @foreach($organization as $org)
+
+                  <option name ="organizations_id" placeholder ="SELECT "value = "{{$org->id}}">{{$org->name}}</option>
+                     @endforeach
+</select>
+
+            </div>
 
             <div class="mt-4">
                 <x-label for="roles" :value="__('Roles')" />
