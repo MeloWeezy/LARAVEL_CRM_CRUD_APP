@@ -3,20 +3,36 @@
 namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Contact;
-use App\Models\organization;
+use App\Models\Organization;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class ContactsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        //
-        $contact = Contact::paginate();
+
+        # Model:all(), is not recommended as it may affect performance
+        # Double Where Clause can be simplified to 1 where clause with Array
+
+        $user = auth()->user();
+        $contact = $user->hasRole('super_admin')
+            ? Contact::paginate(10)
+            : Contact::where([
+                    'account_id' => $user->account_id,
+                    'organization_id' => $user->organization_id
+                ])->paginate(10);
 
         return view('contacts.index', compact('contact'));
     }
@@ -24,25 +40,35 @@ class ContactsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create()
+
+    public function create(Contact $contact): View
     {
-        $account = Account::all();
-        $organization = organization::all();
-        return view('contacts.create')->with('account',$account)->with('organization',$organization);
+        # ToDo: Fix Gate Name
+        # Getting Account and Organization using relationships is more efficient than all()
+
+        $this->authorize('create-organizations', $contact);
+
+        $account = auth()->user()->account;
+        $organization = auth()->user()->organization;
+
+        return view('contacts.create', compact('account', 'organization'));
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
-        $request->validate([
+        # ToDo: Gate for Store Contact
+
+        $validatedRequest = Validator::make($request->all(), [
             'first_name'=> 'required',
             'last_name'=> 'required',
             'email' => 'required',
@@ -52,15 +78,13 @@ class ContactsController extends Controller
             'region'=> 'required',
             'address'=> 'required',
             'postal_code'=> 'required',
-            'accounts_id'=> 'required',
-            'organizations_id'=> 'required',
+            'account_id'=> 'required',
+            'organization_id'=> 'required',
+        ])->validate();
 
+        # Avoid request->all() directly to Model::create() as it's a security risk.
+        Contact::create($validatedRequest);
 
-
-
-        ]);
-
-        contact::create($request->all());
         return redirect()->route('contacts.index')
                         ->with('success','Contact created successfully.');
     }
@@ -68,40 +92,51 @@ class ContactsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\contact  $contacts
-     * @return \Illuminate\Http\Response
+     * @param Contact $contact
+     * @return View
      */
-    public function show(contact $contact)
+    public function show(contact $contact): View
     {
-        return view('contacts.show',compact('contact'));
+
+        # ToDo: Create a Gate for Show Contact
+
+        return view('contacts.show', compact('contact'));
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\contact  $contacts
-     * @return \Illuminate\Http\Response
+     * @param Contact $contact
+     * @return View
+     * @throws AuthorizationException
      */
-    public function edit(contact $contact)
+    public function edit(Contact $contact): View
     {
-        //
+        $this->authorize('update-contact', $contact);
 
-        $account = Account::all();
-        $organization= organization::all();
-        return view('contacts.edit',compact('contact'))->with('account',$account)->with('organization',$organization);
+        # Only getting Account and Organization that the contact can join
+        $account = $contact->account;
+        $organization = $contact->organization;
+
+        return view('contacts.edit', compact('contact','account','organization'));
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\contact  $contacts
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Contact $contact
+     * @return RedirectResponse
+     * @throws ValidationException
+     * @throws AuthorizationException
      */
-    public function update(Request $request, contact $contact)
+    public function update(Request $request, contact $contact): RedirectResponse
     {
-        //
-        $request->validate([
+        $this->authorize('update-contacts', $contact);
+
+        $validatedRequest = Validator::make($request->all(), [
             'first_name'=> 'required',
             'last_name'=> 'required',
             'email' => 'required',
@@ -111,33 +146,30 @@ class ContactsController extends Controller
             'region'=> 'required',
             'address'=> 'required',
             'postal_code'=> 'required',
-            'accounts_id'=> 'required',
-            'organizations_id'=> 'required',
+            'account_id'=> 'required',
+            'organization_id'=> 'required',
+        ])->validate();
 
+        # See Store Methods for comments
 
+        $contact->update($validatedRequest);
 
-
-
-        ]);
-
-        $contact->update($request->all());
-
-        return redirect()->route('contacts.index')
-                        ->with('success','account name updated successfully');
+        return redirect()->route('contacts.index')->with('success','Contact Updated Successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\contact  $contacts
-     * @return \Illuminate\Http\Response
+     * @param Contact $contact
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
-    public function destroy(contact $contact)
+    public function destroy(contact $contact): RedirectResponse
     {
-         $contact->delete();
+        $this->authorize('delete-contacts', $contact);
 
+        $contact->delete();
 
-        return redirect()->route('contacts.index')
-        ->with('success','Product deleted successfully');
+        return redirect()->route('contacts.index')->with('success','Contact Deleted.');
     }
 }
