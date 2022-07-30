@@ -23,9 +23,10 @@ return new class extends Migration
             $table->text('phone');
             $table->rememberToken();
             $table->timestamps();
-            $table->timestamp('verified_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->softDeletes();
-            $table->foreignId('accounts_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('organization_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('account_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

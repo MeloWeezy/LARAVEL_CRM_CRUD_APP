@@ -16,9 +16,20 @@ class SuperUserSeeder extends Seeder
     {
         Account::create([
         'id'=>'1',
-        'name'=>'super_account',
+        'name'=>'Super Account',
+        ]);
 
-
+        Organization::create([
+           'id'=>'1',
+           'name'=>'Super Organization',
+           'email'=>'org@email.com',
+           'city'=>'jhb',
+           'phone'=>'0987654321',
+           'country'=>'rsa',
+           'region'=>'thsss',
+           'address'=>'5206 osizweni',
+           'postal_code'=>'2952',
+           'account_id'=>'1',
         ]);
     }
 }

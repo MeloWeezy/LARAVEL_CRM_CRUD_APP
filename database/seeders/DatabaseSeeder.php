@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Account;
+use App\Models\Contact;
+use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,12 +18,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
         $this->call(class:SuperUserSeeder::class);
+
+        $this->call(class:RoleAndPermissionSeeder::class);
+
+         Account::factory(5)
+             ->has(Organization::factory()->count(2))
+             ->has(Contact::factory()->count(200))->create();
+
+         User::factory(5)->create();
+
+        $this->call(class:AdminSeeder::class);
     }
 }
