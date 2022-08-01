@@ -22,6 +22,7 @@ class AdminSeeder extends Seeder
             'remember_token'=>'12345566oo',
             'phone'=> '084567890',
             'role'=>'admin',
+<<<<<<< HEAD
             'verified_at'=> now(),
             'password'=> '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'photo_path' => '1',
@@ -29,6 +30,13 @@ class AdminSeeder extends Seeder
             'organizations_id' => '1'
 
 
+=======
+            'email_verified_at'=> now(),
+            'password'=> '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'photo_path' => '1',
+            'account_id'=>'1',
+            'organization_id' => '1'
+>>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
         ]);
 
         $user->assignRole('super_admin');
@@ -40,6 +48,7 @@ class AdminSeeder extends Seeder
             'remember_token'=>'12345566oo',
             'phone'=> '084567890',
             'role'=>'admin',
+<<<<<<< HEAD
             'verified_at'=> now(),
             'password'=> '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'photo_path' => '1',
@@ -47,6 +56,13 @@ class AdminSeeder extends Seeder
             'organizations_id'=>'1',
 
 
+=======
+            'email_verified_at'=> now(),
+            'password'=> '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'photo_path' => '1',
+            'account_id'=>'2',
+            'organization_id'=>'3',
+>>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
         ]);
 
         $user->assignRole('admin');

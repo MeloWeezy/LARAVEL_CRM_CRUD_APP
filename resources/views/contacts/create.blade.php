@@ -48,6 +48,7 @@
                 <strong>Postal Code:</strong>
                 <input type="text" name="postal_code" class="form-control" placeholder="Address">
                 <strong>Account:</strong>
+<<<<<<< HEAD
                 <select placeholder ="select your organization" class = "form-control" name ="accounts_id">
 
                        @foreach($account as $acc)
@@ -69,10 +70,17 @@
                        <option name ="organizations_id" placeholder ="SELECT "value = "{{$org->id}}">{{$org->name}}</option>
                        @endcan
                        @endforeach
+=======
+                <select class="form-control" name="account_id">
+                    <option value="{{$account->id}}">{{$account->name}}</option>
                 </select>
-                <br
-
-
+                <br>
+                <strong>Organization:</strong>
+                <select  class="form-control" name="organization_id">
+                    <option  value="{{$organization->id}}">{{$organization->name}}</option>
+>>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
+                </select>
+                <br>
             </div>
         </div>
 
