@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -29,8 +30,13 @@ class User extends Authenticatable
         'owner',
         'email',
         'password',
+<<<<<<< HEAD
         'accounts_id',
         'organizations_id',
+=======
+        'account_id',
+        'organization_id',
+>>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
     ];
 
     /**
@@ -52,4 +58,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+<<<<<<< HEAD
+=======
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(Account::class);
+    }
+>>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
 }

@@ -16,10 +16,15 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run()
     {
+<<<<<<< HEAD
         //
 
          // Reset cached roles and permissions
          
+=======
+         // Reset cached roles and permissions
+
+>>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
          // create permissions
          $permissions = [
              'create-accounts',
@@ -38,6 +43,7 @@ class RoleAndPermissionSeeder extends Seeder
              'update-users',
              'delete-users',
              'read-users',
+<<<<<<< HEAD
              
           ];
 
@@ -46,6 +52,15 @@ class RoleAndPermissionSeeder extends Seeder
             Permission::create(['name' => $permission,'guard_name'=>'web']);
           };
         foreach ($permissions as $permission) 
+=======
+          ];
+
+          foreach ($permissions as $permission)
+          {
+            Permission::create(['name' => $permission,'guard_name'=>'web']);
+          };
+        foreach ($permissions as $permission)
+>>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
         {
             Permission::create(['name' => $permission,'guard_name'=>'api']);
         };
@@ -56,10 +71,17 @@ class RoleAndPermissionSeeder extends Seeder
             {
                 $role1->givePermissionTo($permission);
             };
+<<<<<<< HEAD
    
         };
         
         
+=======
+
+        };
+
+
+>>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
         $role3 = Role::create(['name' => 'user','guard_name'=>'api']);
 
         $role3->givePermissionTo('read-contacts');
@@ -79,7 +101,12 @@ class RoleAndPermissionSeeder extends Seeder
         $role2->givePermissionTo('create-contacts');
 
         Role::create(['name'=>'super_admin','guard_name'=>'api']);
+<<<<<<< HEAD
       
        
+=======
+
+
+>>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
     }
 }

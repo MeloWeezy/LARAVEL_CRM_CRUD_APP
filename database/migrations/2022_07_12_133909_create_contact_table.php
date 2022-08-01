@@ -26,8 +26,8 @@ return new class extends Migration
             $table->string('postal_code');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreignId('accounts_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->bigInteger('organizations_id')->index()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('account_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->bigInteger('organization_id')->index()->cascadeOnDelete()->cascadeOnUpdate();
 
         });
     }

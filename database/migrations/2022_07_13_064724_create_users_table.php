@@ -24,11 +24,16 @@ return new class extends Migration
             $table->string('role');
             $table->rememberToken();
             $table->timestamps();
-            $table->timestamp('verified_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->softDeletes();
+<<<<<<< HEAD
             $table->foreignId('organizations_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('accounts_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
            
+=======
+            $table->foreignId('organization_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('account_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+>>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
         });
     }
 
