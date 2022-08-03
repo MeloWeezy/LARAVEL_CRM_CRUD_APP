@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Organization;
 use App\Models\Account;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class OrganizationsController extends Controller
 {
@@ -12,19 +13,37 @@ class OrganizationsController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     *  'id' => $user->organization_id
+     * $user->account_id
+     *  'account_id' => $user->account_id,
      */
     public function index()
+
     {
-        $user = Auth::user();
-        
-        if(auth()->user()->hasRole('super_admin'))
+        $user = auth()->user();
+
+        if($user->hasRole('super_admin'))
         {
-            $organization = Organization::paginate();
-            return view('organizations.index', compact('organization'));
+           $organizations= Organization::paginate(10);
         }
-        $organization = Organization::where('accounts_id','=',auth()->user()->accounts_id)->get();
+        else if($user->hasRole('admin'))
+        {
+           $organizations= Organization::where([
+                'id' =>$user->organization_id,
+               
+         ])->paginate(10);
+
+        }
+        else
+        {
+           $organizations= Organization::where([
+                   
+                'id' =>$user->organization_id,
+        ])->get();
+        }
+        
        
-        return view('organizations.index', compact('organization'));
+        return view('organizations.index', compact('organizations'));
     }
 
     /**
@@ -35,8 +54,8 @@ class OrganizationsController extends Controller
     public function create(Organization $organization)
     {
         
-        $this->authorize('create-organizations', $organization);
-        $account = Account::all();
+        $this->authorize('create-organization', $organization);
+        $account = auth()->user()->account;
         return view('organizations.create')->with('account',$account);
     }
 
@@ -46,11 +65,12 @@ class OrganizationsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Organization $organization)
     {
         //
           //
-          $request->validate([
+          $this->authorize('store-organization',$organization);
+          $validatedRequest = Validator::make($request->all(),[
             'name'=> 'required',
             'email' => 'required',
             'city'=> 'required',
@@ -59,15 +79,16 @@ class OrganizationsController extends Controller
             'region'=> 'required',
             'address'=> 'required',
             'postal_code'=> 'required',
-            'accounts_id'=> 'required',
+            'account_id'=> 'required'
+        ])->validate();
 
+       
 
+       $organization = organization::create($validatedRequest);
 
-
-        ]);
-
-        organization::create($request->all());
-        return redirect()->route('organizations.index')
+        $account = auth()->user()->account;
+     
+        return redirect()->route('organizations.index',compact('account'))
                         ->with('success','Contact created successfully.');
     }
 
@@ -80,14 +101,12 @@ class OrganizationsController extends Controller
     public function show(organization $organization)
     {
         //
-        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$organization->accounts_id))
-        {
-            return view('organizations.show',compact('organization'));
-        }
-        $this->authorize('can-read-organizations',$organization);
-        $this->authorize('can-view-own-org',$organization);
+      
+      
+        $this->authorize('read-organization', $organization);
+        $account = auth()->user()->account;
        
-        return view('organizations.show',compact('organization'));
+        return view('organizations.show',compact('organization','account'));
     }
 
     /**
@@ -98,11 +117,11 @@ class OrganizationsController extends Controller
      */
     public function edit(organization $organization)
     {
-        $this->authorize('can-view-own-org',$organization);
-        $this->authorize('update-organizations', $organization);
-        $account = Account::all();
-
-        return view('organizations.edit',compact('organization'))->with('account',$account);
+       
+        $this->authorize('update-organization', $organization);
+        $account = auth()->user()->account;
+    
+        return view('organizations.edit',compact('account','organization'));
     }
 
     /**
@@ -115,25 +134,23 @@ class OrganizationsController extends Controller
     public function update(Request $request, organization $organization)
     {
         //
-        $this->authorize('update-organizations', $organization);
-         //
-         $request->validate([
-            'name'=> 'required',
-            'email' => 'required',
-            'city'=> 'required',
-            'phone' => 'required',
-            'country'=> 'required',
-            'region'=> 'required',
-            'address'=> 'required',
-            'postal_code'=> 'required',
-            'accounts_id'=> 'required',
+       
+        $this->authorize('update-organization', $organization);
+        $validatedRequest = Validator::make($request->all(),[
+           'name'=> 'required',
+           'email' => 'required',
+           'city'=> 'required',
+           'phone' => 'required',
+           'country'=> 'required',
+           'region'=> 'required',
+           'address'=> 'required',
+           'postal_code'=> 'required',
+           'account_id'=> 'required'
+       ])->validate();
+      
+    
 
-
-
-
-        ]);
-
-        $organization->update($request->all());
+       $organization->update($validatedRequest);
 
         return redirect()->route('organizations.index')
                         ->with('success','account name updated successfully');

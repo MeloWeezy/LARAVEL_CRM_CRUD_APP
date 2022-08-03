@@ -41,21 +41,23 @@
                 <strong>Phone:</strong>
                 <input type="text" name="phone" value="{{ $user->phone }}" class="form-control" placeholder="City">
                 <strong>Account:</strong>
-                <select placeholder ="select your account" class = "form-control" name ="accounts_id">
+                <select placeholder ="select your account" class = "form-control" name ="account_id">
               
-                        @foreach($account as $acc)
-                        @can('show-accounts',$acc)
-                    <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
-                        @endcan
-                    @endforeach
+                     
+                       
+                    <option name ="account_id" placeholder ="SELECT "value = "{{$account->id}}">{{$user->account->name}}</option>
+
+                 
                 </select>
-                <select placeholder ="select your organization" class = "form-control" name ="organizations_id">
+                <br/>
+                <strong>Organization:</strong>
+                <select placeholder ="select your organization" class = "form-control" name ="organization_id">
               
-                        @foreach($organization as $org)
-                        @can('show-organizations',$org)
-                    <option name ="organizations_id" placeholder ="SELECT "value = "{{$org->id}}">{{$org->name}}</option>
-                        @endcan
-                    @endforeach
+            
+                     
+                    <option name ="organization_id" placeholder ="SELECT "value = "{{$organization->id}}">{{$user->organization->name}}</option>
+                  
+       
                 </select>
                 </div>
             </div>

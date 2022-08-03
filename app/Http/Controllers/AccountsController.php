@@ -16,15 +16,12 @@ class AccountsController extends Controller
      */
     public function index()
     {
-        if(auth()->user()->hasRole('super_admin'))
-        {
-            $accounts = Account::paginate();
-            return view('accounts.index', compact('accounts'));
-        }
-       
-        
-       
-        $accounts = Account::where('id','=',auth()->user()->accounts_id)->get();
+        $user = auth()->user();
+        $accounts = $user->hasRole('super_admin')
+            ? Account::paginate(10)
+            : Account::where([
+                    'id' => $user->account_id,
+                ])->paginate(10);
 
         return view('accounts.index', compact('accounts'));
 
@@ -38,9 +35,8 @@ class AccountsController extends Controller
      */
     public function create(Account $account)
     {
-       
-        
-            $this->authorize('create-accounts', $account);
+      
+            $this->authorize('create-account', $account);
             return view('accounts.create');
         
     }
@@ -53,11 +49,13 @@ class AccountsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $this->authorize('store-account');
+        $validatedRequest = Validator::make($request->all(),
+        [
             'name'=> 'required',
-        ]);
+        ])->validate();
 
-        Account::create($request->all());
+        Account::create($validatedRequest);
         return redirect()->route('accounts.index')
                         ->with('success','Account created successfully.');
     }
@@ -75,8 +73,9 @@ class AccountsController extends Controller
        // $accounts = DB::table('accounts')->find(1);
         //$accounts = Account::paginate(10);
     
-        $this->authorize('read-accounts', $account);
-        $this->authorize('can-view-own-acc',$account);
+        $this->authorize('read-account', $account);
+      
+        $account = auth()->user()->account;
         return view('accounts.show',compact('account'));
 
 
@@ -90,7 +89,7 @@ class AccountsController extends Controller
     public function edit(Account $account)
     {
 
-      $this->authorize('update-accounts', $account);
+      $this->authorize('update-account', $account);
         
         return view('accounts.edit',compact('account'));
     }
@@ -108,15 +107,16 @@ class AccountsController extends Controller
     public function update(Request $request, Account $account)
     {
         
-        $request->validate([
+        $this->authorize('update-account', $account);
+        $validatedRequest = Validator::make($request->all(),[
             'name' => 'required',
 
-        ]);
+        ])->validate();
 
-        $account->update($request->all());
+        $account->update($validatedRequest);
 
         return redirect()->route('accounts.index')
-                        ->with('success','account name updated successfully');
+                        ->with('success','account  updated successfully');
     }
 
     /**
@@ -127,7 +127,7 @@ class AccountsController extends Controller
      */
     public function destroy(Account $account)
     {
-        $this->authorize('delete-accounts', $account);
+        $this->authorize('delete-account', $account);
        $account->delete();
 
 

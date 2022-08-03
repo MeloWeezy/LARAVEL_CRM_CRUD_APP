@@ -40,11 +40,11 @@
                 <strong>Postal Code:</strong>
                 {{ $organization->postal_code}}
                 <br/>
-                <strong>Organization ID:</strong>
-                {{ $organization->id}}
+                <strong>Organization:</strong>
+                {{ $organization->name}}
                 <br/>
-                <strong>Accounts_id:</strong>
-                {{ $organization->accounts_id}}
+                <strong>Account:</strong>
+                {{ $organization->account->name}}
                 <br/>
                 <strong>created_at:</strong>
                 {{ $organization->created_at}}

@@ -31,7 +31,7 @@
         </tr>
         @foreach ($users as $user)
     
-        @can('read-users',$user)
+    
         <tr>
     
             <td>{{ ($loop->index)+1 }}</td>
@@ -51,10 +51,12 @@
                 </form>
             </td>
         </tr>
-        @endcan
+   
   
         @endforeach
     </table>
+
+        {{$users->links()}}  
   
     <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('dashboard') }}"> BACK</a>

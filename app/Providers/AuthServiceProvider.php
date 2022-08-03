@@ -30,98 +30,128 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
-        Gate::define('delete-accounts', function (User $user) {
+        Gate::define('delete-account', function (User $user) {
             return ($user->hasRole('super_admin'))
                         ? Response::allow()
                         : Response::denyWithStatus(403);
         });
        
-        Gate::define('read-accounts',function(User $user,Account $account)
+        Gate::define('read-account',function(User $user,Account $account)
         {
-            if($user->hasRole('user')&&($account->id === $user->accounts_id))
+            if($user->hasRole('user')&&($account->id === $user->account_id))
             {
                 return Response::allow();
             }
 
-            return ($user->hasRole('admin')&&($account->id === $user->accounts_id))
+            return ($user->hasRole('admin')&&($account->id === $user->account_id))
             ? Response::allow()
             : Response::denyWithStatus(403);
             
         });
 
-        Gate::define('create-accounts', function (User $user) {
+        Gate::define('create-account', function (User $user) {
             return ($user->hasRole('super_admin'))
                         ? Response::allow()
                         : Response::denyWithStatus(403);
         });
 
-        Gate::define('read-organizations',function(User $user, Organization $organization)
+        Gate::define('update-account', function (User $user) {
+            return ($user->hasRole('super_admin'))
+                        ? Response::allow()
+                        : Response::denyWithStatus(403);
+        });
+
+        Gate::define('store-account', function (User $user) {
+            return ($user->hasRole('super_admin'))
+                        ? Response::allow()
+                        : Response::denyWithStatus(403);
+        });
+
+        Gate::define('read-organization',function(User $user, Organization $organization)
         {
-            if($user->hasRole('user')&&($organization->accounts_id === $user->accounts_id))
+         return (($user->hasRole('super_admin')
+                     ? Response::allow()
+                     : $user->hasRole('admin')&&($organization->account_id === $user->account_id)))
+                     ? Response::allow()
+                     :($user->hasRole('user')&&($organization->id === $user->organization_id)
+                     ?Response::allow()
+                     : Response::denyWithStatus(403));
+
+                  
+            
+        });
+        
+      
+
+        Gate::define('edit-user',function(User $user, User $current_user)
+        {
+            if($user->hasRole('admin')&&($current_user->account_id === $user->account_id))
             {
                 return Response::allow();
             }
 
-            return ($user->hasRole('admin')&&($organization->accounts_id === $user->accounts_id))
+            return ($user->id === $current_user->id)
             ? Response::allow()
             : Response::denyWithStatus(403);
             
         });
-        
-        Gate::define('read-users',function(User $user)
-        {
 
-           
-          return  $user->id === auth()->id();
-          
-          
-        });
-
-        Gate::define('read-contacts',function(User $user,Contact $contact )
+        Gate::define('read-contact',function(User $user,Contact $contact )
         {
-            if($user->hasRole('user')&&($contact->accounts_id === $user->accounts_id)&&($user->organizations_id===$contact->organizations_id))
+            if($user->hasRole('user')&&($user->organization_id===$contact->organization_id))
             {
                 return Response::allow();
             }
 
-            return ($user->hasRole('admin')&&($contact->accounts_id === $user->accounts_id)&&($user->organizations_id===$contact->organizations_id))
+            return ($user->hasRole('admin')&&($contact->account_id === $user->account_id)&&($user->organization_id===$contact->organization_id))
             ? Response::allow()
             : Response::denyWithStatus(403);
         });
 
-        Gate::define('create-organizations', function (User $user) {
+        Gate::define('create-organization', function (User $user) {
             return ($user->hasRole('admin'))
                         ? Response::allow()
                         : Response::denyWithStatus(403);
         });
 
-        Gate::define('create-contacts', function (User $user) {
+        Gate::define('create-contact', function (User $user) {
             return ($user->hasRole('admin'))
                         ? Response::allow()
                         : Response::denyWithStatus(403);
         });
 
-        Gate::define('update-contacts', function (User $user, Contact $contact) {
-            return ($user->hasRole('admin')&& ($user->accounts_id ===$contact->accounts_id)&&($contact->organizations_id=== $user->organizations_id))
+        Gate::define('update-contact', function (User $user, Contact $contact) {
+            return ($user->hasRole('admin')&& ($user->account_id ===$contact->account_id)&&($contact->organization_id=== $user->organization_id))
                         ? Response::allow()
                         : Response::denyWithStatus(403);
         });
              
-        Gate::define('delete-contacts', function (User $user, Contact $contact) {
-            return ($user->hasRole('admin')&&  ($user->accounts_id === $contact->accounts_id)&&($contact->organizations_id=== $user->organizations_id))
-                        ? Response::allow()
-                        : Response::denyWithStatus(404);
-        });
-
-
-        Gate::define('update-organizations', function (User $user,Organization $organization) {
-            return ($user->hasRole('admin')&&  ($user->accounts_id ===$organization->accounts_id))
+        Gate::define('delete-contact', function (User $user, Contact $contact) {
+            return ($user->hasRole('admin')&&  ($user->account_id === $contact->account_id)&&($contact->organization_id=== $user->organization_id))
                         ? Response::allow()
                         : Response::denyWithStatus(403);
         });
 
-        Gate::define('delete-organizations', function (User $user,Organization $organization) {
-            return ($user->hasRole('admin') &&  ($user->accounts_id ===$organization->accounts_id)&&($organization->id=== $user->organizations_id))
+        Gate::define('store-contact', function (User $user, Contact $contact) {
+            return ($user->hasRole('admin'))
+                        ? Response::allow()
+                        : Response::denyWithStatus(403);
+        });
+
+
+        Gate::define('update-organization', function (User $user,Organization $organization) {
+            return ($user->hasRole('admin')&&  ($user->account_id ===$organization->account_id))
+                        ? Response::allow()
+                        : Response::denyWithStatus(403);
+        });
+
+        Gate::define('delete-organization', function (User $user,Organization $organization) {
+            return ($user->hasRole('admin') &&  ($user->account_id ===$organization->account_id))
+                        ? Response::allow()
+                        : Response::denyWithStatus(403);
+        });
+        Gate::define('store-organization', function (User $user,Organization $organization) {
+            return ($user->hasRole('admin'))
                         ? Response::allow()
                         : Response::denyWithStatus(403);
         });
@@ -135,35 +165,35 @@ class AuthServiceProvider extends ServiceProvider
         
        Gate::define('can-view-own',function(User $user,User $current_user)
        {
-          return ($user->id===$current_user->id)||($user->hasRole('admin')&&($user->accounts_id===$current_user->accounts_id)&&($current_user->hasRole('Super_admin')));
+          return ($user->id===$current_user->id)||($user->hasRole('admin')&&($user->account_id===$current_user->account_id));
        });
 
        Gate::define('can-view-own-cont',function(User $user, Contact $contact)
        {
-          return ($user->accounts_id===$contact->accounts_id)&&($user->organizations_id===$contact->organizations_id);
+          return ($user->account_id===$contact->account_id)&&($user->organization_id===$contact->organization_id);
        });
 
        Gate::define('can-view-own-org',function(User $user, Organization $organization)
        {
-          return ($user->accounts_id===$organization->accounts_id);
+          return ($user->account_id===$organization->account_id);
        });
        
        Gate::define('can-view-own-acc',function(User $user, Account $account)
        {
-          return ($user->accounts_id===$account->id);
+          return ($user->account_id===$account->id);
        });
 
        Gate::define('show-accounts',function(User $user, Account $account)
        {
-          return ($user->accounts_id===$account->id);
+          return ($user->account_id===$account->id);
        });
 
        Gate::define('show-organizations',function(User $user, Organization $organization)
        {
-          return ($user->accounts_id===$organization->accounts_id)&&($user->organizations_id===$organization->id);
+          return ($user->account_id===$organization->account_id)&&($user->organization_id===$organization->id);
        });
 
-
+      
        
         
         

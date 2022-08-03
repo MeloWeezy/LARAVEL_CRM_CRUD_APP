@@ -16,43 +16,26 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run()
     {
-<<<<<<< HEAD
-        //
-
-         // Reset cached roles and permissions
-         
-=======
          // Reset cached roles and permissions
 
->>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
          // create permissions
          $permissions = [
-             'create-accounts',
-             'read-accounts',
-             'update-accounts',
-             'delete-accounts',
-             'create-contacts',
-             'read-contacts',
-             'update-contacts',
-             'delete-contacts',
-             'create-organizations',
-             'read-organizations',
-             'update-organizations',
-             'delete-organizations',
-             'create-users',
-             'update-users',
-             'delete-users',
-             'read-users',
-<<<<<<< HEAD
-             
-          ];
-
-          foreach ($permissions as $permission) 
-          {
-            Permission::create(['name' => $permission,'guard_name'=>'web']);
-          };
-        foreach ($permissions as $permission) 
-=======
+             'create-account',
+             'read-account',
+             'update-account',
+             'delete-account',
+             'create-contact',
+             'read-contact',
+             'update-contact',
+             'delete-contact',
+             'create-organization',
+             'read-organization',
+             'update-organization',
+             'delete-organization',
+             'create-user',
+             'update-user',
+             'delete-user',
+             'read-user',
           ];
 
           foreach ($permissions as $permission)
@@ -60,53 +43,41 @@ class RoleAndPermissionSeeder extends Seeder
             Permission::create(['name' => $permission,'guard_name'=>'web']);
           };
         foreach ($permissions as $permission)
->>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
         {
             Permission::create(['name' => $permission,'guard_name'=>'api']);
         };
 
         $role1 = Role::create(['name'=>'admin','guard_name'=>'api']);
         foreach ($permissions as $permission) {
-            if(($permission !=='create-accoounts')&& ($permission !=='update-accounts')&&($permission !=='delete-accounts'))
+            if(($permission !=='create-accoount')&& ($permission !=='update-account')&&($permission !=='delete-account'))
             {
                 $role1->givePermissionTo($permission);
             };
-<<<<<<< HEAD
-   
-        };
-        
-        
-=======
 
         };
 
 
->>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
         $role3 = Role::create(['name' => 'user','guard_name'=>'api']);
 
-        $role3->givePermissionTo('read-contacts');
-        $role3->givePermissionTo('read-organizations');
-        $role3->givePermissionTo('read-users');
-        $role3->givePermissionTo('delete-users');
-        $role3->givePermissionTo('read-users');
-        $role3->givePermissionTo('create-contacts');
+        $role3->givePermissionTo('read-contact');
+        $role3->givePermissionTo('read-organization');
+        $role3->givePermissionTo('read-user');
+        $role3->givePermissionTo('delete-user');
+        $role3->givePermissionTo('read-user');
+        $role3->givePermissionTo('create-contact');
 
         $role2 = Role::create(['name' => 'user','guard_name'=>'web']);
 
-        $role2->givePermissionTo('read-contacts');
-        $role2->givePermissionTo('read-organizations');
-        $role2->givePermissionTo('read-users');
-        $role2->givePermissionTo('delete-users');
-        $role2->givePermissionTo('read-users');
-        $role2->givePermissionTo('create-contacts');
+        $role2->givePermissionTo('read-contact');
+        $role2->givePermissionTo('read-organization');
+        $role2->givePermissionTo('read-user');
+        $role2->givePermissionTo('delete-user');
+        $role2->givePermissionTo('read-user');
+        $role2->givePermissionTo('create-contact');
 
-        Role::create(['name'=>'super_admin','guard_name'=>'api']);
-<<<<<<< HEAD
-      
-       
-=======
+        $super_role = Role::create(['name'=>'super_admin','guard_name'=>'web']);
+        $super_role = Role::create(['name'=>'super_admin','guard_name'=>'api']);
 
-
->>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
-    }
+        
+}
 }

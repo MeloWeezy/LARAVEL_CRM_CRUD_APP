@@ -30,13 +30,8 @@ class User extends Authenticatable
         'owner',
         'email',
         'password',
-<<<<<<< HEAD
-        'accounts_id',
-        'organizations_id',
-=======
         'account_id',
         'organization_id',
->>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
     ];
 
     /**
@@ -58,8 +53,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-<<<<<<< HEAD
-=======
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);
@@ -69,5 +62,4 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Account::class);
     }
->>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
 }

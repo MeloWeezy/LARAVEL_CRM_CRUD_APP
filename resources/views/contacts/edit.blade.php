@@ -49,34 +49,13 @@
                 <strong>Postal Code:</strong>
                 <input type="text" name="postal_code" value="{{ $contact->postal_code}}" class="form-control" placeholder="Address">
                 <strong>Account:</strong>
-<<<<<<< HEAD
-                <select placeholder ="select your organization" class = "form-control" name ="accounts_id">
-
-                       @foreach($account as $acc)
-                       @can('show-accounts',$acc)
-                       
-                       <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
-                       @endcan
-                       @endforeach
-=======
                 <select class="form-control" name="account_id">
                     <option value="{{$account->id}}">{{$account->name}}</option>
->>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
                 </select>
                 <br>
                 <strong>Organization:</strong>
-<<<<<<< HEAD
-                <select placeholder ="select your organization" class = "form-control" name ="organizations_id">
-
-                       @foreach($organization as $org)
-                       @can('show-organizations',$org)
-                       <option name ="organizations_id" placeholder ="SELECT "value = "{{$org->id}}">{{$org->name}}</option>
-                       @endcan
-                       @endforeach
-=======
                 <select  class="form-control" name="organization_id">
                     <option  value="{{$organization->id}}">{{$organization->name}}</option>
->>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
                 </select>
                 </div>
             </div>

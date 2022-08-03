@@ -31,10 +31,10 @@
                 {{ $user->phone}}
                 <br/>
                 <strong>Accounts_id:</strong>
-                {{ $user->accounts_id}}
+                {{ $user->account->name}}
                 <br/>
                 <strong>Organizations_id:</strong>
-                {{ $user->organizations_id}}
+                {{ $user->organization->name}}
                 <br/>
                 <strong>created_at:</strong>
                 {{ $user->created_at}}

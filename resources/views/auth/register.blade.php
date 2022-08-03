@@ -45,22 +45,22 @@
             </div>
             <div class="mt-4">
                 <x-label for="accountid" :value="__('Account')" />
-                <select placeholder ="select your organization" class = "form-control" name ="accounts_id">
+                <select placeholder ="select your organization" class = "form-control" name ="account_id">
 
                       @foreach($account as $acc)
 
-                  <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
+                  <option name ="account_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
                      @endforeach
 </select>
 
             </div>
             <div class="mt-4">
                 <x-label for="organizationid" :value="__('Organization')" />
-                <select placeholder ="select your organization" class = "form-control" name ="organizations_id">
+                <select placeholder ="select your organization" class = "form-control" name ="organization_id">
 
                       @foreach($organization as $org)
 
-                  <option name ="organizations_id" placeholder ="SELECT "value = "{{$org->id}}">{{$org->name}}</option>
+                  <option name ="organization_id" placeholder ="SELECT "value = "{{$org->id}}">{{$org->name}}</option>
                      @endforeach
 </select>
 

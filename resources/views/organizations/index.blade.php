@@ -6,7 +6,7 @@
             <div class="pull-left">
                 <h2>Available Organizations</h2>
             </div>
-           @can('create-organizations')
+           @can('create-organization')
             <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('organizations.create') }}"> Add New organization</a>
             </div>
@@ -29,8 +29,8 @@
             <th>Name</th>
             <th width="280px">Action</th>
         </tr>
-        @foreach ($organization as $organization)
-        @can('read-organizations',$organization)
+        @foreach ($organizations as $organization)
+        @can('read-organization',$organization)
         <tr>
             <td>{{ ($loop->index)+1 }}</td>
             <td>{{ $organization->name }}</td>
@@ -39,13 +39,13 @@
                      
                     <a class="btn btn-info" href="{{ route('organizations.show',$organization->id) }}">Show</a>
                       
-                       @can('update-organizations',$organization)
+                       @can('update-organization',$organization)
                     <a class="btn btn-primary" href="{{ route('organizations.edit',$organization->id) }}">Edit</a>
                     @endcan
                     @csrf
                     @method('DELETE')
 
-                    @can('delete-organizations',$organization)
+                    @can('delete-organization',$organization)
                     <button type="submit" class="btn btn-danger">Delete</button>
                     @endcan
                 </form>
@@ -54,6 +54,7 @@
         @endcan
         @endforeach
     </table>
+    {{$organizations->links()}}
     <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('dashboard') }}"> BACK</a>
             </div>

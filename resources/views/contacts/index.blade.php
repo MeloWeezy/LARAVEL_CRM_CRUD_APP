@@ -6,7 +6,7 @@
             <div class="pull-left">
                 <h2>CONTACTS OF THE SYSTEM</h2>
             </div>
-          @can('create-contacts')
+          @can('create-contact')
             <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('contacts.create') }}"> Create New Contact</a>
             </div>
@@ -34,8 +34,8 @@
          -->
             <th width="280px">Action</th>
         </tr>
-        @foreach ($contact as $contact)
-        @can('read-contacts')
+        @foreach ($contacts as $contact)
+        @can('read-contact',$contact)
         <tr>
             <td>{{ ($loop->index)+1 }}</td>
             <td>{{ $contact->first_name }}</td>
@@ -44,12 +44,12 @@
                 <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST">
 
                     <a class="btn btn-info" href="{{ route('contacts.show',$contact->id) }}">Show</a>
-                    @can('update-contacts',$contact)
+                    @can('update-contact',$contact)
                     <a class="btn btn-primary" href="{{ route('contacts.edit',$contact->id) }}">Edit</a>
                     @endcan
                     @csrf
                     @method('DELETE')
-                    @can('delete-contacts',$contact)
+                    @can('delete-contact',$contact)
                     <button type="submit" class="btn btn-danger">Delete</button>
                     @endcan
                 </form>
@@ -58,7 +58,7 @@
        @endcan
         @endforeach
     </table>
-
+  {{$contacts->links()}}
     <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('dashboard') }}"> BACK</a>
             </div>

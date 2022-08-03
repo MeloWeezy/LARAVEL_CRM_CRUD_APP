@@ -46,16 +46,9 @@
                 <strong>Postal Code:</strong>
                 <input type="text" name="postal_code" class="form-control" placeholder="Address">
                 <strong>Select Account:</strong>
-                <select placeholder ="select your Accont" class = "form-control" name ="accounts_id">
-
-                       @foreach($account as $acc)
-                       @can('show-accounts',$acc)
-                       <option name ="accounts_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
-                       @endcan
-                       @endforeach
-
+                <select placeholder ="select your organization" class = "form-control" name ="account_id">
+                       <option name ="account_id" placeholder ="SELECT "value = "{{$account->id}}">{{$account->name}}</option>
                 </select>
-
 
             </div>
         </div>

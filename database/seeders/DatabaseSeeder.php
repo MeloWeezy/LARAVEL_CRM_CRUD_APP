@@ -19,11 +19,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(class:SuperUserSeeder::class);
-<<<<<<< HEAD
-        $this->call(class:RoleAndPermissionSeeder::class);
-        $this->call(class:AdminSeeder::class);
-        
-=======
 
         $this->call(class:RoleAndPermissionSeeder::class);
 
@@ -34,6 +29,5 @@ class DatabaseSeeder extends Seeder
          User::factory(5)->create();
 
         $this->call(class:AdminSeeder::class);
->>>>>>> 6d45a6c25991246249f6be2a9ee258441cefbee1
     }
 }

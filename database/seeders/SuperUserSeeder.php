@@ -33,20 +33,5 @@ class SuperUserSeeder extends Seeder
            'account_id'=>'1',
         ]);
   
-
-        Organization::create([
-           'id'=>'1',
-           'name'=>'super_organization',
-           'email'=>'org@email.com',
-           'city'=>'jhb',
-           'phone'=>'0987654321',
-           'country'=>'rsa',
-           'region'=>'thsss',
-           'address'=>'5206 osizweni',
-           'postal_code'=>'2952',
-           'accounts_id'=>'1',
-
-
-        ]);
     }
 }

@@ -42,16 +42,18 @@
                 <strong>Postal Code:</strong>
                 {{ $contact->postal_code}}
                 <br/>
-                <strong>Organizations_id:</strong>
-                {{ $contact->organizations_id}}
+                <strong>Organization:</strong>
+                {{ $contact->organization->name}}
                 <br/>
-                <strong>Accounts_id:</strong>
-                {{ $contact->accounts_id}}
+                <strong>Account:</strong>
+                {{ $contact->account->name}}
                 <br/>
                 <strong>created_at:</strong>
                 {{ $contact->created_at}}
+                <br/>
                 <strong>updated_at:</strong>
                 {{ $contact->updated_at}}
+                <br/>
                 <strong>deleted_at:</strong>
                 {{ $contact->deleted_at}}
             </div>

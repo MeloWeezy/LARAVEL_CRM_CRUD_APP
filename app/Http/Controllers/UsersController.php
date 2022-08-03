@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Account;
 use App\Models\Organization;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -23,21 +24,28 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        
-        if(($user->hasRole('user')))
+        $current_user = auth()->user();
+
+        if($current_user->hasRole('super_admin'))
         {
-             $users = User::where('id',auth()->id())->get();
+           $users= User::paginate(10);
+        }
+        else if($current_user->hasRole('admin'))
+        {
+           $users= User::where([
+            'account_id' => $current_user->account_id,
+            'organization_id' => $current_user->organization_id,
+         ])->paginate(10);
 
         }
-         else if((Auth::user()->hasRole('admin')))
-         {
-            $users = User::where('id','>',1)->where('accounts_id','=',Auth::user()->accounts_id)->where('organizations_id','=',auth()->user()->organizations_id)->get();
-         }
-         else if(Auth::user()->hasRole('super_admin'))
-         {
-             $users = User::all();
-         }
+        else
+        {
+           $users= User::where([
+                   
+            'id' =>$current_user->id,
+        ])->get();
+        }
+       
         
         # $users = auth->user()->hasRole('admin') ? User::where('users.account.id', auth()->user->account_id)->get() : auth()->user()
 
@@ -71,23 +79,23 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedRequest = Validator::make($request->all(),
+       [
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
             'city'=> 'required',
             'phone' => 'required',
             'country'=> 'required',
-            'role'=> 'required',
             'region'=> 'required',
             'address'=> 'required',
             'postal_code'=> 'required',
-            'organizations_id'=>'required',
-            'accounts_id'=> 'required',
-        ]);
+            'account_id'=> 'required',
+            'organization_id'=> 'required'
+        ])->validate();
 
-        $data = $request->all();
-        $check = $this->create($data);
+   
+         User::create($validatedRequest);
 
         return view('authen.dashboard')->with('success','You have signed-in');
         //
@@ -102,14 +110,12 @@ class UsersController extends Controller
     public function show(User $user,Account $account)
     {
         //
-       
-        if(auth()->user()->hasRole('admin') && (Auth::user()->accounts_id===$user->accounts_id)&&!($user->hasRole('super_admin')))
-        {
-            return view('users.show',compact('user','account'));
-        }
         $this->authorize('can-view-own',$user);
-       // $user = User::all();
-        return view('users.show',compact('user','account'));
+      
+        $account = $user->account;
+        $organization = $user->organization;
+  
+        return view('users.show',compact('user','account','organization'));
     }
 
     /**
@@ -121,9 +127,12 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         //
-        $this->authorize('can-view-own',$user);
-        $account = Account::all();
-        $organization = Organization::all();
+       
+       
+      $this->authorize('edit-user',$user);
+    
+        $account = $user->account;
+        $organization = $user->organization;
         //$id = Auth::User()->id;
         //$user=User::find($id);
 
@@ -140,20 +149,19 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
-        $request->validate([
+        $this->authorize('edit-user',$user);
+        $validatedRequest = Validator::make($request->all(),
+        [
             'first_name'=> 'required',
             'last_name'=> 'required',
             'email' => 'required',
             'phone' => 'required',
             'photo_path'=>'required',
-            'accounts_id'=> 'required',
-            'role'=>'required',
-            'organizations_id'=>'required',
-           
-        ]);
+            'account_id'=> 'required',
+            'organization_id'=>'required'
+        ])->validate();
 
-        $user->update($request->all());
+        $user->update($validatedRequest);
 
         return redirect()->route('users.index')
                         ->with('success','account name updated successfully');
@@ -168,6 +176,7 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         //
+        $this->authorize('delete-user',$user);
         $user->delete();
 
         return redirect()->route('users.index')
@@ -203,7 +212,8 @@ class UsersController extends Controller
             'region'=> 'required',
             'address'=> 'required',
             'postal_code'=> 'required',
-            'accounts_id'=> 'required',
+            'account_id'=> 'required',
+            'organization_id'=>'required'
         ]);
 
         $data = $request->all();
