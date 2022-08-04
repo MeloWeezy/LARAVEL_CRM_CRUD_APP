@@ -39,7 +39,7 @@ class OrganizationsController extends Controller
            $organizations= Organization::where([
                    
                 'id' =>$user->organization_id,
-        ])->get();
+        ])->paginate();
         }
         
        

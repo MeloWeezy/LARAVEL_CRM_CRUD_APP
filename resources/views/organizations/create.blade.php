@@ -1,19 +1,19 @@
 @extends('layout')
 
 @section('content')
-<div class="row">
-    <div class="col-lg-12 margin-tb">
+<div class="flex flex-wrap ">
+    <div class="lg:w-full pr-4 pl-4 margin-tb">
         <div class="pull-left">
             <h2>Add New Organization</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('organizations.index') }}"> Back</a>
+            <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('organizations.index') }}"> Back</a>
         </div>
     </div>
 </div>
   
 @if ($errors->any())
-    <div class="alert alert-danger">
+    <div class="relative px-3 py-3 mb-4 border rounded bg-red-200 border-red-300 text-red-800">
         <strong>Whoops!</strong> There were some problems with your input.<br><br>
         <ul>
             @foreach ($errors->all() as $error)
@@ -26,35 +26,35 @@
 <form action="{{ route('organizations.store') }}" method="POST">
     @csrf
 
-     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
+     <div class="flex flex-wrap ">
+        <div class="sm:w-full pr-4 pl-4 sm:w-full pr-4 pl-4 md:w-full pr-4 pl-4">
+            <div class="mb-4">
                 <strong>Organization Name:</strong>
-                <input type="text" name="name" class="form-control" placeholder="organization name">
+                <input type="text" name="name" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="organization name">
                 <strong>Email:</strong>
-                <input type="text" name="email" class="form-control" placeholder="E-Mail">
+                <input type="text" name="email" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="E-Mail">
                 <strong>City:</strong>
-                <input type="text" name="city" class="form-control" placeholder="Region">
+                <input type="text" name="city" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="Region">
                 <strong>Phone:</strong>
-                <input type="text" name="phone" class="form-control" placeholder="City">
+                <input type="text" name="phone" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="City">
                 <strong>Country:</strong>
-                <input type="text" name="country" class="form-control" placeholder="Name">
+                <input type="text" name="country" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="Name">
                 <strong>Region:</strong>
-                <input type="text" name="region" class="form-control" placeholder="Phone Number">
+                <input type="text" name="region" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="Phone Number">
                 <strong>address:</strong>
-                <input type="text" name="address" class="form-control" placeholder="country">
+                <input type="text" name="address" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="country">
                 <strong>Postal Code:</strong>
-                <input type="text" name="postal_code" class="form-control" placeholder="Address">
+                <input type="text" name="postal_code" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="Address">
                 <strong>Select Account:</strong>
-                <select placeholder ="select your organization" class = "form-control" name ="account_id">
+                <select placeholder ="select your organization" class = "block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" name ="account_id">
                        <option name ="account_id" placeholder ="SELECT "value = "{{$account->id}}">{{$account->name}}</option>
                 </select>
 
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="sm:w-full pr-4 pl-4 sm:w-full pr-4 pl-4 md:w-full pr-4 pl-4 text-center">
+                <button type="submit" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600">Submit</button>
         </div>
     </div>
 

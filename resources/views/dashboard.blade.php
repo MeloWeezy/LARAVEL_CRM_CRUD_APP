@@ -9,18 +9,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                <a class="btn btn-info" href="{{ route('accounts.index') }}">ACCOUNTS</a>
+                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('accounts.index') }}">ACCOUNTS</a>
                 </div>
 
                 <div class="p-6 bg-white border-b border-gray-200">
-                <a class="btn btn-primary" href="{{ route('contacts.index') }}">CONTACTS</a>
+                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('contacts.index') }}">CONTACTS</a>
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
-                <a class="btn btn-primary" href="{{ route('organizations.index') }}">ORGANIZATIONS</a>
+                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('organizations.index') }}">ORGANIZATIONS</a>
 
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
-                <a class="btn btn-primary" href="{{ route('users.index') }}">USERS</a>
+                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('users.index') }}">USERS</a>
 
                 </div>
 

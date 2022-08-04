@@ -43,7 +43,7 @@ class UsersController extends Controller
            $users= User::where([
                    
             'id' =>$current_user->id,
-        ])->get();
+        ])->paginate();
         }
        
         

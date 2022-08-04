@@ -1,20 +1,20 @@
 @extends('layout')
   
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
+    <div class="flex flex-wrap ">
+        <div class="lg:w-full pr-4 pl-4 margin-tb">
             <div class="pull-left">
                 <h2> AVAILABLE USERS</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('users.index') }}"> Back</a>
             </div>
         </div>
     </div>
    
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
+    <div class="flex flex-wrap ">
+        <div class="sm:w-full pr-4 pl-4 sm:w-full pr-4 pl-4 md:w-full pr-4 pl-4">
+            <div class="mb-4">
                 <strong>First Name:</strong>
                 {{ $user->first_name}}
                 <br/>
