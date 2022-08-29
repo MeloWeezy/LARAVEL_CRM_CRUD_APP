@@ -13,7 +13,11 @@ module.exports = {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+            backgroundImage : (theme)=> ({
+                'cont-img'  : "url('/images/contacts.png')",
+            }),
         },
+
     },
 
     plugins: [require('@tailwindcss/forms')],

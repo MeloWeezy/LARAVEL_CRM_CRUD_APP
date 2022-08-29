@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\PermissionController;
 
@@ -26,9 +27,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
 Route::middleware(['auth','role:super_admin'])
     ->name('admin.')
@@ -62,6 +61,7 @@ Route::middleware(['auth','role:super_admin'])
     Route::resource('contacts', ContactsController::class);
     Route::resource('organizations', OrganizationsController::class);
     Route::resource('users', UsersController::class);
+    Route::resource('Dashboard', DashboardController::class);
     
     
 });

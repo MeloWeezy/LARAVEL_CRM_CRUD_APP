@@ -4,7 +4,15 @@
     <div class="flex flex-wrap ">
         <div class="lg:w-full pr-4 pl-4 margin-tb">
             <div class="pull-left">
-                <h2 class ="align-middle text-center font-extrabold">USERS OF THE SYSTEM</h2>
+                @role('user')
+                <h2 class ="align-middle text-center font-extrabold">User Profile</h2>
+                @endrole
+
+                @role('admin')
+                <h2 class ="align-middle text-center font-extrabold">Users</h2>
+                @endrole
+
+            </div>
             </div>
         </div>
     </div>
@@ -16,11 +24,12 @@
         </div>
     @endif
    
-    <table class="w-full max-w-full mb-4 bg-transparent table-bordered">
-        <tr>
-            <th>No</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+    <table class=" table-auto w-full  mb-4 table-bordered">
+        <thead class ="bg-gray-100 border-b-4 border-black">
+            <tr>
+            <th class="p-2text-sm font-semibold tracking-wide text-center" >No</th>
+            <th class="p-2 text-sm font-semibold tracking-wide text-center">First Name</th>
+            <th class="p-2 text-sm font-semibold tracking-wide text-center">Last Name</th>
           <!--<th>E-MAIL</th>
             <th>Phone</th>
             <th>Address</th>
@@ -28,17 +37,18 @@
             <th>Region</th>
             <th>Postal_code</th>
          -->
-            <th width="280px">Action</th>
-        </tr>
+            <th class="p-2 text-sm font-semibold tracking-wide text-center">Action</th>
+</tr>
+        </thead>
         @foreach ($users as $user)
+        <tbody>
     
+        <tr class ="bg-gray-300">
     
-        <tr>
-    
-            <td>{{ ($loop->index)+1 }}</td>
-            <td>{{ $user->first_name }}</td>
-            <td>{{ $user->last_name }}</td>
-            <td>
+            <td class="p-2 text-sm font-semibold tracking-wide text-center ">{{ $user->id}}</td>
+            <td class="p-2 text-sm font-semibold tracking-wide text-center">{{ $user->first_name }}</td>
+            <td class="p-2 text-sm font-semibold tracking-wide text-center">{{ $user->last_name }}</td>
+            <td class="p-2 text-sm font-semibold tracking-wide text-center ">
                 <form action="{{ route('users.destroy', $user->id) }}" method="POST">
    
                     <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-teal-500 text-white hover:bg-teal-600" href="{{ route('users.show',$user->id) }}">Show</a>
@@ -52,6 +62,7 @@
                 </form>
             </td>
         </tr>
+        <tbody>
    
   
         @endforeach

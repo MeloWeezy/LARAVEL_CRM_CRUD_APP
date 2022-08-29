@@ -24,14 +24,14 @@ class OrganizationsController extends Controller
 
         if($user->hasRole('super_admin'))
         {
-           $organizations= Organization::paginate(10);
+           $organizations= Organization::paginate(5);
         }
         else if($user->hasRole('admin'))
         {
            $organizations= Organization::where([
                 'id' =>$user->organization_id,
                
-         ])->paginate(10);
+         ])->paginate(5);
 
         }
         else

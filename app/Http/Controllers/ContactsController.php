@@ -30,7 +30,7 @@ class ContactsController extends Controller
        #'
         $user = auth()->user();
         $contacts = $user->hasRole('super_admin')
-            ? Contact::paginate(10)
+            ? Contact::paginate(5)
             : Contact::where([
                     'account_id' => $user->account_id,
                     'organization_id' => $user->organization_id
