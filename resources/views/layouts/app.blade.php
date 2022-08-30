@@ -12,13 +12,11 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <!-- Styles -->
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-red-500">
             @include('layouts.navigation')
-
-           
-
             <!-- Page Content -->
             <main>
                 {{ $slot }}
