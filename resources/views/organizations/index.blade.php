@@ -3,9 +3,7 @@
 @section('content')
     <div class="flex flex-wrap ">
         <div class="lg:w-full pr-4 pl-4 margin-tb">
-            <div class="text-center">
-                <h2 class= "align-middle text-center font-extrabold">Available Organizations</h2>
-            </div>
+           
             <br>
            @can('create-organization')
             <div class="text-center">
@@ -24,41 +22,80 @@
         </div>
     @endif
     <br>
-    <table class="w-full max-w-full mb-4 bg-transparent table-bordered">
-        <thead  class ="bg-gray-100 border-b-4 border-black">
-        <tr>
-            <th class="p-2 text-sm font-semibold tracking-wide text-center ">No</th>
-            <th class="p-2 text-sm font-semibold tracking-wide text-center ">Name</th>
-            <th class="p-2 text-sm font-semibold tracking-wide text-center ">Action</th>
-        </tr>
-        </thead>
-        @foreach ($organizations as $organization)
-        @can('read-organization',$organization)
-        <tbody>
-        <tr  class ="bg-gray-300">
-            <td class="p-2 text-sm font-semibold tracking-wide text-center ">{{ $organization->id}}</td>
-            <td class="p-2 text-sm font-semibold tracking-wide text-center ">{{ $organization->name }}</td>
-            <td class="p-2 text-sm font-semibold tracking-wide text-center ">
-                <form action="{{ route('organizations.destroy', $organization->id) }}" method="POST">
-                     
-                    <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-teal-500 text-white hover:bg-teal-600" href="{{ route('organizations.show',$organization->id) }}">Show</a>
-                      
-                       @can('update-organization',$organization)
-                    <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('organizations.edit',$organization->id) }}">Edit</a>
-                    @endcan
-                    @csrf
-                    @method('DELETE')
 
-                    @can('delete-organization',$organization)
-                    <button type="submit" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white hover:bg-red-700">Delete</button>
-                    @endcan
-                </form>
-            </td>
-        </tr>
-</tbody>
-        @endcan
-        @endforeach
-    </table>
+    <div class="p-4 font-bold text-gray-600">organization info</div>
+      <div class="grid  lg:grid-cols-1  md:grid-cols-1 p-4 gap-3">
+        <div class="col-span-2 flex flex-auto items-center justify-between  p-5 bg-white rounded shadow-sm">
+          <table class="min-w-full divide-y divide-gray-200 table-auto">
+            <thead class="bg-gray-50">
+           
+              <tr>
+                <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                No
+                </th>
+
+                <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Name
+                </th>
+                
+               
+               
+                <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Action
+                </th>
+                <th scope="col" class="relative px-6 py-3">
+                  <span class="sr-only">Edit</span>
+                </th>
+              </tr>
+            </thead>
+            @foreach ($organizations as $organization)
+            @can('read-organization',$organization)
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">
+                      {{ $organization->id}}
+                      </div>
+                    </div>
+                  </div>
+                </td>
+
+               
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ $organization->name }}
+                </td>
+              
+                
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+      <form action="{{ route('organizations.destroy', $organization->id) }}" method="POST">
+   
+   <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-teal-500 text-white hover:bg-teal-600" href="{{ route('organizations.show',$organization->id) }}">Show</a>
+   @can('update-organization',$organization)
+   <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('organizations.edit',$organization->id) }}">Edit</a>
+  @endcan
+   @csrf
+   @method('DELETE')
+
+   <button type="submit" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white hover:bg-red-700">Delete</button>
+</form>
+                </td>
+              </tr>
+            </tbody>
+             
+             @endcan
+            @endforeach
+          
+          </table>
+</div>
+</div>
+
+
+    
     {{$organizations->links()}}
     <br>
     <div class="text-center">

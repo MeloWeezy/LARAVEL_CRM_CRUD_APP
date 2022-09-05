@@ -3,9 +3,7 @@
 @section('content')
     <div class="flex flex-wrap ">
         <div class="lg:w-full pr-4 pl-4 margin-tb">
-            <div class="text-center">
-                <h1 class="align-middle text-center font-extrabold">Simple CRM APP</h1>
-            </div>
+           
             <br/>
             @can('create-account')
             <div class="text-center">
@@ -22,41 +20,82 @@
             <p>{{ $message }}</p>
         </div>
     @endif
+
+    <div class="p-4 font-bold text-gray-600">Account info</div>
+      <div class="grid  lg:grid-cols-1  md:grid-cols-1 p-4 gap-3">
+        <div class="col-span-2 flex flex-auto items-center justify-between  p-5 bg-white rounded shadow-sm">
+          <table class="min-w-full divide-y divide-gray-200 table-auto">
+            <thead class="bg-gray-50">
+           
+              <tr>
+                <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                No
+                </th>
+
+                <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Name
+                </th>
+                
+               
+               
+                <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Action
+                </th>
+                <th scope="col" class="relative px-6 py-3">
+                  <span class="sr-only">Edit</span>
+                </th>
+              </tr>
+            </thead>
+            @foreach ($accounts as $account)
+            @can('read-account',$account)
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">
+                      {{ $account->id}}
+                      </div>
+                    </div>
+                  </div>
+                </td>
+
+               
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ $account->name}}
+                </td>
+              
+              
+                
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+      <form action="{{ route('accounts.destroy', $account->id) }}" method="POST">
    
-    <table class="w-full max-w-full mb-4 bg-transparent table-bordered">
-        <thead class="bg-gray-300 border-b-4 border-black">
-        <tr>
-            <th class="p-2text-sm font-semibold tracking-wide text-center">No</th>
-            <th class="p-2text-sm font-semibold tracking-wide text-center">Name</th>
-            <th class="p-2text-sm font-semibold tracking-wide text-center">Action</th>
-        </tr>
-       </thead>
-        @foreach ($accounts as $account)
-        @can('read-account',$account)
-        <tbody>
-        <tr class ="bg-gray-100">
-            <td class="p-2text-sm font-semibold tracking-wide text-center">{{$account->id }}</td>
-            <td class="p-2text-sm font-semibold tracking-wide text-center">{{ $account->name }}</td>
-            <td class="p-2text-sm font-semibold tracking-wide text-center">
-                <form action="{{ route('accounts.destroy', $account->id) }}" method="POST">
-                     @can('read-account',$account)
-                    <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-teal-500 text-white hover:bg-teal-600" href="{{ route('accounts.show',$account->id) }}">Show</a>
-                    @endcan
-                     @can('update-account',$account)
-                    <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('accounts.edit',$account->id) }}">Edit</a>
-                     @endcan
-                    @csrf
-                    @method('DELETE')
-                     @can('delete-account',$account)
-                    <button type="submit" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white hover:bg-red-700">Delete</button>
-                    @endcan
-                </form>
-            </td>
-        </tr>
-        </tbody>
-        @endcan
-        @endforeach
-    </table>
+   <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-teal-500 text-white hover:bg-teal-600" href="{{ route('accounts.show',$account->id) }}">Show</a>
+   @can('update-account',$account)
+   <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('accounts.edit',$account->id) }}">Edit</a>
+  @endcan
+   @csrf
+   @method('DELETE')
+   @can('delete-account',$account)
+   <button type="submit" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white hover:bg-red-700">Delete</button>
+    @endcan
+</form>
+
+                </td>
+              </tr>
+            </tbody>
+             
+             @endcan
+            @endforeach
+          
+          </table>
+</div>
+</div>
+   
+    
      <br>
      {{$accounts->links()}} 
     <div class="text-center">
