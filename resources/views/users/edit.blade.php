@@ -1,16 +1,104 @@
 @extends('layout')
    
 @section('content')
-    <div class="flex flex-wrap ">
-        <div class="lg:w-full pr-4 pl-4 margin-tb">
-            <div class="pull-left">
-                <h2>Edit User</h2>
-            </div>
-            <div class="pull-right">
-                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('users.index') }}"> Back</a>
-            </div>
-        </div>
+   
+<div class="bg-white antialiased flex font-sans text-gray-900">
+
+
+
+<form action="{{ route('users.update',$user) }}" method="POST" class="px-4 rounded mx-auto max-w-3xl w-full  inputs space-y-6">
+@csrf
+@method('PUT')
+<div>
+<h1 class="text-4xl font-bold">Edit User</h1>
+
+</div>
+<div class="flex space-x-4">
+<div class="w-1/2">
+  <label for="firstname">First Name</label>
+  <input
+    class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
+    type="text"
+    name="first_name"
+    id="firstname"
+  />
+</div>
+<div class="w-1/2">
+  <label for="lastname">Last Name</label>
+  <input
+    class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
+    type="text"
+    name="last_name"
+    id="lastname"
+  />
+</div>
+</div>
+<div class="flex space-x-4">
+<div class="w-1/2">
+  <label for="firstname">Email</label>
+  <input
+    class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
+    type="text"
+    name="email"
+  
+  />
+</div>
+<div class="w-1/2">
+  <label for="firstname">Phone</label>
+  <input
+    class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
+    type="text"
+    name="phone"
+
+  />
+</div>
+</div>
+<div class="w-1/2">
+  <label for="firstname">Photo Path</label>
+  <input
+    class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
+    type="text"
+    name="photo_path"
+  
+  />
+</div>
+<div class="flex space-x-4">
+<div class="w-1/2">
+  <label for="firstname">Account</label>
+  <select
+    class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
+    type="text"
+    name="account_id"
+    id="firstname"
+  >
+       <option name ="account_id" placeholder ="SELECT "value = "{{$account->id}}">{{$user->account->name}}</option>
+</select>
+</div>
+<div class="w-1/2">
+  <label for="firstname">Organization</label>
+  <select
+    class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
+    type="text"
+    name="organization_id"
+    id="firstname"
+  >
+  <option name ="organization_id" placeholder ="SELECT "value = "{{$organization->id}}">{{$user->organization->name}}</option>
+</select>
+</div>
+</div>
+<div class="flex space-x-4">
+   <div class="w-1/2">
+              <button type="submit" class="border border-gray-400 bg-green-600 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400">Submit</button>
     </div>
+
+    <div class="w-1/2">
+              <a type="submit" href="{{ route('users.index') }}" class="border border-gray-400 text-center bg-green-600 px-4 py-2 hover:none rounded w-full focus:outline-none focus:border-teal-400">BACK</a>
+    </div>
+        
+</div>
+
+</form>
+</div>
    
     @if ($errors->any())
         <div class="relative px-3 py-3 mb-4 border rounded bg-red-200 border-red-300 text-red-800">
@@ -22,52 +110,7 @@
             </ul>
         </div>
     @endif
- 
-    <form action="{{ route('users.update',$user) }}" method="POST">
-        @csrf
-        @method('PUT')
-   
-         <div class="flex flex-wrap ">
-            <div class="sm:w-full pr-4 pl-4 sm:w-full pr-4 pl-4 md:w-full pr-4 pl-4">
-                <div class="mb-4">
-                <strong>First Name:</strong>
-                <input type="text" name="first_name" value="{{ $user->first_name }}" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="First Name">
-                <strong>Last Name:</strong>
-                <input type="text" name="last_name" value="{{ $user->last_name }}" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="Last Name">
-                <strong>Email:</strong>
-                <input type="text" name="email" value="{{ $user->email }}" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="E-Mail">
-                <strong>Photo Path:</strong>
-                <input type="text" name="photo_path" value="{{ $user->photo_path}}" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="Region">
-                <strong>Phone:</strong>
-                <input type="text" name="phone" value="{{ $user->phone }}" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" placeholder="City">
-                <strong>Account:</strong>
-                <select placeholder ="select your account" class = "block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" name ="account_id">
-              
-                     
-                       
-                    <option name ="account_id" placeholder ="SELECT "value = "{{$account->id}}">{{$user->account->name}}</option>
-
-                 
-                </select>
-                <br/>
-                <strong>Organization:</strong>
-                <select placeholder ="select your organization" class = "block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" name ="organization_id">
-              
-            
-                     
-                    <option name ="organization_id" placeholder ="SELECT "value = "{{$organization->id}}">{{$user->organization->name}}</option>
-                  
-       
-                </select>
-                </div>
-            </div>
-           
-            <div class="sm:w-full pr-4 pl-4 sm:w-full pr-4 pl-4 md:w-full pr-4 pl-4 text-center">
-              <button type="submit" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600">Submit</button>
-            </div>
-        </div>
-   
-    </form>
-   
+    
+    
 
 @endsection
