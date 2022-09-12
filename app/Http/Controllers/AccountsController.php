@@ -6,6 +6,7 @@ use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \Illuminate\Auth\Middleware\Authorize;
+use Illuminate\Support\Facades\Validator;
 
 class AccountsController extends Controller
 {

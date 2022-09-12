@@ -31,8 +31,9 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="first_name"
-    id="firstname"
+    name="name"
+    value = "{{$organization->name}}"
+  
   />
 </div>
 <div class="w-1/2">
@@ -40,8 +41,9 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="last_name"
+    name="email"
     id="lastname"
+    value = "{{$organization->email}}"
   />
 </div>
 </div>
@@ -51,7 +53,8 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="email"
+    name="city"
+    value = "{{$organization->city}}"
   
   />
 </div>
@@ -61,6 +64,7 @@
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
     name="phone"
+    value = "{{$organization->phone}}"
 
   />
 </div>
@@ -71,17 +75,20 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="first_name"
+    name="country"
     id="firstname"
+   value = "{{$organization->country}}"
   />
+ 
 </div>
 <div class="w-1/2">
   <label for="lastname">Region</label>
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="last_name"
+    name="region"
     id="lastname"
+    value = "{{$organization->region}}"
   />
 </div>
 </div>
@@ -91,8 +98,9 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="first_name"
+    name="address"
     id="firstname"
+    value = "{{$organization->address}}"
   />
 </div>
 <div class="w-1/2">
@@ -100,8 +108,9 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="last_name"
+    name="postal_code"
     id="lastname"
+    value = "{{$organization->postal_code}}"
   />
 </div>
 </div>
@@ -111,6 +120,7 @@
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
     name="photo_path"
+    value = "{{$organization->photo_path}}"
   
   />
 </div>
@@ -122,6 +132,7 @@
     type="text"
     name="account_id"
     id="firstname"
+    value = "{{$organization->account->name}}"
   >
        <option name ="account_id" placeholder ="SELECT "value = "{{$account->id}}">{{$organization->account->name}}</option>
 </select>

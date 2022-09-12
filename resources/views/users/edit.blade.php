@@ -21,6 +21,7 @@
     type="text"
     name="first_name"
     id="firstname"
+    value = "{{$user->first_name}}"
   />
 </div>
 <div class="w-1/2">
@@ -30,6 +31,7 @@
     type="text"
     name="last_name"
     id="lastname"
+    value = "{{$user->last_name}}"
   />
 </div>
 </div>
@@ -40,6 +42,7 @@
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
     name="email"
+    value = "{{$user->email}}"
   
   />
 </div>
@@ -49,6 +52,7 @@
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
     name="phone"
+    value = "{{$user->phone}}"
 
   />
 </div>
@@ -59,6 +63,7 @@
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
     name="photo_path"
+    value = "{{$user->photo_path}}"
   
   />
 </div>

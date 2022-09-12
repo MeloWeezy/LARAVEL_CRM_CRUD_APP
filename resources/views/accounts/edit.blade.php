@@ -33,6 +33,7 @@
     type="text"
     name="name"
     id="firstname"
+    value = "{{$account->name}}"
   />
 </div>
 

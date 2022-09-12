@@ -25,18 +25,18 @@
 <!-- action="{{ route('organizations.store') }}" method="POST""-->
 <form action="{{ route('organizations.store') }}" method="POST" class="px-4 rounded mx-auto max-w-3xl w-full  inputs space-y-6">
 @csrf
-@method('PUT')
+@method('POST')
 <div>
 <h1 class="text-4xl font-bold">Edit User</h1>
 
 </div>
 <div class="flex space-x-4">
 <div class="w-1/2">
-  <label for="firstname">Organization Name</label>
+  <label for="organization_name">Organization Name</label>
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="first_name"
+    name="name"
     id="firstname"
   />
 </div>
@@ -45,8 +45,8 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="last_name"
-    id="lastname"
+    name="email"
+   
   />
 </div>
 </div>
@@ -56,7 +56,7 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="email"
+    name="city"
   
   />
 </div>
@@ -76,7 +76,7 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="first_name"
+    name="country"
     id="firstname"
   />
 </div>
@@ -85,7 +85,7 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="last_name"
+    name="region"
     id="lastname"
   />
 </div>
@@ -96,7 +96,7 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="first_name"
+    name="address"
     id="firstname"
   />
 </div>
@@ -105,7 +105,7 @@
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
-    name="last_name"
+    name="postal_code"
     id="lastname"
   />
 </div>

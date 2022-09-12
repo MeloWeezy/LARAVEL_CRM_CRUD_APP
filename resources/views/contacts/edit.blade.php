@@ -33,6 +33,7 @@
     type="text"
     name="first_name"
     id="firstname"
+    value = "{{$contact->first_name}}"
   />
 </div>
 <div class="w-1/2">
@@ -42,6 +43,7 @@
     type="text"
     name="last_name"
     id="lastname"
+    value = "{{$contact->last_name}}"
   />
 </div>
 </div>
@@ -52,6 +54,7 @@
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
     name="email"
+    value = "{{$contact->email}}"
   
   />
 </div>
@@ -61,6 +64,7 @@
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
     name="phone"
+    value = "{{$contact->phone}}"
 
   />
 </div>
@@ -73,6 +77,7 @@
     type="text"
     name="first_name"
     id="firstname"
+    value = "{{$contact->city}}"
   />
 </div>
 <div class="w-1/2">
@@ -82,6 +87,7 @@
     type="text"
     name="last_name"
     id="lastname"
+    value = "{{$contact->country}}"
   />
 </div>
 </div>
@@ -93,6 +99,7 @@
     type="text"
     name="first_name"
     id="firstname"
+    value = "{{$contact->region}}"
   />
 </div>
 <div class="w-1/2">
@@ -102,6 +109,7 @@
     type="text"
     name="last_name"
     id="lastname"
+    value = "{{$contact->address}}"
   />
 </div>
 </div>
@@ -112,6 +120,7 @@
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
     name="photo_path"
+    value = "{{$contact->postal_code}}"
   
   />
 
@@ -122,6 +131,7 @@
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
     name="photo_path"
+    value = "{{$contact->photo_path}}"
   />
 
 </div>
@@ -134,6 +144,7 @@
     type="text"
     name="account_id"
     id="firstname"
+    value = "{{$contact->account}}"
   >
        <option name ="account_id" placeholder ="SELECT "value = "{{$account->id}}">{{$organization->account->name}}</option>
 </select>

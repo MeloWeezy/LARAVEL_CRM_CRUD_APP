@@ -89,7 +89,7 @@ class OrganizationsController extends Controller
         $account = auth()->user()->account;
      
         return redirect()->route('organizations.index',compact('account'))
-                        ->with('success','Contact created successfully.');
+                        ->with('success','Organization created successfully.');
     }
 
     /**
