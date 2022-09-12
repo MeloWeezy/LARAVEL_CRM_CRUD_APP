@@ -12,21 +12,22 @@
    <br>
    
        
-            <div class=" flex border-black  bg-gray-500 justify-self-center">
-                <p ><strong >Name:</strong> {{ $account->name}}</p>
-                <break>
-                <p><strong>id:</strong> {{ $account->id}}</p>
-                <break>
-                <p>  <strong>created_at:</strong> {{ $account->created_at}}</p>
-                <break>
-                <p>  <strong>updated_at:</strong> {{ $account->updated_at}}</p>
-                <break>
+            <div class="  border-black  bg-gray-200 justify-self-center font-serif">
+                <p class ="text-center "><strong>Name:</strong>{{ $account->name}}</p>
+           
+                <p class ="text-center"><strong>id:</strong>{{ $account->id}}</p>
+           
+                <p class ="text-center"><strong>Created at:</strong> {{ $account->created_at}}</p>
+          
+                <p class ="text-center"><strong>updated_at:</strong>{{ $account->updated_at}}</p>
+            
             </div>
+            
             
       
  
     <br>
-    <div class="text-center">
-                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('accounts.index') }}"> Back</a>
-            </div>
+    <div class="w-fill">
+              <a type="submit" href="{{ route('accounts.index') }}" class="border border-gray-400 text-center bg-green-600 px-4 py-2 hover:none rounded w-full focus:outline-none focus:border-teal-400">BACK</a>
+    </div>
 @endsection 

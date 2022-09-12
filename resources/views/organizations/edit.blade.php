@@ -145,7 +145,7 @@
     </div>
 
     <div class="w-1/2">
-              <a type="submit" href="{{ route('users.index') }}" class="border border-gray-400 text-center bg-green-600 px-4 py-2 hover:none rounded w-full focus:outline-none focus:border-teal-400">BACK</a>
+              <a type="submit" href="{{ route('organizations.index') }}" class="border border-gray-400 text-center bg-green-600 px-4 py-2 hover:none rounded w-full focus:outline-none focus:border-teal-400">BACK</a>
     </div>
         
 </div>

@@ -4,49 +4,48 @@
     <div class="flex flex-wrap ">
         <div class="lg:w-full pr-4 pl-4 margin-tb">
             <div class="pull-left">
-                <h2> AVAILABLE USERS</h2>
+                <h2 class ="text-center font-sans  "> AVAILABLE USERS</h2>
             </div>
-            <div class="pull-right">
-                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('users.index') }}"> Back</a>
-            </div>
+            
         </div>
     </div>
    
-    <div class="flex flex-wrap ">
-        <div class="sm:w-full pr-4 pl-4 sm:w-full pr-4 pl-4 md:w-full pr-4 pl-4">
-            <div class="mb-4">
-                <strong>First Name:</strong>
+             <br>
+            <div class="mb-4  border-black  bg-gray-200 justify-self-center font-serif">
+                <p class ="text-center"><strong>First Name:</strong>
                 {{ $user->first_name}}
-                <br/>
-                <strong>Last Name:</strong>
+                 </p>
+                <p class ="text-center"><strong>Last Name:</strong>
                 {{ $user->last_name}}
-                <br/>
-                <strong>E-mail:</strong>
+                </p>
+                <p class ="text-center"><strong>E-mail:</strong>
                 {{ $user->email}}
-                <br/>
-                <strong>Photo_path:</strong>
+                </p>
+                <p class ="text-center"><strong>Photo_path:</strong>
                 {{ $user->photo_path}}
-                <br/>
-                <strong>Phone:</strong>
+                </p>
+                <p class ="text-center"><strong>Phone:</strong>
                 {{ $user->phone}}
-                <br/>
-                <strong>Accounts_id:</strong>
+                </p>
+                <p class ="text-center"><strong>Accounts_id:</strong>
                 {{ $user->account->name}}
-                <br/>
-                <strong>Organizations_id:</strong>
+                </p>
+                <p class ="text-center"><strong>Organizations_id:</strong>
                 {{ $user->organization->name}}
-                <br/>
-                <strong>created_at:</strong>
+                </p>
+                <p class ="text-center"><strong>created_at:</strong>
                 {{ $user->created_at}}
-                <br/>
-                <strong>updated_at:</strong>
+                </p>
+                <p class ="text-center"><strong>updated_at:</strong>
                 {{ $user->updated_at}}
-                <br/>
-                <strong>deleted_at:</strong>
+                </p>
+                <p class ="text-center"><strong>deleted_at:</strong>
                 {{ $user->deleted_at}}
+                </p>
             </div>
-        </div>
-        </div>
+            <div class=" flex w-full justify-center items-center" >
+              <a type="submit" href="{{ route('users.index') }}" class="  border border-gray-400 text-center bg-green-600 px-4 py-2 hover:none rounded w-full focus:outline-none focus:border-teal-400">BACK</a>
     </div>
+     
 @endsection
 

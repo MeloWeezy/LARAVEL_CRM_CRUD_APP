@@ -4,59 +4,57 @@
     <div class="flex flex-wrap ">
         <div class="lg:w-full pr-4 pl-4 margin-tb">
             <div class="pull-left">
-                <h2>Organization Details</h2>
+                <h2 class ="text-center">Organization Details</h2>
             </div>
-            <div class="pull-right">
-                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600" href="{{ route('organizations.index') }}"> Back</a>
-            </div>
+          
         </div>
     </div>
 
-    <div class="flex flex-wrap ">
-        <div class="sm:w-full pr-4 pl-4 sm:w-full pr-4 pl-4 md:w-full pr-4 pl-4">
-            <div class="mb-4">
-                <strong>Organization Name:</strong>
+    
+            <div class="mb-4  border-black  bg-gray-200 justify-self-center font-serif">
+                <p class ="text-center"><strong>Organization Name:</strong>
                 {{ $organization->name}}
-                <br/>
-                <strong>E-mail:</strong>
+                </p>
+                <p class ="text-center"><strong>E-mail:</strong>
                 {{ $organization->email}}
-                <br/>
-                <strong>City:</strong>
+                </p>
+                <p class ="text-center"><strong>City:</strong>
                 {{ $organization->city}}
-                <br/>
-                <strong>Phone:</strong>
+                </p>
+                <p class ="text-center"><strong>Phone:</strong>
                 {{ $organization->phone}}
-                <br/>
-                <strong>Country:</strong>
+                </p>
+                <p class ="text-center"><strong>Country:</strong>
                 {{ $organization->country}}
-                <br/>
+                </p>
 
-                <strong>Region:</strong>
+                <p class ="text-center"> <strong>Region:</strong>
                 {{ $organization->region}}
-                <br/>
-                <strong>Address:</strong>
+                </p>
+                <p class ="text-center"><strong>Address:</strong>
                 {{ $organization->address}}
-                <br/>
-                <strong>Postal Code:</strong>
+                </p>
+                <p class ="text-center"><strong>Postal Code:</strong>
                 {{ $organization->postal_code}}
-                <br/>
-                <strong>Organization:</strong>
+                </p>
+                <p class ="text-center"><strong>Organization:</strong>
                 {{ $organization->name}}
-                <br/>
-                <strong>Account:</strong>
+                </p>
+                <p class ="text-center"><strong>Account:</strong>
                 {{ $organization->account->name}}
-                <br/>
-                <strong>created_at:</strong>
+                </p>
+                <p class ="text-center"><strong>created_at:</strong>
                 {{ $organization->created_at}}
-                <br/>
-                <strong>updated_at:</strong>
+                </p>
+                <p class ="text-center"><strong>updated_at:</strong>
                 {{ $organization->updated_at}}
-                <br/>
-                <strong>deleted_at:</strong>
+                </p>
+                <p class ="text-center"><strong>deleted_at:</strong>
                 {{ $organization->deleted_at}}
             </div>
-        </div>
-        </div>
+      
+            <div class="w-fill">
+              <a type="submit" href="{{ route('organizations.index') }}" class="border border-gray-400 text-center bg-green-600 px-4 py-2 hover:none rounded w-full focus:outline-none focus:border-teal-400">BACK</a>
     </div>
 @endsection
 
