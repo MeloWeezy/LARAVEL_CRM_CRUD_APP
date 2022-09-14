@@ -1,6 +1,6 @@
-@extends('layout')
- 
-@section('content')
+<x-app-layout>
+
+{{--@section('content')--}}
     <div class="flex flex-wrap ">
         <div class="lg:w-full pr-4 pl-4 margin-tb">
            
@@ -98,11 +98,11 @@
     
      <br>
      {{$accounts->links()}} 
-    <div class="text-center">
-                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-green-500 text-white hover:bg-green-600" href="{{ route('dashboard') }}"> BACK</a>
-    </div>
-    <br>
+     
+{{--@endsection--}}
+
+</x-app-layout>
   
 
       
-@endsection
+

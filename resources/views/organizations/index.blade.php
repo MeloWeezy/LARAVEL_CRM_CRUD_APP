@@ -1,7 +1,6 @@
-@extends('layout')
-
-@section('content')
-    <div class="flex flex-wrap ">
+<x-app-layout>
+{{--@section('content')--}}
+<div class="flex flex-wrap ">
         <div class="lg:w-full pr-4 pl-4 margin-tb">
            
             <br>
@@ -21,7 +20,7 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    <br>
+  
 
     <div class="p-4 font-bold text-gray-600">organization info</div>
       <div class="grid  lg:grid-cols-1  md:grid-cols-1 p-4 gap-3">
@@ -97,9 +96,6 @@
 
     
     {{$organizations->links()}}
-    <br>
-    <div class="text-center">
-                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-green-500 text-white hover:bg-green-600" href="{{ route('dashboard') }}"> BACK</a>
-            </div>
-
-@endsection
+   
+ {{--@endsection--}}
+</x-app-layout>

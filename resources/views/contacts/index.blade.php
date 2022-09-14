@@ -1,23 +1,8 @@
-@extends('layout')
+<x-app-layout>
 
-@section('content')
+{{--@section('content')--}}
     <div class="flex flex-wrap ">
         <div class="lg:w-full pr-4 pl-4 margin-tb">
-            @role('admin')
-            <div class="pull-left">
-                <h2 class ="align-middle text-center font-extrabold">CONTACTS YOUR ACCOUNT</h2>
-            </div>
-            @endrole
-            @role('User')
-            <div class="pull-left">
-                <h2 class ="align-middle text-center font-extrabold">CONTACTS OF YOUR ORGANIZATION</h2>
-            </div>
-            @endrole
-            @role('super_admin')
-            <div class="pull-left">
-                <h2 class ="align-middle text-center font-extrabold">CONTACTS OF THE SYSTEM</h2>
-            </div>
-            @endrole
             <br>
           @can('create-contact')
             <div class="text-center">
@@ -119,10 +104,6 @@
 
 
       {{$contacts->links()}}
-  <br>
-    <div class="text-center">
-                <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-green-500 text-white hover:bg-green-600" href="{{ route('dashboard') }}"> BACK</a>
-            </div>
-            <br>
+ {{--@endsection--}}
 
-@endsection
+</x-app-layout>
