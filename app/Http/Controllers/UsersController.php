@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Hash;
 use App\Models\Account;
-use App\Models\Organization;
+use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class UsersController extends Controller
 {
@@ -20,47 +24,40 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        $current_user = auth()->user();
-
-        if($current_user->hasRole('super_admin'))
+        if(auth()->user()->hasRole('super_admin'))
         {
-           $users= User::paginate(10);
+           $users= User::paginate(5);
+           return view('users.index', compact('users'));
         }
-        else if($current_user->hasRole('admin'))
+
+        if(auth()->user()->hasRole('admin'))
         {
            $users= User::where([
-            'account_id' => $current_user->account_id,
-            'organization_id' => $current_user->organization_id,
-         ])->paginate(10);
+            'account_id' => auth()->user()->account_id,
+            'organization_id' => auth()->user()->organization_id,
+            ])->paginate(5);
+            return view('users.index', compact('users'));
+        }
 
-        }
-        else
-        {
-           $users= User::where([
-                   
-            'id' =>$current_user->id,
-        ])->paginate();
-        }
-       
-        
-        # $users = auth->user()->hasRole('admin') ? User::where('users.account.id', auth()->user->account_id)->get() : auth()->user()
+        $users= User::where(['id' =>auth()->id()])->paginate(5);
 
         return view('users.index', compact('users'));
     }
 
+
+    # ToDo: @Melusi Do the below methods work? Something if off about them
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create(array $data)
     {
         //
-        
         $account = Account::all();
 
         return User::create([
@@ -74,10 +71,10 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return View
      */
-    public function store(Request $request)
+    public function store(Request $request): View
     {
         $validatedRequest = Validator::make($request->all(),
        [
@@ -94,7 +91,7 @@ class UsersController extends Controller
             'organization_id'=> 'required'
         ])->validate();
 
-   
+
          User::create($validatedRequest);
 
         return view('authen.dashboard')->with('success','You have signed-in');
@@ -104,50 +101,48 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\users  $users
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return View
+     * @throws AuthorizationException
      */
-    public function show(User $user,Account $account)
+    public function show(User $user): View
     {
         //
         $this->authorize('can-view-own',$user);
-      
+
         $account = $user->account;
         $organization = $user->organization;
-  
+
         return view('users.show',compact('user','account','organization'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\users  $users
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return View
+     * @throws AuthorizationException
      */
-    public function edit(User $user)
+    public function edit(User $user): View
     {
-        //
-       
-       
-      $this->authorize('edit-user',$user);
-    
+        $this->authorize('edit-user',$user);
+
         $account = $user->account;
         $organization = $user->organization;
-        //$id = Auth::User()->id;
-        //$user=User::find($id);
 
-       // $user = User::all();
         return view('users.edit',compact('account','user','organization'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\users  $users
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param User $user
+     * @return RedirectResponse
+     * @throws AuthorizationException
+     * @throws ValidationException
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         $this->authorize('edit-user',$user);
         $validatedRequest = Validator::make($request->all(),
@@ -164,24 +159,28 @@ class UsersController extends Controller
         $user->update($validatedRequest);
 
         return redirect()->route('users.index')
-                        ->with('success','account name updated successfully');
+                        ->with('success','User updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\users  $users
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
-        //
         $this->authorize('delete-user',$user);
         $user->delete();
 
         return redirect()->route('users.index')
-        ->with('success','Product deleted successfully');
+        ->with('success','User deleted successfully');
     }
+
+
+
+    # ToDo: @Melusi What's going on here?
 
     public function login(Request $request)
     {
@@ -221,7 +220,6 @@ class UsersController extends Controller
 
         return view('authen.dashboard')->with('success','You have signed-in');
     }
-
 
     public function registration()
     {

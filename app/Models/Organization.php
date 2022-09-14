@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,6 +23,13 @@ class Organization extends Model
         'postal_code',
         'account_id',
     ];
+
+    public function fullAddress(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->address . ', ' . $this->country
+        );
+    }
 
     public function users(): HasMany
     {
