@@ -4,23 +4,24 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
         <title>{{ config('app.name', 'Laravel') }}</title>
-
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <!-- Styles -->
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-red-500">
-            @include('layouts.navigation')
+        <div class="min-h-screen">
+            <x-navigation/>
             <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            <section class="flex">
+                <x-side-navigation/>
+                <main class="w-full bg-blue-50 min-h-screen">
+                    <x-page-title :title/>
+                    {{ $slot }}
+                </main>
+            </section>
         </div>
     </body>
 </html>
