@@ -96,7 +96,7 @@
         <button href="route('logout')"
                 onclick="event.preventDefault();
                                                 this.closest('form').submit();"
-                class="rounded-full bg-pink-500 py-2 text-white text-lg">{{ __('Log Out') }}</button>
+                class="rounded-full bg-red-500 py-2 text-white text-lg">{{ __('Log Out') }}</button>
 
     </div>
 

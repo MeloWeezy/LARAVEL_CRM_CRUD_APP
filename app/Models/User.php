@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable,HasRoles;
     protected $guard_name = 'api';
@@ -28,7 +28,6 @@ class User extends Authenticatable
         'photo_path',
         'phone',
         'role',
-        'owner',
         'email',
         'password',
         'account_id',

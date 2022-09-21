@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Account;
+use App\Models\Contact;
+use App\Models\Organization;
 
 class RegisterController extends Controller
 {
@@ -41,6 +44,7 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+  
     /**
      * Get a validator for an incoming registration request.
      *
@@ -50,7 +54,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'string', 'max:255'],
+            'organization_id' => ['required', 'integer', 'max:255'],
+            'account_id' => ['required', 'integer', 'max:255'],
+            'phone' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -64,10 +73,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+       
         return User::create([
-            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['first_name'],
+            'organization_id' => $data['organization_id'],
+            'account_id' => $data['account_id'],
+            'role' => $data['role'],
+            'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
     }
 }
+

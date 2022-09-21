@@ -1,6 +1,6 @@
-@extends('layout')
-   
-@section('content')
+<x-app-layout>
+
+{{--@section('content')--}}
    
    
     @if ($errors->any())
@@ -21,13 +21,10 @@
 <form action="{{ route('accounts.update',$account) }}" method="POST" class="px-4 rounded mx-auto max-w-3xl w-full  inputs space-y-6">
 @csrf
 @method('PUT')
-<div>
-<h1 class="text-4xl font-bold">Edit Account</h1>
 
-</div>
 
-<div class="w-1/2">
-  <label for="Account_name">Account Name</label>
+<div class="w-1/2 text-left">
+  <label for="Account_name" class =" text-center">Account Name</label>
   <input
     class="border border-gray-400 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400"
     type="text"
@@ -40,6 +37,12 @@
 <div class="w-1/2">
               <button type="submit" class="border border-gray-400 bg-green-600 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400">Submit</button>
     </div>
+   
 </form>
+<br>
 </div>     
-@endsection
+
+<br>
+{{--@endsection--}}
+
+</x-app-layout>

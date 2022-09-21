@@ -9,6 +9,8 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\PermissionController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +24,16 @@ use App\Http\Controllers\Admin\PermissionController;
 */
 
 require __DIR__.'/auth.php';
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
 
 Route::get('/', function () {
+  
     return view('welcome');
 });
 
-Route::get('/dashboard', DashboardController::class)->name('dashboard');
+Route::get('/dashboard', DashboardController::class)->name('dashboard')->middleware('verified');
 
 Route::middleware(['auth','role:super_admin'])
     ->name('admin.')
@@ -59,13 +65,17 @@ Route::middleware(['auth','role:super_admin'])
     Route::resource('organizations', OrganizationsController::class);
     Route::resource('users', UsersController::class);
     Route::resource('Dashboard', DashboardController::class);
+    
 
-
+   
 });
 
 
 
 
-Auth::routes();
+
+
+
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

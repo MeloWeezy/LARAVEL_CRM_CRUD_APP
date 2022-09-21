@@ -45,11 +45,11 @@
             </div>
             <div class="mt-4">
                 <x-label for="accountid" :value="__('Account')" />
-                <select placeholder ="select your organization" class = "block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" name ="account_id">
+                <select placeholder ="select your Account" class = "block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" name ="account_id">
 
-                      @foreach($account as $acc)
+                    @foreach($account as $acc)
 
-                  <option name ="account_id" placeholder ="SELECT "value = "{{$acc->id}}">{{$acc->name}}</option>
+                  <option name ="account_id" placeholder ="SELECT "value = " {{$acc->id}}">{{$acc->name}}</option>
                      @endforeach
 </select>
 

@@ -1,6 +1,6 @@
-@extends('layout')
+<x-app-layout>
 
-@section('content')
+{{--@section('content')--}}
    
 
     @if ($errors->any())
@@ -21,10 +21,7 @@
 <form action="{{ route('contacts.update',$contact) }}" method="POST" class="px-4 rounded mx-auto max-w-3xl w-full  inputs space-y-6">
 @csrf
 @method('PUT')
-<div>
-<h1 class="text-4xl font-bold">Edit Contact</h1>
 
-</div>
 <div class="flex space-x-4">
 <div class="w-1/2">
   <label for="firstname">First Name</label>
@@ -164,11 +161,11 @@
 </div>
 <div class="flex space-x-4">
    <div class="w-1/2">
-              <button type="submit" class="border border-gray-400 bg-green-600 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400">Submit</button>
+              <button type="submit" class="border border-gray-400 bg-red-500 px-4 py-2 rounded w-full focus:outline-none focus:border-teal-400">Submit</button>
     </div>
 
     <div class="w-1/2">
-              <a type="submit" href="{{ route('users.index') }}" class="border border-gray-400 text-center bg-green-600 px-4 py-2 hover:none rounded w-full focus:outline-none focus:border-teal-400">BACK</a>
+              <a type="submit" href="{{ route('users.index') }}" class="border border-gray-400 text-center bg-red-500 px-4 py-2 hover:none rounded w-full focus:outline-none focus:border-teal-400">BACK</a>
     </div>
         
 </div>
@@ -177,5 +174,6 @@
 </div>
 
 
+{{--@endsection--}}
 
-@endsection
+</x-app-layout>
