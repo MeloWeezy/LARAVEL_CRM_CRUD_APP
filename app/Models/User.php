@@ -76,4 +76,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(Account::class);
     }
+
+    public function deleted_user()
+    {
+        return $this->hasOne(Deleted_user::class);
+    }
 }

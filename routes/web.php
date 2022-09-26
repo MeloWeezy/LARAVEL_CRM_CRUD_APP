@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsersController;
+use App\Mail\MyMail;
+
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -24,9 +26,21 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 require __DIR__.'/auth.php';
+//mail routes
+Route::get('/users/{token}',[UsersController::class,'removeUser'])->name('users.removeUser');
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
+})->middleware('auth')->name('verificatio.notice');
+
+
+ Route::get('/email',function()
+ {
+    return new MyMail();
+ });
+
+
+
+
 
 Route::get('/', function () {
   
@@ -34,6 +48,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', DashboardController::class)->name('dashboard')->middleware('verified');
+
 
 Route::middleware(['auth','role:super_admin'])
     ->name('admin.')
@@ -48,7 +63,6 @@ Route::middleware(['auth','role:super_admin'])
         Route::resource('/permissions', PermissionController::class);
         Route::post('/permissions/{permission}/roles', [PermissionController::class, 'assignRole'])->name('permissions.roles');
         Route::delete('/permissions/{permission}/roles/{role}', [PermissionController::class, 'removeRole'])->name('permissions.roles.remove');
-
         Route::resource('/users', UsersController::class);
 
         Route::post('/users/{user}/roles', [UsersController::class, 'assignRole'])->name('users.roles');
@@ -58,22 +72,24 @@ Route::middleware(['auth','role:super_admin'])
     }
 );
 
+   
+    Route::middleware(['auth'])->group(function(
 
-    Route::middleware(['auth'])->group(function(){
+    ){
     Route::resource('accounts', AccountsController::class);
     Route::resource('contacts', ContactsController::class);
     Route::resource('organizations', OrganizationsController::class);
     Route::resource('users', UsersController::class);
     Route::resource('Dashboard', DashboardController::class);
+
+    
     
 
    
 });
 
 
-
-
-
+    
 
 
 

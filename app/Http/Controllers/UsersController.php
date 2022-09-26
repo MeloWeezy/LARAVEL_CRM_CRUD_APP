@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\User;
+use App\Models\Deleted_user;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +15,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MyMail;
 class UsersController extends Controller
 {
 
@@ -107,6 +110,7 @@ class UsersController extends Controller
      */
     public function show(User $user): View
     {
+     
         //
         $this->authorize('can-view-own',$user);
 
@@ -126,7 +130,7 @@ class UsersController extends Controller
     public function edit(User $user): View
     {
         $this->authorize('edit-user',$user);
-
+       
         $account = $user->account;
         $organization = $user->organization;
 
@@ -169,72 +173,39 @@ class UsersController extends Controller
      * @return RedirectResponse
      * @throws AuthorizationException
      */
-    public function destroy(User $user): RedirectResponse
+    public function destroy(User $user)
     {
         $this->authorize('delete-user',$user);
-        $user->delete();
+          
+        Deleted_user::create([
+            'token' => Str::random(10),
+            'user_id'=> $user->id
 
-        return redirect()->route('users.index')
-        ->with('success','User deleted successfully');
+        ]);
+
+      Mail::to($user->email)->send(new MyMail($user));
+
+       
+    }
+
+    public function removeUser($token): view
+    {
+          $deletedUser = Deleted_user::where('token',$token)->first();
+
+                 if(isset($deletedUser))
+                 {
+                    $user = $deletedUser->user;
+                    $user->delete();
+                 }
+                return view('auth.login')
+                ->with('message','User deleted successfully successfully');
     }
 
 
 
     # ToDo: @Melusi What's going on here?
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
-                        ->withSuccess('Signed in');
-        }
-
-        return redirect("login")->withSuccess('Login details are not valid');
-    }
-
-    public function customRegistration(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'city'=> 'required',
-            'photo_path'=>'required',
-            'phone' => 'required',
-            'country'=> 'required',
-            'region'=> 'required',
-            'address'=> 'required',
-            'postal_code'=> 'required',
-            'account_id'=> 'required',
-            'organization_id'=>'required'
-        ]);
-
-        $data = $request->all();
-        $check = $this->create($data);
-
-        return view('authen.dashboard')->with('success','You have signed-in');
-    }
-
-    public function registration()
-    {
-        $account = Account::all();
-        return view('authen.register')->with('account',$account);
-    }
-
-    public function dashboard()
-    {
-        if(Auth::check()){
-            return view('authen.dashboard');
-        }
-
-        return redirect("login")->withSuccess('You are not allowed to access');
-    }
+    
 
     public function signOut() {
         Session::flush();
