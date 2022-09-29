@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Resources\AccountResourceCollection;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Auth;
 class AccountsController extends Controller
 {
     /**
@@ -19,12 +19,12 @@ class AccountsController extends Controller
     {
         $user = auth()->user();
         $accounts = $user->hasRole('super_admin')
-            ? Account::paginate(10)
+            ? Account::paginate(2)
             : Account::where([
                     'id' => $user->account_id,
                 ])->paginate(10);
 
-        return view('accounts.index', compact('accounts'));
+        return new AccountResourceCollection($accounts);
 
 
     }

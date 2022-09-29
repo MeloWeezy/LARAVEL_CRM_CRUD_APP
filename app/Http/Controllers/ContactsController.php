@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Organization;
-
+use App\Http\Resources\ContactResourceCollection;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,7 +22,7 @@ class ContactsController extends Controller
      *
      * @return View
      */
-    public function index(): View
+    public function index()
     {
 
         # Model:all(), is not recommended as it may affect performance
@@ -34,9 +34,13 @@ class ContactsController extends Controller
             : Contact::where([
                     'account_id' => $user->account_id,
                     'organization_id' => $user->organization_id
-                ])->paginate(10);
+               ])->paginate(10);
 
-        return view('contacts.index', compact('contacts'));
+        
+ 
+       
+
+        return new ContactResourceCollection($contacts);
     }
 
     /**

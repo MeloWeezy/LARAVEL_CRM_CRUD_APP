@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Resources\UserResourceCollection;
 use App\Models\Account;
 use App\Models\User;
 use App\Models\Deleted_user;
@@ -29,8 +29,9 @@ class UsersController extends Controller
      *
      * @return View
      */
-    public function index(): View
+    public function index()
     {
+        
         if(auth()->user()->hasRole('super_admin'))
         {
            $users= User::paginate(5);
@@ -49,6 +50,10 @@ class UsersController extends Controller
         $users= User::where(['id' =>auth()->id()])->paginate(5);
 
         return view('users.index', compact('users'));
+    
+
+
+        return new UserResourceCollection($users);
     }
 
 

@@ -73,9 +73,8 @@ Route::middleware(['auth','role:super_admin'])
 );
 
    
-    Route::middleware(['auth'])->group(function(
-
-    ){
+    Route::middleware(['auth'])->group(function()
+    {
     Route::resource('accounts', AccountsController::class);
     Route::resource('contacts', ContactsController::class);
     Route::resource('organizations', OrganizationsController::class);

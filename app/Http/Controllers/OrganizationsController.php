@@ -6,6 +6,7 @@ use App\Models\Organization;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\OrganizationResourceCollection;
 
 class OrganizationsController extends Controller
 {
@@ -24,7 +25,7 @@ class OrganizationsController extends Controller
 
         if($user->hasRole('super_admin'))
         {
-           $organizations= Organization::paginate(5);
+           $organizations= Organization::paginate(10);
         }
         else if($user->hasRole('admin'))
         {
@@ -43,7 +44,13 @@ class OrganizationsController extends Controller
         }
         
        
-        return view('organizations.index', compact('organizations'));
+        //return view('organizations.index', compact('organizations'));
+
+      
+        //$organization = Organization::paginate(10);
+       
+
+        return new OrganizationResourceCollection($organizations);
     }
 
     /**

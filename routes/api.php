@@ -2,6 +2,17 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\OrganizationsController;
+use App\Http\Controllers\UsersController;
+use App\Http\Resources\AccountResource;
+use App\Http\Resources\ContactResource;
+use App\Http\Resources\OrganizationResource;
+use App\Http\Resources\Resource;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +28,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('accounts', AccountsController::class);
+Route::resource('contacts', ContactsController::class);
+Route::resource('organizations', OrganizationsController::class);
+Route::resource('users', UsersController::class);
+
