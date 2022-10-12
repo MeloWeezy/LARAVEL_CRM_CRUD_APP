@@ -15,20 +15,22 @@ class AccountsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->user();
-        $accounts = $user->hasRole('super_admin')
-            ? Account::paginate(2)
-            : Account::where([
-                    'id' => $user->account_id,
-                ])->paginate(10);
+   
+        // $user = auth()->user();
+        // $accounts = $user->hasRole('super_admin')
+        //     ? Account::paginate(2)
+        //     : Account::where([
+        //             'id' => $user->account_id,
+        //         ])->paginate(10);
 
-        return new AccountResourceCollection($accounts);
-
-
-    }
-
+        // return new AccountResourceCollection($accounts);
+        $user = Auth::user();
+       
+ 
+        return ['token' => $user];
+        }
     /**
      * Show the form for creating a new resource.
      *

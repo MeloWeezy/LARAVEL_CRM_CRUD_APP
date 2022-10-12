@@ -40,7 +40,7 @@ Route::get('/email/verify', function () {
 
 
 
-
+ Route::resource('accounts', AccountsController::class);
 
 Route::get('/', function () {
   
@@ -75,7 +75,7 @@ Route::middleware(['auth','role:super_admin'])
    
     Route::middleware(['auth'])->group(function()
     {
-    Route::resource('accounts', AccountsController::class);
+    
     Route::resource('contacts', ContactsController::class);
     Route::resource('organizations', OrganizationsController::class);
     Route::resource('users', UsersController::class);
@@ -86,6 +86,7 @@ Route::middleware(['auth','role:super_admin'])
 
    
 });
+
 
 
     

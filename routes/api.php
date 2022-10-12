@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsersController;
@@ -28,9 +29,13 @@ use App\Http\Resources\Resource;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::resource('accounts', AccountsController::class);
+Route::group(['middleware'=>'auth:sanctum'],function()
+{
+Route::post('apicon', [ApiController::class,'index']);
 Route::resource('contacts', ContactsController::class);
 Route::resource('organizations', OrganizationsController::class);
 Route::resource('users', UsersController::class);
+Route::resource('accounts', AccountsController::class);
+
+});
 
