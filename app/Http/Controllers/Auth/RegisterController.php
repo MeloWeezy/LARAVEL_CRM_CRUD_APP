@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Organization;
-
+use Illuminate\Http\Request;
 class RegisterController extends Controller
 {
     /*
@@ -71,10 +71,20 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(Request $data)
     {
+         Validator::make($data->all(), [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'string', 'max:255'],
+            'organization_id' => ['required', 'integer', 'max:255'],
+            'account_id' => ['required', 'integer', 'max:255'],
+            'phone' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
        
-        return User::create([
+        $user=User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['first_name'],
             'organization_id' => $data['organization_id'],
@@ -84,6 +94,16 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+    $token =$user->createToken('my-app-token')->plainTextToken;
+
+        
+      return response()->json([
+        'status' => true,
+        'message' => "User Registered successfully!",
+        'Token'=>$token
+    ], 200);
+
     }
 }
 

@@ -7,6 +7,7 @@ use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\OrganizationResourceCollection;
+use App\Http\Resources\OrganizationResource;
 
 class OrganizationsController extends Controller
 {
@@ -95,8 +96,12 @@ class OrganizationsController extends Controller
 
         $account = auth()->user()->account;
      
-        return redirect()->route('organizations.index',compact('account'))
-                        ->with('success','Organization created successfully.');
+        esponse()->json([
+            'status' => true,
+            'Account'=>$account,
+            'message' => "Organization Created successfully!",
+            'Organization' => new OrganizationResource($organization)
+        ], 200);
     }
 
     /**
@@ -113,7 +118,7 @@ class OrganizationsController extends Controller
         $this->authorize('read-organization', $organization);
         $account = auth()->user()->account;
        
-        return view('organizations.show',compact('organization','account'));
+        return [new OrganizationResource($organization)];
     }
 
     /**
@@ -128,7 +133,7 @@ class OrganizationsController extends Controller
         $this->authorize('update-organization', $organization);
         $account = auth()->user()->account;
     
-        return view('organizations.edit',compact('account','organization'));
+        return new OrganizationResource($organizations);
     }
 
     /**
@@ -159,8 +164,12 @@ class OrganizationsController extends Controller
 
        $organization->update($validatedRequest);
 
-        return redirect()->route('organizations.index')
-                        ->with('success','account name updated successfully');
+       esponse()->json([
+        'status' => true,
+        'Account'=>$account,
+        'message' => "Organization Created successfully!",
+        'Organization' => new OrganizationResource($organization)
+    ], 200);
     }
 
     /**
@@ -176,7 +185,9 @@ class OrganizationsController extends Controller
         $organization->delete();
 
 
-        return redirect()->route('organizations.index')
-                         ->with('success','Organization deleted successfully');
+        response()->json([
+            'status' => true,
+            'message' => "Organization Deleted successfully!",
+        ], 200);
     }
 }

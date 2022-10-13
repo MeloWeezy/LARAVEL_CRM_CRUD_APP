@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Resources\AccountResourceCollection;
+use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,18 +19,15 @@ class AccountsController extends Controller
     public function index(Request $request)
     {
    
-        // $user = auth()->user();
-        // $accounts = $user->hasRole('super_admin')
-        //     ? Account::paginate(2)
-        //     : Account::where([
-        //             'id' => $user->account_id,
-        //         ])->paginate(10);
+        $user = auth()->user();
+        $accounts = $user->hasRole('super_admin')
+            ? Account::paginate(1)
+            : Account::where([
+                    'id' => $user->account_id,
+                ])->paginate(10);
 
-        // return new AccountResourceCollection($accounts);
-        $user = Auth::user();
-       
- 
-        return ['token' => $user];
+        return new AccountResourceCollection($accounts);
+
         }
     /**
      * Show the form for creating a new resource.
@@ -39,8 +37,8 @@ class AccountsController extends Controller
     public function create(Account $account)
     {
       
-            $this->authorize('create-account', $account);
-            return view('accounts.create');
+            // $this->authorize('create-account', $account);
+            // return view('accounts.create');
         
     }
 
@@ -58,9 +56,12 @@ class AccountsController extends Controller
             'name'=> 'required',
         ])->validate();
 
-        Account::create($validatedRequest);
-        return redirect()->route('accounts.index')
-                        ->with('success','Account created successfully.');
+       $account =  Account::create($validatedRequest);
+        return response()->json([
+            'status' => true,
+            'message' => "Account Created successfully!",
+            'post' => new AccountResource($account)
+        ], 200);
     }
 
     /**
@@ -79,7 +80,7 @@ class AccountsController extends Controller
         $this->authorize('read-account', $account);
       
         $account = auth()->user()->account;
-        return view('accounts.show',compact('account'));
+        return new AccountResource($account);
 
 
     }
@@ -94,7 +95,7 @@ class AccountsController extends Controller
 
       $this->authorize('update-account', $account);
         
-        return view('accounts.edit',compact('account'));
+      return new AccountResource($account);
     }
 
     /**
@@ -118,8 +119,11 @@ class AccountsController extends Controller
 
         $account->update($validatedRequest);
 
-        return redirect()->route('accounts.index')
-                        ->with('success','account  updated successfully');
+        return response()->json([
+            'status' => true,
+            'message' => "Account Created successfully!",
+            'post' => new AccountResource($account)
+        ], 200);
     }
 
     /**
@@ -134,7 +138,9 @@ class AccountsController extends Controller
        $account->delete();
 
 
-        return redirect()->route('accounts.index')
-                         ->with('success','Account deleted successfully');
+       response()->json([
+        'status' => true,
+        'message' => "Account Deleted successfully!",
+    ], 200);
     }
 }

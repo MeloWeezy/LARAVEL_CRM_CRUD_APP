@@ -5,6 +5,7 @@ use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Organization;
 use App\Http\Resources\ContactResourceCollection;
+use App\Http\Resources\ContactResource;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -89,10 +90,13 @@ class ContactsController extends Controller
         ])->validate();
 
         # Avoid request->all() directly to Model::create() as it's a security risk.
-        Contact::create($validatedRequest);
+        $contact =  Contact::create($validatedRequest);
 
-        return redirect()->route('contacts.index')
-                        ->with('success','Contact created successfully.');
+           return response()->json([
+            'status' => true,
+            'message' => "Contact Created successfully!",
+            'post' => new ContactResource($contact)
+        ], 200);
     }
 
     /**
@@ -101,7 +105,7 @@ class ContactsController extends Controller
      * @param Contact $contact
      * @return View
      */
-    public function show(contact $contact): View
+    public function show(contact $contact)
     {
 
         $this->authorize('read-contact',$contact);
@@ -109,7 +113,7 @@ class ContactsController extends Controller
         $account = $contact->account;
         $organization = $contact->organization;
 
-        return view('contacts.show', compact('contact','account','organization'));
+        return new ContactResource($contact);
 
     }
 
@@ -120,7 +124,7 @@ class ContactsController extends Controller
      * @return View
      * @throws AuthorizationException
      */
-    public function edit(Contact $contact): View
+    public function edit(Contact $contact)
     {
         $this->authorize('update-contact', $contact);
 
@@ -128,7 +132,7 @@ class ContactsController extends Controller
         $account = $contact->account;
         $organization = $contact->organization;
 
-        return view('contacts.edit', compact('contact','account','organization'));
+        return [new ContactResource($contact),"account"=>$account,];
 
     }
 
@@ -163,7 +167,12 @@ class ContactsController extends Controller
 
         $contact->update($validatedRequest);
 
-        return redirect()->route('contacts.index')->with('success','Contact Updated Successfully');
+      
+        return response()->json([
+            'status' => true,
+            'message' => "Contact Created successfully!",
+            'post' => new ContactResource($contact)
+        ], 200);
     }
 
     /**
@@ -179,6 +188,9 @@ class ContactsController extends Controller
 
         $contact->delete();
 
-        return redirect()->route('contacts.index')->with('success','Contact Deleted.');
+        response()->json([
+            'status' => true,
+            'message' => "Contact Deleted successfully!",
+        ], 200);
     }
 }

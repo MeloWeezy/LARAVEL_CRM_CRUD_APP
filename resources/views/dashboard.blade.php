@@ -8,7 +8,7 @@
                         <!--Grid starts here-->
                         <div class="flex items-center justify-between p-5 bg-white rounded shadow-sm">
                             <div>
-                                <div class="text-sm text-gray-400 "><a href="{{ route('accounts.index') }}"
+                                <div class="text-sm text-gray-400 "><a href="{{ route('api/accounts.index') }}"
                                                                        class="font-bold text-gray-500 hover:text-pink-600 ">Accounts</a>
                                 </div>
                                 <div class="flex items-center pt-1">

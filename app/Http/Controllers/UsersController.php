@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Resources\UserResourceCollection;
+use App\Http\Resources\UserResource;
 use App\Models\Account;
 use App\Models\User;
 use App\Models\Deleted_user;
@@ -35,7 +36,7 @@ class UsersController extends Controller
         if(auth()->user()->hasRole('super_admin'))
         {
            $users= User::paginate(5);
-           return view('users.index', compact('users'));
+           return new UserResourceCollection($users);
         }
 
         if(auth()->user()->hasRole('admin'))
@@ -44,12 +45,12 @@ class UsersController extends Controller
             'account_id' => auth()->user()->account_id,
             'organization_id' => auth()->user()->organization_id,
             ])->paginate(5);
-            return view('users.index', compact('users'));
+            return new UserResourceCollection($users);
         }
 
         $users= User::where(['id' =>auth()->id()])->paginate(5);
 
-        return view('users.index', compact('users'));
+       
     
 
 
@@ -100,9 +101,13 @@ class UsersController extends Controller
         ])->validate();
 
 
-         User::create($validatedRequest);
+       $user = User::create($validatedRequest);
 
-        return view('authen.dashboard')->with('success','You have signed-in');
+        return esponse()->json([
+            'status' => true,
+            'message' => "User Created successfully!",
+            'User' => new UserResource($user)
+        ], 200);;
         //
     }
 
@@ -122,7 +127,7 @@ class UsersController extends Controller
         $account = $user->account;
         $organization = $user->organization;
 
-        return view('users.show',compact('user','account','organization'));
+        return new UserResourceCollection($user);
     }
 
     /**
@@ -139,7 +144,7 @@ class UsersController extends Controller
         $account = $user->account;
         $organization = $user->organization;
 
-        return view('users.edit',compact('account','user','organization'));
+        return new UserResourceCollection($user);
     }
 
     /**
@@ -167,8 +172,11 @@ class UsersController extends Controller
 
         $user->update($validatedRequest);
 
-        return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+      return esponse()->json([
+            'status' => true,
+            'message' => "User Created successfully!",
+            'User' => new UserResource($user)
+        ], 200);
     }
 
     /**
@@ -202,8 +210,10 @@ class UsersController extends Controller
                     $user = $deletedUser->user;
                     $user->delete();
                  }
-                return view('auth.login')
-                ->with('message','User deleted successfully successfully');
+                 response()->json([
+                    'status' => true,
+                    'message' => "User Deleted successfully!",
+                ], 200);
     }
 
 

@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\OrganizationsController;
@@ -37,5 +39,12 @@ Route::resource('organizations', OrganizationsController::class);
 Route::resource('users', UsersController::class);
 Route::resource('accounts', AccountsController::class);
 
+});
+
+Route::group(['middleware' => ['web']], function () {
+    // your routes here
+  
+    Route::Post('login', [AuthenticatedSessionController::class,'store']);
+    Route::Post('register', [RegisterController::class,'create']);
 });
 
