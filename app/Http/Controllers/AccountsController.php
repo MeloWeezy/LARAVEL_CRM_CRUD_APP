@@ -21,10 +21,10 @@ class AccountsController extends Controller
    
         $user = auth()->user();
         $accounts = $user->hasRole('super_admin')
-            ? Account::paginate(1)
+            ? Account::paginate(10)
             : Account::where([
                     'id' => $user->account_id,
-                ])->paginate(10);
+                ])->get();
 
         return new AccountResourceCollection($accounts);
 
@@ -132,12 +132,15 @@ class AccountsController extends Controller
      * @param  \App\Models\Account  $accounts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Account $account)
+    public function destroy(Account $account,$id)
     {
         $this->authorize('delete-account', $account);
+        $account = Account::where([
+            'id' => $id,
+        ])->get();
        $account->delete();
 
-
+        
        response()->json([
         'status' => true,
         'message' => "Account Deleted successfully!",

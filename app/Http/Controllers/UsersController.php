@@ -48,13 +48,13 @@ class UsersController extends Controller
             return new UserResourceCollection($users);
         }
 
-        $users= User::where(['id' =>auth()->id()])->paginate(5);
+        $users= User::where(['id' =>auth()->id()])->get();
 
        
     
 
 
-        return new UserResourceCollection($users);
+        return new UserResource($users);
     }
 
 
@@ -118,16 +118,17 @@ class UsersController extends Controller
      * @return View
      * @throws AuthorizationException
      */
-    public function show(User $user): View
+    public function show(User $user)
     {
      
         //
         $this->authorize('can-view-own',$user);
 
-        $account = $user->account;
-        $organization = $user->organization;
+   
 
-        return new UserResourceCollection($user);
+    
+
+        return new UserResource($user);
     }
 
     /**

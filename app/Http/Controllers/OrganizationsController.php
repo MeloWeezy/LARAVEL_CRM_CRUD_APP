@@ -178,10 +178,16 @@ class OrganizationsController extends Controller
      * @param  \App\Models\organization  $organizations
      * @return \Illuminate\Http\Response
      */
-    public function destroy(organization $organization)
+    public function destroy(organization $organization,$id)
     {
         //
         $this->authorize('delete-organizations', $organization);
+
+        $organization= Organization::where([
+            'id' =>$id,
+           
+     ])->get();
+     
         $organization->delete();
 
 

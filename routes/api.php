@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\ApiController;
+
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsersController;
@@ -33,11 +33,30 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::group(['middleware'=>'auth:sanctum'],function()
 {
-Route::post('apicon', [ApiController::class,'index']);
+
 Route::resource('contacts', ContactsController::class);
 Route::resource('organizations', OrganizationsController::class);
 Route::resource('users', UsersController::class);
 Route::resource('accounts', AccountsController::class);
+
+Route::Post('contacts/create', 'App\Http\Controllers\ContactsController@store');
+Route::Delete('contacts/delete/{id}', 'App\Http\Controllers\ContactsController@destroy');
+Route::Put('contacts/update', 'App\Http\Controllers\ContactsController@update');
+
+Route::Post('organizations/create', 'App\Http\Controllers\OrganizationsController@store');
+Route::Delete('organizations/delete/{id}', 'App\Http\Controllers\OrganizationsController@destroy');
+Route::Put('organizations/update', 'App\Http\Controllers\OrganizationsController@update');
+
+Route::Post('accounts/create', 'App\Http\Controllers\AccountsController@store');
+Route::Delete('accounts/delete/{id}', 'App\Http\Controllers\AccountsController@destroy');
+Route::Put('accounts/update', 'App\Http\Controllers\AccountsController@update');
+
+Route::Post('users/create', 'App\Http\Controllers\UsersController@store');
+Route::Put('users/update', 'App\Http\Controllers\UsersController@update');
+Route::Delete('users/delete/{id}', 'App\Http\Controllers\UsersController@destroy');
+
+
+
 
 });
 

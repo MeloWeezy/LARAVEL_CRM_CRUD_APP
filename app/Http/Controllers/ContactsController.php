@@ -35,7 +35,7 @@ class ContactsController extends Controller
             : Contact::where([
                     'account_id' => $user->account_id,
                     'organization_id' => $user->organization_id
-               ])->paginate(10);
+               ])->get();
 
         
  
@@ -105,7 +105,7 @@ class ContactsController extends Controller
      * @param Contact $contact
      * @return View
      */
-    public function show(contact $contact)
+    public function show(contact $contact,)
     {
 
         $this->authorize('read-contact',$contact);
@@ -182,9 +182,12 @@ class ContactsController extends Controller
      * @return RedirectResponse
      * @throws AuthorizationException
      */
-    public function destroy(contact $contact): RedirectResponse
+    public function destroy(contact $contact,$id): RedirectResponse
     {
         $this->authorize('delete-contact', $contact);
+        $contact = Contact::where([
+           "id"=>$id
+       ])->get();
 
         $contact->delete();
 
