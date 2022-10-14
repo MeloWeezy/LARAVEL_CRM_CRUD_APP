@@ -96,7 +96,7 @@ class OrganizationsController extends Controller
 
         $account = auth()->user()->account;
      
-        esponse()->json([
+       return  response()->json([
             'status' => true,
             'Account'=>$account,
             'message' => "Organization Created successfully!",
@@ -143,7 +143,7 @@ class OrganizationsController extends Controller
      * @param  \App\Models\organization  $organizations
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, organization $organization)
+    public function update(Request $request, organization $organization,$id)
     {
         //
        
@@ -160,15 +160,17 @@ class OrganizationsController extends Controller
            'account_id'=> 'required'
        ])->validate();
       
-    
+       $organization= Organization::where([
+        'id' =>$id,
+       
+ ])->get();
 
-       $organization->update($validatedRequest);
+  $organization->each->update($validatedRequest);
 
-       esponse()->json([
+      return  response()->json([
         'status' => true,
-        'Account'=>$account,
-        'message' => "Organization Created successfully!",
-        'Organization' => new OrganizationResource($organization)
+        'message' => "Organization Updated successfully!",
+        'Account'=>$organization
     ], 200);
     }
 
@@ -187,11 +189,11 @@ class OrganizationsController extends Controller
             'id' =>$id,
            
      ])->get();
-     
-        $organization->delete();
+
+        $organization->each->delete();
 
 
-        response()->json([
+       return response()->json([
             'status' => true,
             'message' => "Organization Deleted successfully!",
         ], 200);

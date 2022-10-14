@@ -108,7 +108,7 @@ class AccountsController extends Controller
 
 
 
-    public function update(Request $request, Account $account)
+    public function update(Request $request, Account $account,$id)
     {
         
         $this->authorize('update-account', $account);
@@ -117,12 +117,16 @@ class AccountsController extends Controller
 
         ])->validate();
 
-        $account->update($validatedRequest);
+       $account =  Account::where([
+            'id' => $id,
+        ])->get();
+
+        $account = $account->each->update($validatedRequest);
 
         return response()->json([
             'status' => true,
-            'message' => "Account Created successfully!",
-            'post' => new AccountResource($account)
+            'message' => "Account Updated successfully!",
+            'Account' => new AccountResource($account)
         ], 200);
     }
 

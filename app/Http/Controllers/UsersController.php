@@ -138,14 +138,14 @@ class UsersController extends Controller
      * @return View
      * @throws AuthorizationException
      */
-    public function edit(User $user): View
+    public function edit(User $user)
     {
         $this->authorize('edit-user',$user);
        
         $account = $user->account;
         $organization = $user->organization;
 
-        return new UserResourceCollection($user);
+        return new UserResource($user);
     }
 
     /**
@@ -157,7 +157,7 @@ class UsersController extends Controller
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function update(Request $request, User $user): RedirectResponse
+    public function update(Request $request, User $user,$id)
     {
         $this->authorize('edit-user',$user);
         $validatedRequest = Validator::make($request->all(),

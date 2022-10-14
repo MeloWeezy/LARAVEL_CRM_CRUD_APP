@@ -41,18 +41,18 @@ Route::resource('accounts', AccountsController::class);
 
 Route::Post('contacts/create', 'App\Http\Controllers\ContactsController@store');
 Route::Delete('contacts/delete/{id}', 'App\Http\Controllers\ContactsController@destroy');
-Route::Put('contacts/update', 'App\Http\Controllers\ContactsController@update');
+Route::PUT('contacts/update/{id}', 'App\Http\Controllers\ContactsController@update');
 
 Route::Post('organizations/create', 'App\Http\Controllers\OrganizationsController@store');
 Route::Delete('organizations/delete/{id}', 'App\Http\Controllers\OrganizationsController@destroy');
-Route::Put('organizations/update', 'App\Http\Controllers\OrganizationsController@update');
+Route::PUT('organizations/update/{id}', 'App\Http\Controllers\OrganizationsController@update');
 
 Route::Post('accounts/create', 'App\Http\Controllers\AccountsController@store');
 Route::Delete('accounts/delete/{id}', 'App\Http\Controllers\AccountsController@destroy');
-Route::Put('accounts/update', 'App\Http\Controllers\AccountsController@update');
+Route::PUT('accounts/update/{id}', 'App\Http\Controllers\AccountsController@update');
 
 Route::Post('users/create', 'App\Http\Controllers\UsersController@store');
-Route::Put('users/update', 'App\Http\Controllers\UsersController@update');
+Route::PUT('users/update/{id}', 'App\Http\Controllers\UsersController@update');
 Route::Delete('users/delete/{id}', 'App\Http\Controllers\UsersController@destroy');
 
 

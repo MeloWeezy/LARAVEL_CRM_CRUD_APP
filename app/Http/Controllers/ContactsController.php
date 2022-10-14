@@ -164,8 +164,11 @@ class ContactsController extends Controller
         ])->validate();
 
         # See Store Methods for comments
+        $contact = Contact::where([
+            "id"=>$id
+        ])->get();
 
-        $contact->update($validatedRequest);
+        $contact->each->update($validatedRequest);
 
       
         return response()->json([
@@ -182,16 +185,16 @@ class ContactsController extends Controller
      * @return RedirectResponse
      * @throws AuthorizationException
      */
-    public function destroy(contact $contact,$id): RedirectResponse
+    public function destroy(contact $contact,$id)
     {
         $this->authorize('delete-contact', $contact);
         $contact = Contact::where([
            "id"=>$id
        ])->get();
 
-        $contact->delete();
+        $contact->each->delete();
 
-        response()->json([
+       return response()->json([
             'status' => true,
             'message' => "Contact Deleted successfully!",
         ], 200);
