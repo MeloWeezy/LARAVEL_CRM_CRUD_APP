@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use App\Http\Resources\UserResourceCollection;
 use App\Http\Resources\UserResource;
 use App\Models\Account;
@@ -221,13 +223,66 @@ class UsersController extends Controller
 
     # ToDo: @Melusi What's going on here?
 
-    
+    public function givePermission(Request $request, Role $role)
+    {
+        if($role->hasPermissionTo($request->permission)){
+            return response()->json([
+                'status' => false,
+                'message' => "Permission Already exists",
+             
+            ], 200);
+        }
 
-    public function signOut() {
-        Session::flush();
-        Auth::logout();
-
-        return Redirect('login');
+        $role->givePermissionTo($request->permission);
+        return response()->json([
+            'status' => true,
+            'message' => "Permission added successfully!",
+         
+        ], 200);
     }
 
+    public function revokePermission(Role $role, Permission $permission)
+    {
+        if($role->hasPermissionTo($permission))
+        {
+            $role->revokePermissionTo($permission);
+            return response()->json([
+                'status' => True,
+                'message' => "Permission Revoked",
+            ], 200);
+        }
+        return response()->json([
+            'status' => false,
+            'message' => "Permission Does NoT exists",
+         
+        ], 200);
+    }
+
+    public function assignRole(Request $request, Permission $permission)
+    {
+        if ($permission->hasRole($request->role)) {
+            return response()->json([
+                'status' => false,
+                'message' => "Role Already exists",
+             
+            ], 200);
+        }
+
+        $permission->assignRole($request->role);
+        return response()->json([
+            'status' => True,
+            'message' => "Role Assigned",
+         
+        ], 200);
+    }
+    
+    public function removeRole(Permission $permission, Role $role)
+    {
+        if ($permission->hasRole($role)) {
+            $permission->removeRole($role);
+            return back()->with('message', 'Role removed.');
+        }
+
+        return back()->with('message', 'Role not exists.');
+    }
 }

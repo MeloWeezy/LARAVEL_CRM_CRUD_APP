@@ -40,13 +40,13 @@ class PermissionController extends Controller
         return view('admin.permissions.edit', compact('roles', 'permission'));
     }
 
-    public function update(Request $request, Permission $role)
+    public function update(Request $request,$id)
     {
         $validated = $request->validate(['name' => ['required', 'min:3'],'guard_name'=>'required']);
+        $permission = Permission::where('id',$id)->get();
+       $permission = $permission->each->update($validated);
 
-      // $role = $role->update($validated);
-
-        return $role;
+        return $permission;
     }
 
     public function destroy(Permission $permission)
@@ -63,11 +63,19 @@ class PermissionController extends Controller
     public function assignRole(Request $request, Permission $permission)
     {
         if ($permission->hasRole($request->role)) {
-            return back()->with('message', 'Role exists.');
+            return response()->json([
+                'status' => false,
+                'message' => "Role Already exists",
+             
+            ], 200);
         }
 
         $permission->assignRole($request->role);
-        return back()->with('message', 'Role assigned.');
+        return response()->json([
+            'status' => True,
+            'message' => "Role Assigned",
+         
+        ], 200);
     }
 
     public function removeRole(Permission $permission, Role $role)

@@ -67,10 +67,19 @@ class RoleController extends Controller
     public function givePermission(Request $request, Role $role)
     {
         if($role->hasPermissionTo($request->permission)){
-            return back()->with('message', 'Permission exists.');
+            return response()->json([
+                'status' => false,
+                'message' => "Permission Already exists",
+             
+            ], 200);
         }
+
         $role->givePermissionTo($request->permission);
-        return back()->with('message', 'Permission added.');
+        return response()->json([
+            'status' => true,
+            'message' => "Permission added successfully!",
+         
+        ], 200);
     }
 
     public function revokePermission(Role $role, Permission $permission)
@@ -78,10 +87,19 @@ class RoleController extends Controller
         if($role->hasPermissionTo($permission))
         {
             $role->revokePermissionTo($permission);
-            return back()->with('message', 'Permission revoked.');
+            return response()->json([
+                'status' => True,
+                'message' => "Permission Revoked",
+            ], 200);
         }
-        return back()->with('message', 'Permission not exists.');
+        return response()->json([
+            'status' => false,
+            'message' => "Permission Does NoT exists",
+         
+        ], 200);
     }
+
+  
 }
 
 

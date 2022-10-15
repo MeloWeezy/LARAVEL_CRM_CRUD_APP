@@ -83,6 +83,7 @@ Route::middleware(['auth:sanctum','role:super_admin'])
         
         Route::Post('roles/create', 'App\Http\Controllers\Admin\RoleController@store');
         Route::PUT('/roles/update/{id}', 'App\Http\Controllers\Admin\RoleController@update');
+        Route::PUT('/permissions/update/{id}', 'App\Http\Controllers\Admin\PermissionController@update');
 
 
 
@@ -90,6 +91,6 @@ Route::middleware(['auth:sanctum','role:super_admin'])
         Route::post('/users/{user}/roles', [UsersController::class, 'assignRole'])->name('users.roles');
         Route::delete('/users/{user}/roles/{role}', [UsersController::class, 'removeRole'])->name('users.roles.remove');
         Route::post('/users/{user}/permissions', [UsersController::class, 'givePermission'])->name('users.permissions');
-        Route::delete('/users/{user}/permissions/{permission}', [UsersController::class, 'revokePermission'])->name('users.permissions.revoke');
+        Route::delete('/users/{user}/permissions/{permission}', [App\Http\Controllers\UsersController::class, 'revokePermission'])->name('users.permissions.revoke');
     }
 );
