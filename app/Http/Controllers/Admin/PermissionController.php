@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use App\Http\Resources\PermissionResourceCollection;
+use App\Http\Resources\PermissionResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -13,7 +14,7 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::all();
-        return view('admin.permissions.index',compact('permissions'));
+        return new PermissionResourceCollection($permissions);
     }
 
     public function create()
@@ -23,10 +24,14 @@ class PermissionController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3']]);
-        Permission::create($validated);
+        $validated = $request->validate(['name' => ['required']]);
+        $permission = Permission::create($validated);
 
-        return to_route('admin.permissions.index')->with('message', 'Role Created successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => "Permission Created successfully!",
+            'Permission' => new PermissionResource( $permission )
+        ], 200);
     }
 
     public function edit(Permission $permission)
@@ -35,19 +40,24 @@ class PermissionController extends Controller
         return view('admin.permissions.edit', compact('roles', 'permission'));
     }
 
-    public function update(Request $request, Role $role)
+    public function update(Request $request, Permission $role)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3'],'guard_name'=>'api']);
-        $role->update($validated);
+        $validated = $request->validate(['name' => ['required', 'min:3'],'guard_name'=>'required']);
 
-        return to_route('admin.permissions.index')->with('message', 'Permission Updated successfully.');
+      // $role = $role->update($validated);
+
+        return $role;
     }
 
     public function destroy(Permission $permission)
     {
+       
         $permission->delete();
-
-        return back()->with('message', 'Permission deleted.');
+        return response()->json([
+            'status' => true,
+            'message' => "Permission Deleted successfully!",
+        ], 200);
+       
     }
 
     public function assignRole(Request $request, Permission $permission)

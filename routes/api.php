@@ -2,10 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisterController;
-
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsersController;
@@ -40,21 +42,17 @@ Route::resource('users', UsersController::class);
 Route::resource('accounts', AccountsController::class);
 
 Route::Post('contacts/create', 'App\Http\Controllers\ContactsController@store');
-Route::Delete('contacts/delete/{id}', 'App\Http\Controllers\ContactsController@destroy');
-Route::PUT('contacts/update/{id}', 'App\Http\Controllers\ContactsController@update');
+
 
 Route::Post('organizations/create', 'App\Http\Controllers\OrganizationsController@store');
-Route::Delete('organizations/delete/{id}', 'App\Http\Controllers\OrganizationsController@destroy');
-Route::PUT('organizations/update/{id}', 'App\Http\Controllers\OrganizationsController@update');
+
 
 Route::Post('accounts/create', 'App\Http\Controllers\AccountsController@store');
-Route::Delete('accounts/delete/{id}', 'App\Http\Controllers\AccountsController@destroy');
-Route::PUT('accounts/update/{id}', 'App\Http\Controllers\AccountsController@update');
+
 
 Route::Post('users/create', 'App\Http\Controllers\UsersController@store');
-Route::PUT('users/update/{id}', 'App\Http\Controllers\UsersController@update');
-Route::Delete('users/delete/{id}', 'App\Http\Controllers\UsersController@destroy');
 
+Route::get('dashboard', App\Http\Controllers\DashboardController::class)->name('dashboard')->middleware('verified');
 
 
 
@@ -67,3 +65,31 @@ Route::group(['middleware' => ['web']], function () {
     Route::Post('register', [RegisterController::class,'create']);
 });
 
+Route::middleware(['auth:sanctum','role:super_admin'])
+    ->name('admin.')
+    ->prefix('admin')
+    ->group( function() {
+    
+        Route::get('/',[IndexController::class,'index'])->name('index');
+        Route::resource('/roles',RoleController::class);
+        Route::resource('/permissions',PermissionController::class);
+        Route::resource('/roles', RoleController::class);
+        Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])->name('roles.permissions');
+        Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.revoke');
+        Route::resource('/permissions', PermissionController::class);
+        Route::post('/permissions/{permission}/roles', [PermissionController::class, 'assignRole'])->name('permissions.roles');
+        Route::delete('/permissions/{permission}/roles/{role}', [PermissionController::class, 'removeRole'])->name('permissions.roles.remove');
+        Route::resource('/users', UsersController::class);
+        
+        Route::Post('roles/create', 'App\Http\Controllers\Admin\RoleController@store');
+        Route::PUT('/roles/update/{id}', 'App\Http\Controllers\Admin\RoleController@update');
+
+
+
+
+        Route::post('/users/{user}/roles', [UsersController::class, 'assignRole'])->name('users.roles');
+        Route::delete('/users/{user}/roles/{role}', [UsersController::class, 'removeRole'])->name('users.roles.remove');
+        Route::post('/users/{user}/permissions', [UsersController::class, 'givePermission'])->name('users.permissions');
+        Route::delete('/users/{user}/permissions/{permission}', [UsersController::class, 'revokePermission'])->name('users.permissions.revoke');
+    }
+);

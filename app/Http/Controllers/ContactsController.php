@@ -185,14 +185,12 @@ class ContactsController extends Controller
      * @return RedirectResponse
      * @throws AuthorizationException
      */
-    public function destroy(contact $contact,$id)
+    public function destroy(contact $contact)
     {
         $this->authorize('delete-contact', $contact);
-        $contact = Contact::where([
-           "id"=>$id
-       ])->get();
+      
 
-        $contact->each->delete();
+        $contact->delete();
 
        return response()->json([
             'status' => true,

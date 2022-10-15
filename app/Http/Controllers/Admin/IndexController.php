@@ -18,6 +18,12 @@ class IndexController extends Controller
         $acc_count = Account::all()->count();
         $user_count = User::all()->count();
         $cont_count = Contact::all()->count();
-        return view('admin.index',compact('user_count','acc_count','org_count','cont_count'));
+        return response()->json([
+            'Organizations' => $org_count,
+            'Accounts' => $acc_count,
+            'Contacts' => $cont_count,
+            'Users' => $user_count,
+          
+        ], 200);;
     }
 }

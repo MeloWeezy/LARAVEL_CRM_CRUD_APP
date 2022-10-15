@@ -157,7 +157,7 @@ class UsersController extends Controller
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function update(Request $request, User $user,$id)
+    public function update(Request $request, User $user)
     {
         $this->authorize('edit-user',$user);
         $validatedRequest = Validator::make($request->all(),

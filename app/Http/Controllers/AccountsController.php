@@ -108,7 +108,7 @@ class AccountsController extends Controller
 
 
 
-    public function update(Request $request, Account $account,$id)
+    public function update(Request $request, Account $account)
     {
         
         $this->authorize('update-account', $account);
@@ -118,7 +118,7 @@ class AccountsController extends Controller
         ])->validate();
 
        $account =  Account::where([
-            'id' => $id,
+            'id' => $account->id,
         ])->get();
 
         $account = $account->each->update($validatedRequest);
@@ -126,7 +126,7 @@ class AccountsController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Account Updated successfully!",
-            'Account' => new AccountResource($account)
+            'Account' => new AccountResourceCollection($account)
         ], 200);
     }
 
@@ -136,16 +136,13 @@ class AccountsController extends Controller
      * @param  \App\Models\Account  $accounts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Account $account,$id)
+    public function destroy(Account $account)
     {
         $this->authorize('delete-account', $account);
-        $account = Account::where([
-            'id' => $id,
-        ])->get();
        $account->delete();
 
         
-       response()->json([
+      return response()->json([
         'status' => true,
         'message' => "Account Deleted successfully!",
     ], 200);

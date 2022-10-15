@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\RoleResourceCollection;
+use App\Http\Resources\RoleResource;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -12,7 +15,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
-        return view('admin.roles.index',compact('roles'));
+        return new RoleResourceCollection($roles);
     }
 
     public function create()
@@ -22,10 +25,14 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3'],'guard_name'=>'api']);
-        Role::create($validated);
+        $validated = $request->validate(['name' => ['required', ],'guard_name'=>'required']);
+        $role = Role::create($validated);
 
-        return to_route('admin.roles.index')->with('message', 'Role Created successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => "Role Created successfully!",
+            'Role' => new RoleResource($role)
+        ], 200);
     }
 
     public function edit(Role $role)
@@ -36,10 +43,18 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3'],'guard_name'=>'api']);
-        $role->update($validated);
 
-        return to_route('admin.roles.index')->with('message', 'Role Updated successfully.');
+        $validated = $request->validate(['name' => ['required', 'min:3'],'guard_name'=>'required']);
+     
+       
+    
+        $role = $role->update($validated);
+
+         return response()->json([
+            'status' => true,
+            'message' => "Role Updated successfully!",
+         
+        ], 200);
     }
 
     public function destroy(Role $role)
