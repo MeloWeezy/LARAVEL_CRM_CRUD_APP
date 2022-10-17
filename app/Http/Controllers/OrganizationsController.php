@@ -143,7 +143,7 @@ class OrganizationsController extends Controller
      * @param  \App\Models\organization  $organizations
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, organization $organization,$id)
+    public function update(Request $request, organization $organization)
     {
         //
        
@@ -160,12 +160,9 @@ class OrganizationsController extends Controller
            'account_id'=> 'required'
        ])->validate();
       
-       $organization= Organization::where([
-        'id' =>$id,
-       
- ])->get();
+     
 
-  $organization->each->update($validatedRequest);
+  $organization->update($validatedRequest);
 
       return  response()->json([
         'status' => true,

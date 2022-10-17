@@ -79,7 +79,7 @@ class AccountsController extends Controller
     
         $this->authorize('read-account', $account);
       
-        $account = auth()->user()->account;
+        
         return new AccountResource($account);
 
 

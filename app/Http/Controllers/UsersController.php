@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use App\Http\Resources\UserResourceCollection;
 use App\Http\Resources\UserResource;
 use App\Models\Account;
@@ -89,23 +89,20 @@ class UsersController extends Controller
     {
         $validatedRequest = Validator::make($request->all(),
        [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'city'=> 'required',
-            'phone' => 'required',
-            'country'=> 'required',
-            'region'=> 'required',
-            'address'=> 'required',
-            'postal_code'=> 'required',
-            'account_id'=> 'required',
-            'organization_id'=> 'required'
+        'first_name'=> 'required',
+        'last_name'=> 'required',
+        'email' => 'required',
+        'phone' => 'required',
+        'password'=>'required',
+        'photo_path'=>'required',
+        'account_id'=> 'required',
+        'organization_id'=>'required'
         ])->validate();
 
 
        $user = User::create($validatedRequest);
 
-        return esponse()->json([
+        return response()->json([
             'status' => true,
             'message' => "User Created successfully!",
             'User' => new UserResource($user)
@@ -175,9 +172,9 @@ class UsersController extends Controller
 
         $user->update($validatedRequest);
 
-      return esponse()->json([
+      return response()->json([
             'status' => true,
-            'message' => "User Created successfully!",
+            'message' => "User Updated successfully!",
             'User' => new UserResource($user)
         ], 200);
     }
@@ -192,32 +189,16 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         $this->authorize('delete-user',$user);
-          
-        Deleted_user::create([
-            'token' => Str::random(10),
-            'user_id'=> $user->id
+              $user->delete();
 
-        ]);
-
-      Mail::to($user->email)->send(new MyMail($user));
-
+             return response()->json([
+                'status' => true,
+                'message' => "User Deleted successfully!",
+            ], 200);
        
     }
 
-    public function removeUser($token): view
-    {
-          $deletedUser = Deleted_user::where('token',$token)->first();
-
-                 if(isset($deletedUser))
-                 {
-                    $user = $deletedUser->user;
-                    $user->delete();
-                 }
-                 response()->json([
-                    'status' => true,
-                    'message' => "User Deleted successfully!",
-                ], 200);
-    }
+  
 
 
 
@@ -241,9 +222,9 @@ class UsersController extends Controller
         ], 200);
     }
 
-    public function revokePermission(Role $role, Permission $permission)
+    public function revokePermission(Role $role, Request $request)
     {
-        if($role->hasPermissionTo($permission))
+        if($role->hasPermissionTo($request->permission))
         {
             $role->revokePermissionTo($permission);
             return response()->json([
@@ -276,13 +257,21 @@ class UsersController extends Controller
         ], 200);
     }
     
-    public function removeRole(Permission $permission, Role $role)
+    public function removeRole(Permission $permission,Request $request)
     {
-        if ($permission->hasRole($role)) {
+        if ($permission->hasRole($request->role)) {
             $permission->removeRole($role);
-            return back()->with('message', 'Role removed.');
+            return response()->json([
+                'status' => True,
+                'message' => "Role Removed",
+             
+            ], 200);
         }
 
-        return back()->with('message', 'Role not exists.');
+        return response()->json([
+            'status' => False,
+            'message' => "Role Doesn't Exist",
+         
+        ], 200);
     }
 }

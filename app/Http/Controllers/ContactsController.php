@@ -71,7 +71,7 @@ class ContactsController extends Controller
      * @return RedirectResponse
      * @throws ValidationException
      */
-    public function store(Request $request,Contact $contact): RedirectResponse
+    public function store(Request $request,Contact $contact)
     {
         # ToDo: Gate for Store Contact
           $this->authorize('store-contact',$contact);
@@ -145,7 +145,7 @@ class ContactsController extends Controller
      * @throws ValidationException
      * @throws AuthorizationException
      */
-    public function update(Request $request, contact $contact): RedirectResponse
+    public function update(Request $request, contact $contact)
     {
         $this->authorize('update-contact', $contact);
 
@@ -164,11 +164,9 @@ class ContactsController extends Controller
         ])->validate();
 
         # See Store Methods for comments
-        $contact = Contact::where([
-            "id"=>$id
-        ])->get();
+      
 
-        $contact->each->update($validatedRequest);
+        $contact->update($validatedRequest);
 
       
         return response()->json([
