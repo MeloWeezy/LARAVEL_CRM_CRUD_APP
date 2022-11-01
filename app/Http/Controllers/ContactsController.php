@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
-
+# ToDo: @Melusi Format Code
 class ContactsController extends Controller
 {
     /**
@@ -37,13 +37,15 @@ class ContactsController extends Controller
                     'organization_id' => $user->organization_id
                ])->get();
 
-        
- 
-       
 
+
+
+        # ToDo: @Melusi return json response with status code
         return new ContactResourceCollection($contacts);
     }
 
+
+    # ToDo: @Melusi remove unused code
     /**
      * Show the form for creating a new resource.
      *
@@ -113,6 +115,7 @@ class ContactsController extends Controller
         $account = $contact->account;
         $organization = $contact->organization;
 
+        # ToDo: @Melusi return json with proper status code
         return new ContactResource($contact);
 
     }
@@ -132,6 +135,7 @@ class ContactsController extends Controller
         $account = $contact->account;
         $organization = $contact->organization;
 
+        # ToDo: @Melusi return json with proper status code
         return [new ContactResource($contact),"account"=>$account,];
 
     }
@@ -164,11 +168,11 @@ class ContactsController extends Controller
         ])->validate();
 
         # See Store Methods for comments
-      
+
 
         $contact->update($validatedRequest);
 
-      
+
         return response()->json([
             'status' => true,
             'message' => "Contact Created successfully!",
@@ -186,7 +190,7 @@ class ContactsController extends Controller
     public function destroy(contact $contact)
     {
         $this->authorize('delete-contact', $contact);
-      
+
 
         $contact->delete();
 

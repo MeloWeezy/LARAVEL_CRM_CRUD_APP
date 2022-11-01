@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\Organization;
 use App\Models\Account;
@@ -14,44 +15,19 @@ class OrganizationsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
-     *  'id' => $user->organization_id
-     * $user->account_id
-     *  'account_id' => $user->account_id,
+     * @return OrganizationResourceCollection
      */
-    public function index()
-
+    public function index(): OrganizationResourceCollection
     {
         $user = auth()->user();
 
-        if($user->hasRole('super_admin'))
-        {
-           $organizations= Organization::paginate(10);
-        }
-        else if($user->hasRole('admin'))
-        {
-           $organizations= Organization::where([
-                'id' =>$user->organization_id,
-               
-         ])->paginate(5);
+        if ($user->hasRole('super_admin'))
+            return new OrganizationResourceCollection(Organization::paginate(10));
 
-        }
-        else
-        {
-           $organizations= Organization::where([
-                   
-                'id' =>$user->organization_id,
-        ])->paginate();
-        }
-        
-       
-        //return view('organizations.index', compact('organizations'));
+        if ($user->hasRole('admin'))
+            return new OrganizationResourceCollection(Organization::where('id', $user->organization_id)->paginate(5));
 
-      
-        //$organization = Organization::paginate(10);
-       
-
-        return new OrganizationResourceCollection($organizations);
+        return new OrganizationResourceCollection(Organization::where('id', $user->organization_id)->paginate());
     }
 
     /**
@@ -61,44 +37,43 @@ class OrganizationsController extends Controller
      */
     public function create(Organization $organization)
     {
-        
+
         $this->authorize('create-organization', $organization);
         $account = auth()->user()->account;
-        return view('organizations.create')->with('account',$account);
+        return view('organizations.create')->with('account', $account);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Organization $organization)
+    public function store(Request $request, Organization $organization)
     {
         //
-          //
-          $this->authorize('store-organization',$organization);
-          $validatedRequest = Validator::make($request->all(),[
-            'name'=> 'required',
+        //
+        $this->authorize('store-organization', $organization);
+        $validatedRequest = Validator::make($request->all(), [
+            'name' => 'required',
             'email' => 'required',
-            'city'=> 'required',
+            'city' => 'required',
             'phone' => 'required',
-            'country'=> 'required',
-            'region'=> 'required',
-            'address'=> 'required',
-            'postal_code'=> 'required',
-            'account_id'=> 'required'
+            'country' => 'required',
+            'region' => 'required',
+            'address' => 'required',
+            'postal_code' => 'required',
+            'account_id' => 'required'
         ])->validate();
 
-       
 
-       $organization = organization::create($validatedRequest);
+        $organization = organization::create($validatedRequest);
 
         $account = auth()->user()->account;
-     
-       return  response()->json([
+
+        return response()->json([
             'status' => true,
-            'Account'=>$account,
+            'Account' => $account,
             'message' => "Organization Created successfully!",
             'Organization' => new OrganizationResource($organization)
         ], 200);
@@ -107,74 +82,73 @@ class OrganizationsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\organization  $organizations
+     * @param \App\Models\organization $organizations
      * @return \Illuminate\Http\Response
      */
     public function show(organization $organization)
     {
         //
-      
-      
+
+
         $this->authorize('read-organization', $organization);
         $account = auth()->user()->account;
-       
+
         return [new OrganizationResource($organization)];
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\organization  $organizations
+     * @param \App\Models\organization $organizations
      * @return \Illuminate\Http\Response
      */
     public function edit(organization $organization)
     {
-       
+
         $this->authorize('update-organization', $organization);
         $account = auth()->user()->account;
-    
+
         return new OrganizationResource($organizations);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\organization  $organizations
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\organization $organizations
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, organization $organization)
     {
         //
-       
+
         $this->authorize('update-organization', $organization);
-        $validatedRequest = Validator::make($request->all(),[
-           'name'=> 'required',
-           'email' => 'required',
-           'city'=> 'required',
-           'phone' => 'required',
-           'country'=> 'required',
-           'region'=> 'required',
-           'address'=> 'required',
-           'postal_code'=> 'required',
-           'account_id'=> 'required'
-       ])->validate();
-      
-     
+        $validatedRequest = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'city' => 'required',
+            'phone' => 'required',
+            'country' => 'required',
+            'region' => 'required',
+            'address' => 'required',
+            'postal_code' => 'required',
+            'account_id' => 'required'
+        ])->validate();
 
-  $organization->update($validatedRequest);
 
-      return  response()->json([
-        'status' => true,
-        'message' => "Organization Updated successfully!",
-        'Account'=>$organization
-    ], 200);
+        $organization->update($validatedRequest);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Organization Updated successfully!",
+            'Account' => $organization
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\organization  $organizations
+     * @param \App\Models\organization $organizations
      * @return \Illuminate\Http\Response
      */
     public function destroy(organization $organization)
@@ -182,12 +156,11 @@ class OrganizationsController extends Controller
         //
         $this->authorize('delete-organizations', $organization);
 
-     
 
         $organization->delete();
 
 
-       return response()->json([
+        return response()->json([
             'status' => true,
             'message' => "Organization Deleted successfully!",
         ], 200);

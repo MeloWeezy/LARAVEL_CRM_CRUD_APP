@@ -17,8 +17,6 @@ use App\Http\Resources\OrganizationResource;
 use App\Http\Resources\Resource;
 
 
-
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,59 +31,55 @@ use App\Http\Resources\Resource;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['middleware'=>'auth:sanctum'],function()
-{
+Route::group(['middleware' => 'auth:sanctum'], function () {
 
-Route::resource('contacts', ContactsController::class);
-Route::resource('organizations', OrganizationsController::class);
-Route::resource('users', UsersController::class);
-Route::resource('accounts', AccountsController::class);
+    Route::apiResource('contacts', ContactsController::class);
+    Route::apiResource('organizations', OrganizationsController::class);
+    Route::apiResource('users', UsersController::class);
+    Route::apiResource('accounts', AccountsController::class);
 
-Route::Post('contacts/create', 'App\Http\Controllers\ContactsController@store');
-
-
-Route::Post('organizations/create', 'App\Http\Controllers\OrganizationsController@store');
+    Route::Post('contacts/create', 'App\Http\Controllers\ContactsController@store');
 
 
-Route::Post('accounts/create', 'App\Http\Controllers\AccountsController@store');
+    Route::Post('organizations/create', 'App\Http\Controllers\OrganizationsController@store');
 
 
-Route::Post('users/create', 'App\Http\Controllers\UsersController@store');
+    Route::Post('accounts/create', 'App\Http\Controllers\AccountsController@store');
 
-Route::get('dashboard', App\Http\Controllers\DashboardController::class)->name('dashboard')->middleware('verified');
 
+    Route::Post('users/create', 'App\Http\Controllers\UsersController@store');
+
+    Route::get('dashboard', App\Http\Controllers\DashboardController::class)->name('dashboard')->middleware('verified');
 
 
 });
 
 Route::group(['middleware' => ['web']], function () {
     // your routes here
-  
-    Route::Post('login', [AuthenticatedSessionController::class,'store']);
-    Route::Post('register', [RegisterController::class,'create']);
+
+    Route::Post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::Post('register', [RegisterController::class, 'create']);
 });
 
-Route::middleware(['auth:sanctum','role:super_admin'])
+Route::middleware(['auth:sanctum', 'role:super_admin'])
     ->name('admin.')
     ->prefix('admin')
-    ->group( function() {
-    
-        Route::get('/',[IndexController::class,'index'])->name('index');
-        Route::resource('/roles',RoleController::class);
-        Route::resource('/permissions',PermissionController::class);
-        Route::resource('/roles', RoleController::class);
+    ->group(function () {
+
+        Route::get('/', [IndexController::class, 'index'])->name('index');
+        Route::apiResource('/roles', RoleController::class);
+        Route::apiResource('/permissions', PermissionController::class);
+        Route::apiResource('/roles', RoleController::class);
         Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])->name('roles.permissions');
         Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.revoke');
-        Route::resource('/permissions', PermissionController::class);
+        Route::apiResource('/permissions', PermissionController::class);
         Route::post('/permissions/{permission}/roles', [PermissionController::class, 'assignRole'])->name('permissions.roles');
         Route::delete('/permissions/{permission}/roles/{role}', [PermissionController::class, 'removeRole'])->name('permissions.roles.remove');
-        Route::resource('/users', UsersController::class);
-        
+        Route::apiResource('/users', UsersController::class);
+
         Route::Post('roles/create', 'App\Http\Controllers\Admin\RoleController@store');
         Route::PUT('/roles/update/{id}', 'App\Http\Controllers\Admin\RoleController@update');
         Route::PUT('/permissions/update/{id}', 'App\Http\Controllers\Admin\PermissionController@update');
-
-
 
 
         Route::post('/users/{user}/roles', [UsersController::class, 'assignRole'])->name('users.roles');
@@ -93,4 +87,4 @@ Route::middleware(['auth:sanctum','role:super_admin'])
         Route::post('/users/{user}/permissions', [UsersController::class, 'givePermission'])->name('users.permissions');
         Route::delete('/users/{user}/permissions/{permission}', [UsersController::class, 'revokePermission'])->name('users.permissions.revoke');
     }
-);
+    );
