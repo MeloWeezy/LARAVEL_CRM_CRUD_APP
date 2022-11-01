@@ -1,150 +1,129 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Resources\AccountResourceCollection;
+
 use App\Http\Resources\AccountResource;
+use App\Http\Resources\AccountResourceCollection;
 use App\Models\Account;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use \Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
+
 class AccountsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return AccountResourceCollection
      */
-    public function index(Request $request)
+    public function index(): AccountResourceCollection
     {
-   
         $user = auth()->user();
         $accounts = $user->hasRole('super_admin')
             ? Account::paginate(10)
-            : Account::where([
-                    'id' => $user->account_id,
-                ])->get();
+            : Account::where(['id' => $user->account_id])->get();
 
         return new AccountResourceCollection($accounts);
-
-        }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Account $account)
-    {
-      
-            // $this->authorize('create-account', $account);
-            // return view('accounts.create');
-        
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $this->authorize('store-account');
-        $validatedRequest = Validator::make($request->all(),
-        [
-            'name'=> 'required',
-        ])->validate();
 
-       $account =  Account::create($validatedRequest);
+        $validatedRequest = Validator::make($request->all(),
+            [
+                'name' => 'required',
+            ])->validate();
+
+        $account = Account::create($validatedRequest);
+
         return response()->json([
             'status' => true,
             'message' => "Account Created successfully!",
             'post' => new AccountResource($account)
-        ], 200);
+        ], Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Account  $accounts
-     * @return \Illuminate\Http\Response
+     * @param Account $account
+     * @return AccountResource
+     * @throws AuthorizationException
      */
-    public function show(Account $account)
+    public function show(Account $account): AccountResource
     {
-        //$id =  DB::table('accounts')->where($accounts->id);
-        //$id = accounts::get
-       // $accounts = DB::table('accounts')->find(1);
-        //$accounts = Account::paginate(10);
-    
         $this->authorize('read-account', $account);
-      
-        
+
         return new AccountResource($account);
-
-
     }
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Account  $accounts
-     * @return \Illuminate\Http\Response
+     * @param Account $account
+     * @return AccountResource
+     * @throws AuthorizationException
      */
-    public function edit(Account $account)
+    public function edit(Account $account): AccountResource
     {
+        $this->authorize('update-account', $account);
 
-      $this->authorize('update-account', $account);
-        
-      return new AccountResource($account);
+        return new AccountResource($account);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Account  $accounts
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Account $account
+     * @return JsonResponse
+     * @throws AuthorizationException
+     * @throws ValidationException
      */
-
-
-
-    public function update(Request $request, Account $account)
+    public function update(Request $request, Account $account): JsonResponse
     {
-        
         $this->authorize('update-account', $account);
-        $validatedRequest = Validator::make($request->all(),[
+
+        $validatedRequest = Validator::make($request->all(), [
             'name' => 'required',
 
         ])->validate();
 
-       $account =  Account::where([
-            'id' => $account->id,
-        ])->get();
-
-        $account = $account->each->update($validatedRequest);
+        $account->update($validatedRequest);
 
         return response()->json([
             'status' => true,
             'message' => "Account Updated successfully!",
             'Account' => new AccountResourceCollection($account)
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Account  $accounts
-     * @return \Illuminate\Http\Response
+     * @param Account $account
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function destroy(Account $account)
+    public function destroy(Account $account): JsonResponse
     {
         $this->authorize('delete-account', $account);
-       $account->delete();
 
-        
-      return response()->json([
-        'status' => true,
-        'message' => "Account Deleted successfully!",
-    ], 200);
+        $account->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Account Deleted successfully!",
+        ], Response::HTTP_OK);
     }
 }

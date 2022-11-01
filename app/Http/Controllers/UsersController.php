@@ -21,6 +21,8 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MyMail;
+
+# ToDo: @Melusi remove unused code
 class UsersController extends Controller
 {
 
@@ -34,7 +36,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        
+
         if(auth()->user()->hasRole('super_admin'))
         {
            $users= User::paginate(5);
@@ -52,8 +54,8 @@ class UsersController extends Controller
 
         $users= User::where(['id' =>auth()->id()])->get();
 
-       
-    
+
+
 
 
         return new UserResource($users);
@@ -119,13 +121,13 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-     
+
         //
         $this->authorize('can-view-own',$user);
 
-   
 
-    
+
+
 
         return new UserResource($user);
     }
@@ -140,7 +142,7 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         $this->authorize('edit-user',$user);
-       
+
         $account = $user->account;
         $organization = $user->organization;
 
@@ -195,10 +197,10 @@ class UsersController extends Controller
                 'status' => true,
                 'message' => "User Deleted successfully!",
             ], 200);
-       
+
     }
 
-  
+
 
 
 
@@ -210,7 +212,7 @@ class UsersController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => "Permission Already exists",
-             
+
             ], 200);
         }
 
@@ -218,7 +220,7 @@ class UsersController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Permission added successfully!",
-         
+
         ], 200);
     }
 
@@ -235,7 +237,7 @@ class UsersController extends Controller
         return response()->json([
             'status' => false,
             'message' => "Permission Does NoT exists",
-         
+
         ], 200);
     }
 
@@ -245,7 +247,7 @@ class UsersController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => "Role Already exists",
-             
+
             ], 200);
         }
 
@@ -253,10 +255,10 @@ class UsersController extends Controller
         return response()->json([
             'status' => True,
             'message' => "Role Assigned",
-         
+
         ], 200);
     }
-    
+
     public function removeRole(Permission $permission,Request $request)
     {
         if ($permission->hasRole($request->role)) {
@@ -264,14 +266,14 @@ class UsersController extends Controller
             return response()->json([
                 'status' => True,
                 'message' => "Role Removed",
-             
+
             ], 200);
         }
 
         return response()->json([
             'status' => False,
             'message' => "Role Doesn't Exist",
-         
+
         ], 200);
     }
 }

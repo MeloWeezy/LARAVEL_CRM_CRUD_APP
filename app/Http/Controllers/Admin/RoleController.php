@@ -18,6 +18,7 @@ class RoleController extends Controller
         return new RoleResourceCollection($roles);
     }
 
+    # ToDo: @Melusi remove used code
     public function create()
     {
          return view('admin.roles.create');
@@ -35,6 +36,7 @@ class RoleController extends Controller
         ], 200);
     }
 
+    # ToDo: @Melusi remove used code
     public function edit(Role $role)
     {
         $permissions = Permission::all();
@@ -43,17 +45,14 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role)
     {
-
         $validated = $request->validate(['name' => ['required', 'min:3'],'guard_name'=>'required']);
-     
-       
-    
+
         $role = $role->update($validated);
 
          return response()->json([
             'status' => true,
             'message' => "Role Updated successfully!",
-         
+
         ], 200);
     }
 
@@ -70,7 +69,7 @@ class RoleController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => "Permission Already exists",
-             
+
             ], 200);
         }
 
@@ -78,7 +77,7 @@ class RoleController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Permission added successfully!",
-         
+
         ], 200);
     }
 
@@ -88,18 +87,18 @@ class RoleController extends Controller
         {
             $role->revokePermissionTo($permission);
             return response()->json([
-                'status' => True,
+                'status' => true,
                 'message' => "Permission Revoked",
             ], 200);
         }
         return response()->json([
             'status' => false,
             'message' => "Permission Does NoT exists",
-         
+
         ], 200);
     }
 
-  
+
 }
 
 

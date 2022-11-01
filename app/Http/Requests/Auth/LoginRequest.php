@@ -34,6 +34,9 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    # ToDo: @Melusi all the below functions shouldn't be here.
+    # Refer: https://laravel.com/docs/9.x/validation#form-request-validation
+
     /**
      * Attempt to authenticate the request's credentials.
      *
