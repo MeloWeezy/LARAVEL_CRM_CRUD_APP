@@ -20,15 +20,15 @@ class DashboardController extends Controller
         # ToDo: @Melusi I've removed 'all()->' because you're not using the Model data, but only need the count.
         #       Play around with the Contact, Account and User model, see the changes in the DebugBar
         $org_count = Organization::count();
-        $acc_count = Account::all()->count();
-        $user_count = User::all()->count();
-        $cont_count = Contact::all()->count();
+        $acc_count = Account::count();
+        $user_count = User::count();
+        $cont_count = Contact::count();
     return response()->json([
             'Organizations' => $org_count,
             'Accounts' => $acc_count,
             'Contacts' => $cont_count,
             'Users' => $user_count,
             'User' => $user
-        ], 200);;
+        ], Response::HTTP_OK);;
     }
 }
