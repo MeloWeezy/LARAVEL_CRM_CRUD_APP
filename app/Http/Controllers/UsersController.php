@@ -34,7 +34,7 @@ class UsersController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index():UserResourceCollection
     {
 
         if(auth()->user()->hasRole('super_admin'))
@@ -87,7 +87,7 @@ class UsersController extends Controller
      * @param Request $request
      * @return View
      */
-    public function store(Request $request): View
+    public function store(Request $request): JsonResponse
     {
         $validatedRequest = Validator::make($request->all(),
        [
@@ -108,7 +108,7 @@ class UsersController extends Controller
             'status' => true,
             'message' => "User Created successfully!",
             'User' => new UserResource($user)
-        ], 200);;
+        ], Response::HTTP_CREATED);
         //
     }
 
@@ -119,7 +119,7 @@ class UsersController extends Controller
      * @return View
      * @throws AuthorizationException
      */
-    public function show(User $user)
+    public function show(User $user):UserResourceCollection
     {
 
         //
@@ -139,7 +139,7 @@ class UsersController extends Controller
      * @return View
      * @throws AuthorizationException
      */
-    public function edit(User $user)
+    public function edit(User $user):UserResourceCollection
     {
         $this->authorize('edit-user',$user);
 
@@ -158,7 +158,7 @@ class UsersController extends Controller
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): JsonResponse
     {
         $this->authorize('edit-user',$user);
         $validatedRequest = Validator::make($request->all(),
@@ -178,7 +178,7 @@ class UsersController extends Controller
             'status' => true,
             'message' => "User Updated successfully!",
             'User' => new UserResource($user)
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -188,7 +188,7 @@ class UsersController extends Controller
      * @return RedirectResponse
      * @throws AuthorizationException
      */
-    public function destroy(User $user)
+    public function destroy(User $user) : JsonResponse
     {
         $this->authorize('delete-user',$user);
               $user->delete();
@@ -196,7 +196,7 @@ class UsersController extends Controller
              return response()->json([
                 'status' => true,
                 'message' => "User Deleted successfully!",
-            ], 200);
+            ], Response::HTTP_OK);
 
     }
 
@@ -206,14 +206,14 @@ class UsersController extends Controller
 
     # ToDo: @Melusi What's going on here?
 
-    public function givePermission(Request $request, Role $role)
+    public function givePermission(Request $request, Role $role) : JsonResponse
     {
         if($role->hasPermissionTo($request->permission)){
             return response()->json([
                 'status' => false,
                 'message' => "Permission Already exists",
 
-            ], 200);
+            ], Response::HTTP_OK);
         }
 
         $role->givePermissionTo($request->permission);
@@ -221,10 +221,10 @@ class UsersController extends Controller
             'status' => true,
             'message' => "Permission added successfully!",
 
-        ], 200);
+        ],Response::HTTP_OK);
     }
 
-    public function revokePermission(Role $role, Request $request)
+    public function revokePermission(Role $role, Request $request): JsonResponse
     {
         if($role->hasPermissionTo($request->permission))
         {
@@ -232,23 +232,23 @@ class UsersController extends Controller
             return response()->json([
                 'status' => True,
                 'message' => "Permission Revoked",
-            ], 200);
+            ], Response::HTTP_OK);
         }
         return response()->json([
             'status' => false,
             'message' => "Permission Does NoT exists",
 
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
-    public function assignRole(Request $request, Permission $permission)
+    public function assignRole(Request $request, Permission $permission) : JsonResponse
     {
         if ($permission->hasRole($request->role)) {
             return response()->json([
                 'status' => false,
                 'message' => "Role Already exists",
 
-            ], 200);
+            ],Response::HTTP_OK);
         }
 
         $permission->assignRole($request->role);
@@ -256,10 +256,10 @@ class UsersController extends Controller
             'status' => True,
             'message' => "Role Assigned",
 
-        ], 200);
+        ],Response::HTTP_OK);
     }
 
-    public function removeRole(Permission $permission,Request $request)
+    public function removeRole(Permission $permission,Request $request): JsonResponse
     {
         if ($permission->hasRole($request->role)) {
             $permission->removeRole($role);
@@ -267,13 +267,14 @@ class UsersController extends Controller
                 'status' => True,
                 'message' => "Role Removed",
 
-            ], 200);
+            ],Response::HTTP_OK);
         }
 
         return response()->json([
             'status' => False,
             'message' => "Role Doesn't Exist",
 
-        ], 200);
+        ],Response::HTTP_OK);
+       
     }
 }

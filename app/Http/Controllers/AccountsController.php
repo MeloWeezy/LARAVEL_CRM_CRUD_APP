@@ -49,7 +49,7 @@ class AccountsController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Account Created successfully!",
-            'post' => new AccountResource($account)
+            'account' => new AccountResource($account)
         ], Response::HTTP_CREATED);
     }
 

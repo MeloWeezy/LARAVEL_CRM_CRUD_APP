@@ -23,7 +23,7 @@ class ContactsController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index(): JsonResponse
     {
 
         # Model:all(), is not recommended as it may affect performance
@@ -73,9 +73,8 @@ class ContactsController extends Controller
      * @return RedirectResponse
      * @throws ValidationException
      */
-    public function store(Request $request,Contact $contact)
-    {
-        # ToDo: Gate for Store Contact
+    public function store(Request $request,Contact $contact):JsonResponse
+       { # ToDo: Gate for Store Contact
           $this->authorize('store-contact',$contact);
         $validatedRequest = Validator::make($request->all(), [
             'first_name'=> 'required',
@@ -98,7 +97,8 @@ class ContactsController extends Controller
             'status' => true,
             'message' => "Contact Created successfully!",
             'post' => new ContactResource($contact)
-        ], 200);
+        ], Response::HTTP_CREATED);
+     
     }
 
     /**
@@ -107,7 +107,7 @@ class ContactsController extends Controller
      * @param Contact $contact
      * @return View
      */
-    public function show(contact $contact,)
+    public function show(contact $contact,):JsonResponse
     {
 
         $this->authorize('read-contact',$contact);
@@ -116,7 +116,11 @@ class ContactsController extends Controller
         $organization = $contact->organization;
 
         # ToDo: @Melusi return json with proper status code
-        return new ContactResource($contact);
+    
+        return response()->json([
+            'status' => true,
+            'account' =>  new ContactResource($contact)
+        ], Response::HTTP_OK);
 
     }
 
@@ -127,7 +131,7 @@ class ContactsController extends Controller
      * @return View
      * @throws AuthorizationException
      */
-    public function edit(Contact $contact)
+    public function edit(Contact $contact):JsonResponse
     {
         $this->authorize('update-contact', $contact);
 
@@ -136,7 +140,12 @@ class ContactsController extends Controller
         $organization = $contact->organization;
 
         # ToDo: @Melusi return json with proper status code
-        return [new ContactResource($contact),"account"=>$account,];
+      
+        return response()->json([
+            'status' => true,
+            'contact' =>  new ContactResource($contact),
+            'account'=>$account
+        ], Response::HTTP_OK);
 
     }
 
@@ -176,8 +185,8 @@ class ContactsController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Contact Created successfully!",
-            'post' => new ContactResource($contact)
-        ], 200);
+            'contact' => new ContactResource($contact)
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -197,6 +206,6 @@ class ContactsController extends Controller
        return response()->json([
             'status' => true,
             'message' => "Contact Deleted successfully!",
-        ], 200);
+        ], Response::HTTP_OK);
     }
 }

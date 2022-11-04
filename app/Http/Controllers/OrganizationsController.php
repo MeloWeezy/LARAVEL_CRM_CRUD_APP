@@ -49,7 +49,7 @@ class OrganizationsController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Organization $organization)
+    public function store(Request $request, Organization $organization): JsonResponse
     {
         //
         //
@@ -76,7 +76,7 @@ class OrganizationsController extends Controller
             'Account' => $account,
             'message' => "Organization Created successfully!",
             'Organization' => new OrganizationResource($organization)
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -85,7 +85,7 @@ class OrganizationsController extends Controller
      * @param \App\Models\organization $organizations
      * @return \Illuminate\Http\Response
      */
-    public function show(organization $organization)
+    public function show(organization $organization): JsonResponse
     {
         //
 
@@ -93,7 +93,11 @@ class OrganizationsController extends Controller
         $this->authorize('read-organization', $organization);
         $account = auth()->user()->account;
 
-        return [new OrganizationResource($organization)];
+
+        return response()->json([
+            'status' => true,
+            'account' => new OrganizationResource($organization)
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -118,7 +122,7 @@ class OrganizationsController extends Controller
      * @param \App\Models\organization $organizations
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, organization $organization)
+    public function update(Request $request, organization $organization) : JsonResponse
     {
         //
 
@@ -141,8 +145,8 @@ class OrganizationsController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Organization Updated successfully!",
-            'Account' => $organization
-        ], 200);
+            'organization' => $organization
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -151,7 +155,7 @@ class OrganizationsController extends Controller
      * @param \App\Models\organization $organizations
      * @return \Illuminate\Http\Response
      */
-    public function destroy(organization $organization)
+    public function destroy(organization $organization) : JsonResponse
     {
         //
         $this->authorize('delete-organizations', $organization);
@@ -163,6 +167,6 @@ class OrganizationsController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Organization Deleted successfully!",
-        ], 200);
+        ], Response::HTTP_OK);
     }
 }
